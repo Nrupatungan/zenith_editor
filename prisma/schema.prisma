@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+model User {
+  userId   String @id @default(uuid())
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email, password, userId])
+}
+
+model Video {
+  videoId      String  @id @default(uuid()) // For relational databases (PostgreSQL, MySQL, SQLite)
+  title        String
+  description  String
+  videoUrl     String
+  thumbnailUrl String
+  controls     Boolean @default(true) // Maps to default: true
+
+  // Transformation fields
+  transformationHeight  Int? @default(1920) // Example default, replace with VIDEO_DIMENSIONS.heigth
+  transformationWidth   Int? @default(1080) // Example default, replace with VIDEO_DIMENSIONS.width
+  transformationQuality Int? // `min` and `max` validation must be handled in application code, { type: Number, min: 1, max: 100 }
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([videoId, videoUrl, thumbnailUrl])
+}
