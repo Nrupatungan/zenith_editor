@@ -71,12 +71,12 @@ model VerificationToken {
 }
 
 model Video {
-  videoId      String  @id @default(uuid()) // For relational databases (PostgreSQL, MySQL, SQLite)
+  videoId      String   @id @default(uuid()) // For relational databases (PostgreSQL, MySQL, SQLite)
   title        String
   description  String
   videoUrl     String
   thumbnailUrl String
-  controls     Boolean @default(true) // Maps to default: true
+  controls     Boolean? @default(true) // Maps to default: true
 
   // Transformation fields
   transformationHeight  Int? @default(1920) // Example default, replace with VIDEO_DIMENSIONS.heigth

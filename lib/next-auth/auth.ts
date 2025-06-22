@@ -2,8 +2,13 @@ import bcrypt from "bcryptjs"
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import prisma from "../prisma/prisma"
-import { SignInSchema } from "@/validators/sign-in.validator"
+import { SignInSchema } from "@/validators/signin.validator"
 import { OAuthAccountAlreadyLinkedError } from "../custom-error"
+import {config} from "dotenv"
+
+config({
+  path: "./.env.local"
+})
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -21,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
       async authorize(credentials) {
-        const parsedCredentials = SignInSchema.safeParse(credentials);
+        const parsedCredentials = await SignInSchema.safeParseAsync(credentials);
 
         if(parsedCredentials.success){
           const {email, password} = parsedCredentials.data;
@@ -52,7 +57,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           if(passwordMatch){
             // Return the full user object as required by NextAuth (including password)
-            const { password: _, ...userWithoutPassword } = user;
+            const { password, ...userWithoutPassword } = user;
             return userWithoutPassword;
           }else{
             console.log("Password does not match.")
@@ -66,5 +71,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     }),
   ],
+
+  callbacks: {
+    async jwt({token, user}){
+      if(user){
+        token.id = user.id
+      }
+      return token;
+    },
+
+    async session({session, token}){
+      if(session.user){
+        session.user.id = token.id as string;
+      }
+      return session;
+    },
+  },
+
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error"
+  },
+
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
   
+  secret: process.env.AUTH_SECRET
 })

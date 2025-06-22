@@ -1,14 +1,12 @@
 import { signIn } from "@/lib/next-auth/auth";
+import SigninForm from "./_components/signin-form";
 
 export default function SignInPage() {
     return (
-      <form
-      action={async () => {
-        "use server"
-        await signIn()
-      }}
-    >
-      <button type="submit">Sign in</button>
-    </form>
+      <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+        <div className="w-full max-w-sm">
+          <SigninForm />
+        </div>
+      </div>
     )
-  }
+}
