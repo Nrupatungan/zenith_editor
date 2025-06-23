@@ -1,4 +1,3 @@
-import { signIn } from "@/lib/next-auth/auth";
 import SigninForm from "./_components/signin-form";
 
 export default function SignInPage() {

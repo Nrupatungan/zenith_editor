@@ -1,10 +1,12 @@
 import bcrypt from "bcryptjs"
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import Google from "next-auth/providers/google"
+import GitHub from "next-auth/providers/github"
 import prisma from "../prisma/prisma"
-import { SignInSchema } from "@/validators/signin.validator"
 import { OAuthAccountAlreadyLinkedError } from "../custom-error"
 import {config} from "dotenv"
+import {SignInSchema} from "@/validators/signin.validator"
 
 config({
   path: "./.env.local"
@@ -12,6 +14,8 @@ config({
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
+    Google,
+    GitHub,
     Credentials({
       credentials: {
         email: {
@@ -56,7 +60,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const passwordMatch = await bcrypt.compare(user.password, password);
 
           if(passwordMatch){
-            // Return the full user object as required by NextAuth (including password)
             const { password, ...userWithoutPassword } = user;
             return userWithoutPassword;
           }else{
@@ -70,6 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
     }),
+    
   ],
 
   callbacks: {
