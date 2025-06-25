@@ -2,12 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ImageKitProvider } from "@imagekit/next";
-import { config } from "dotenv";
 import { ThemeProvider } from "@/components/theme-provider";
-
-config({
-  path: "./env.local"
-})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,16 +29,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT!}>
-          <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </ImageKitProvider>
+        <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+        >
+          <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT!}>
+              {children}
+          </ImageKitProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

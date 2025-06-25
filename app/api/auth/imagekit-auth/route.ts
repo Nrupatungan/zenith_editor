@@ -1,9 +1,4 @@
 import { getUploadAuthParams } from "@imagekit/next/server"
-import {config} from "dotenv"
-
-config({
-    path: "./.env.local"
-})
 
 export async function GET() {
 

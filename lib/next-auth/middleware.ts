@@ -1,7 +1,7 @@
 import { auth } from "@/lib/next-auth/auth"
  
 export default auth((req) => {
-  if (!req.auth && !(req.nextUrl.pathname.startsWith("/api/auth") || req.nextUrl.pathname === "/auth/signin" || req.nextUrl.pathname === "/auth/register" || req.nextUrl.pathname === "/" || req.nextUrl.pathname.startsWith("/api/video"))) {
+  if (!req.auth && !(req.nextUrl.pathname.startsWith("/api/auth") || req.nextUrl.pathname === "/auth/signin" || req.nextUrl.pathname === "/auth/register" || req.nextUrl.pathname.startsWith("/api/video"))) {
     const newUrl = new URL("/auth/signin", req.nextUrl.origin)
     return Response.redirect(newUrl)
   }

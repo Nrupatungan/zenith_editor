@@ -1,20 +1,14 @@
 "use server";
 
 import { signIn } from "@/lib/next-auth/auth";
-import SignInSchema from "@/validators/signin.validator";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { z } from "zod/v4";
-
-type SignInType = z.infer<typeof SignInSchema>
+import { SignInType } from "@/validators/signin.validator";
 
 export async function signinAction(formData: SignInType) {
     try {
-      await signIn("credentials", {...formData, redirectTo: "/" });
+      await signIn("credentials", {...formData, redirect: false});
+      return true
     } catch (err) {
-      if (isRedirectError(err)) {
-        throw err;
-      }
-  
       console.error(err);
+      throw err
     }
 }

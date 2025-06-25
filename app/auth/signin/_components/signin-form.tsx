@@ -1,7 +1,7 @@
 "use client"
 
 import { SignInSchema, SignInType } from '@/validators/signin.validator'
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -12,15 +12,15 @@ import { Card, CardContent } from '@/components/ui/card'
 import Link from 'next/link'
 import { oauthSigninAction } from '@/actions/oauth-signin-action'
 import { signinAction } from '@/actions/signin-action'
+import { ModeToggle } from '@/components/ModeToggle'
+import { useRouter } from 'next/navigation'
 
-type ProviderType = "credentials" | "google" | "github" | "facebook";
 
 const SigninForm = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
-  const [provider, setProvider] = useState<ProviderType>("google")
-
+  const router = useRouter()
   const form = useForm<SignInType>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -32,18 +32,14 @@ const SigninForm = ({
   const {handleSubmit, control, formState, setError} = form;
 
   const submit = async (values: SignInType) => {
-    if (provider === "credentials") {
-      try {
-        await signinAction(values)
-      } catch (error) {
-        console.error(error);
+    try {
+      const res = await signinAction(values)
+      if(res){
+        router.push("/")
       }
-    } else {
-      try {
-        await oauthSigninAction(provider)
-      } catch (error) {
-        console.error(error);
-      }
+    } catch (error) {
+      setError("root", { message: "Login failed" });
+      console.error(error)
     }
   };
 
@@ -58,11 +54,16 @@ const SigninForm = ({
         autoComplete="false"
       >
         <div className='flex flex-col gap-6'>
-            <div className="flex flex-col items-center text-center">
-              <h1 className="text-2xl font-bold">Welcome back</h1>
-              <p className="text-muted-foreground text-balance">
-                Login to your Zenith account
-              </p>
+            <div className="flex justify-between">
+              <div>
+                <h1 className="text-2xl font-bold">Welcome</h1>
+                <p className="text-muted-foreground text-balance">
+                  Login to your Zenith account
+                </p>
+              </div>
+              <div>
+                <ModeToggle/>
+              </div>
             </div>
             <FormField
               control={control}
@@ -104,11 +105,23 @@ const SigninForm = ({
             )}
           />
 
+          {formState.errors.root &&
+            <p className='mt-2 text-red-600'>
+              {formState.errors.root?.message}
+            </p>
+          }
+
+          
+          {formState.isSubmitSuccessful &&
+            <p className='mt-2 text-lime-600'>
+              User registered successfully
+            </p>
+          }
+
           <Button
             type="submit"
             disabled={formState.isSubmitting}
-            className="w-full"
-            onClick={() => setProvider(e => "credentials")}
+            className="w-full cursor-pointer"
           >
             Sign in
           </Button>
@@ -121,7 +134,9 @@ const SigninForm = ({
 
           <div className="flex flex-col gap-4">
             <Button variant="outline" type="button" className="w-full cursor-pointer"
-            onClick={() => setProvider(e => "github")}
+              onClick={async() => {
+                await oauthSigninAction("github")
+              }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path
@@ -133,7 +148,9 @@ const SigninForm = ({
             </Button>
 
             <Button variant="outline" type="button" className="w-full cursor-pointer"
-            onClick={() => setProvider(e => "google")}
+              onClick={async() => {
+                await oauthSigninAction("google")
+              }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <path

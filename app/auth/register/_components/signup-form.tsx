@@ -142,7 +142,7 @@ const SignUpForm = ({
           <Button
             type="submit"
             disabled={formState.isSubmitting}
-            className="w-full"
+            className="w-full cursor-pointer"
           >
             Sign in
           </Button>

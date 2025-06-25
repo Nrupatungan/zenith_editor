@@ -4,14 +4,13 @@ import { signIn } from "@/lib/next-auth/auth";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 
-export async function oauthSigninAction(provider: "google" | "github" | "facebook") {
+export async function oauthSigninAction(provider: "google" | "github") {
     try {
-      await signIn("facebook", { redirectTo: "/" });
+      await signIn(provider, {redirectTo: "/"});
     } catch (err) {
-      if (isRedirectError(err)) {
-        throw err;
-      }
-  
       console.error(err);
+      if(isRedirectError(err)){
+        throw err
+      }
     }
 }

@@ -1,4 +1,4 @@
-import { User, Video } from "@/app/generated/prisma";
+import { Video } from "@/app/generated/prisma";
 import { auth } from "@/lib/next-auth/auth";
 import prisma from "@/lib/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
