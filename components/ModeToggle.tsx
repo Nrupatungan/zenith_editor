@@ -33,7 +33,7 @@ export function ModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="center">
+      <DropdownMenuContent className="sm:w-56" align="center">
         <DropdownMenuLabel className="font-bold">Theme</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={position} onValueChange={handleChange}>

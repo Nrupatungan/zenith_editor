@@ -3,27 +3,29 @@ import React from 'react'
 import LogoIcon from '../LogoIcon'
 import { ModeToggle } from '../ModeToggle'
 import { auth } from '@/lib/next-auth/auth'
-import { redirect } from 'next/navigation'
-import { User2Icon } from 'lucide-react'
-import Avatar from './_components/Avatar'
+import NavUser from './_components/nav-user'
 
 const Navbar = async () => {
-    const session = await auth()
+    const session = await auth();
 
-    if(!session) redirect('/auth/signin');
+    const user = {
+        name: session?.user?.name ?? '',
+        email: session?.user?.email ?? '',
+        image: session?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg'
+    }
+
     return (
         <header className='sticky top-0 left-0 z-30 border-b border-slate-400/30 bg-background'>
             <div className="container mx-auto px-4 h-16">
                     <div className='flex items-center justify-between gap-4 h-full'>
-                        <Link href={session?.user ? "/" : "/auth/signin"}>
-                            <div className="flex space-x-2 items-center">
-                                <LogoIcon height='30px' width='30px' className="fill-blue-600" />
-                                <span className="text-lg sm:text-xl font-semibold">Zenith</span>
-                            </div>
+
+                        <Link href="/" className="flex space-x-2 items-center">
+                            <LogoIcon height='30px' width='30px' className="fill-blue-600" />
+                            <span className="text-lg sm:text-xl font-semibold">Zenith</span>
                         </Link>
 
                         <div className="flex items-center justify-center space-x-3 sm:space-x-5">
-                            <Avatar imageSrc={session.user?.image ?? null} altText='Avatar image' />
+                            <NavUser user={user} />
                             <ModeToggle/>
                         </div>
                     </div>
