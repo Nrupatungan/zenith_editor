@@ -5,13 +5,13 @@ export async function GET() {
     // Your application logic to authenticate the user
     // For example, you can check if the user is logged in or has the necessary permissions
     // If the user is not authenticated, you can return an error response
-    if(!auth){
+    const session = auth()
+    if(!session){
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
             headers: { "Content-Type": "application/json" },
         })
     }
-    
 
     const { token, expire, signature } = getUploadAuthParams({
         privateKey: process.env.IMAGEKIT_PRIVATE_KEY as string, // Never expose this on client side
