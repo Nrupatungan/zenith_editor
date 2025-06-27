@@ -21,6 +21,7 @@ const SigninForm = ({
   ...props
 }: React.ComponentProps<"div">) => {
   const router = useRouter()
+
   const form = useForm<SignInType>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -33,13 +34,10 @@ const SigninForm = ({
 
   const submit = async (values: SignInType) => {
     try {
-      const res = await signinAction(values)
-      if(res){
-        router.push("/")
-      }
+      await signinAction(values);
     } catch (error) {
-      setError("root", { message: "Login failed" });
       console.error(error)
+      setError("root", { message: `${error}` });
     }
   };
 
@@ -112,9 +110,9 @@ const SigninForm = ({
           }
 
           
-          {formState.isSubmitSuccessful &&
+          {formState.isSubmitted &&
             <p className='mt-2 text-lime-600'>
-              User registered successfully
+              User logged In successfully
             </p>
           }
 

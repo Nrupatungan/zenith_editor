@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 export default function Home() {
   
   return (
-    <div>
+    <>
       <Navbar/>
       <div className='container mx-auto px-7 bg-background'>
         <div className='py-8 min-h-screen'>
@@ -13,6 +13,6 @@ export default function Home() {
           
         </div>
       </div>
-    </div>    
+    </>    
   );
 }
