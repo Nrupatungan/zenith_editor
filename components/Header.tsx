@@ -8,7 +8,7 @@ type HeaderProps = {
 
 const Header = ({children, className}: HeaderProps) => {
   return (
-    <h1 className={cn("text-2xl md:text-3xl underline underline-offset-8 font-semibold mb-3", className)}>{children}</h1>
+    <h1 className={cn("text-2xl md:text-3xl underline underline-offset-6 font-semibold", className)}>{children}</h1>
   )
 }
 

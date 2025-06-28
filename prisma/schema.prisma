@@ -17,6 +17,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  objects       Object[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -63,18 +64,24 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-model Video {
-  id                    String   @id @default(cuid())
-  title                 String
-  description           String
-  videoUrl              String
-  thumbnailUrl          String
-  controls              Boolean? @default(true)
-  transformationHeight  Int?     @default(1920)
-  transformationWidth   Int?     @default(1080)
-  transformationQuality Int?     @default(80)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+model Object {
+  id           String  @id @default(cuid())
+  userId       String
+  title        String
+  type         String
+  objectUrl    String
+  thumbnailUrl String?
+  alt          String
+  // description  String
+  // controls              Boolean? @default(true)
+  // transformationHeight  Int?     @default(1920)
+  // transformationWidth   Int?     @default(1080)
+  // transformationQuality Int?     @default(80)
 
-  @@index([id, videoUrl, thumbnailUrl])
+  objects User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([id, objectUrl, thumbnailUrl])
 }

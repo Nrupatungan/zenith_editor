@@ -20,5 +20,5 @@ export async function GET() {
         // token: "random-token", // Optional, a unique token for request
     })
 
-    return Response.json({ token, expire, signature, publicKey: process.env.IMAGEKIT_PUBLIC_KEY })
+    return Response.json({ token, expire, signature, publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY })
 }
