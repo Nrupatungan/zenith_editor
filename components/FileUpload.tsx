@@ -12,12 +12,15 @@ import { Label } from "@/components/ui/label"
 import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import useStore from "@/store";
+import { cn } from "@/lib/utils";
 
 
-const FileUpload = () => {
+const FileUpload = ({
+    className
+}: {className?: string}) => {
     // State to keep track of the current upload progress (percentage)
     const [progress, setProgress] = useState(0);
-    const {setUrl} = useStore()
+    const {setUrl, setFileId} = useStore()
 
     // Create a ref for the file input element to access its files easily
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -84,8 +87,13 @@ const FileUpload = () => {
                 
                 abortSignal: abortController.signal,
             });
+            if (uploadResponse.url && uploadResponse.fileId) {
+                setUrl(uploadResponse.url);
+                setFileId(uploadResponse.fileId);
+            } else {
+                console.error("Upload response does not contain a URL or FileId.");
+            }
             console.log("Upload response:", uploadResponse);
-            setUrl(uploadResponse.url!)
 
         } catch (error) {
             if (error instanceof ImageKitAbortError) {
@@ -110,7 +118,7 @@ const FileUpload = () => {
     };
 
     return (
-        <>
+        <div className={cn(className)}>
             <div className="grid w-full max-w-sm items-center gap-3" style={{display: 'none'}}>
                 <Label htmlFor="picture">File</Label>
                 <Input id="picture" type="file" 
@@ -123,8 +131,8 @@ const FileUpload = () => {
                 Upload file
             </Button>
             
-            {( progress > 0 && progress < 100) && <progress value={progress} max={100} className="h-1 rounded-md"></progress>}
-        </>
+            {( progress > 0 && progress < 100) && <progress value={progress} max={100} className="h-1 mt-3 rounded-md"></progress>}
+        </div>
     );
 };
 

@@ -19,22 +19,29 @@ import { Button } from "./ui/button"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import Image from "next/image"
 import { Video } from "@imagekit/next"
+import { apiClient } from "@/lib/api-client"
+import { useRouter } from "next/navigation"
 
 export interface ObjectCardProps{
     title: string
-    updatedAt?: string
+    createdAt?: string
     alt?: string
     objectUrl: string
     type: "video" | "image"
+    id: string
+    fileId: string
 }
 
 const ObjectCard = ({
     title,
-    updatedAt,
+    createdAt,
     alt,
     objectUrl,
     type,
+    id,
+    fileId
 }: ObjectCardProps) => {
+  const router = useRouter()
 
   const handleClick = () => {
 
@@ -63,8 +70,15 @@ const ObjectCard = ({
     }
   }
 
-  const handleDelete = () => {
-
+  const handleDelete = async () => {
+    try {
+      await apiClient.deleteObjectInDAM(fileId);
+      await apiClient.deleteObject(id);
+    } catch (error) {
+      console.error(error)
+    } finally {
+      router.push("/")
+    }
   }
 
   return (
@@ -137,7 +151,7 @@ const ObjectCard = ({
         </CardContent>
         
         <CardFooter className="justify-end">
-          <p className="text-xs">{updatedAt}</p>
+          <p className="text-xs">{createdAt}</p>
         </CardFooter>
     </Card>
   )

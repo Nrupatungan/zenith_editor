@@ -1,4 +1,4 @@
-import { Video } from "@/app/generated/prisma";
+import { Object } from "@/app/generated/prisma";
 
 type FetchOptions = {
     method?: "POST" | "GET" | "PUT" | "DELETE";
@@ -6,42 +6,81 @@ type FetchOptions = {
     headers?: Record<string, string>;
 }
 
-export type VideoFormData = Omit<Video, "createdAt" | "updatedAt">;
+export type ObjectFormData = Omit<Object, "createdAt" | "updatedAt" | "id">;
 
-class ApiClient{
+function getBaseUrl() {
+    if (typeof window !== "undefined") {
+        // Running on the client
+        return "";
+    }
+    // Running on the server
+    return "http://localhost:3000";
+}
+
+class ApiClient {
     private async fetch<T>(
         endpoint: string,
         options: FetchOptions = {}
-    ): Promise<T>{
-        const {method = "GET", body, headers = {} } = options;
+    ): Promise<T> {
+        const { method = "GET", body, headers = {} } = options;
 
         const defaultHeaders = {
             "Content-Type": "application/json",
             ...headers
-        }
+        };
 
-        const response = await fetch(`/api${endpoint}`, {
+        const baseUrl = getBaseUrl()
+        const url = `${baseUrl}/api${endpoint}`;
+
+        const response = await fetch(url, {
             method,
             body: body ? JSON.stringify(body) : undefined,
             headers: defaultHeaders
-        })
+        });
 
-        if(!response.ok){
-            throw new Error( await response.text())
+        if (!response.ok) {
+            throw new Error(await response.text());
         }
 
-        return response.json()
-    } 
-
-    async getVideos(){
-        return this.fetch('/video')
+        return response.json();
     }
 
-    async createVideo(videoData: VideoFormData){
-        return this.fetch('/video', {
+    async getObjects() {
+        return this.fetch('/objects');
+    }
+
+    async createObject(objectData: ObjectFormData) {
+        return this.fetch('/objects', {
             method: "POST",
-            body: videoData
+            body: objectData
+        });
+    }
+
+    async deleteObject(id: string){
+        return this.fetch('/objects', {
+            method: "DELETE",
+            body: {id}
         })
+    }
+
+    async deleteObjectInDAM(fileId: string){
+        const privateKey = process.env.IMAGEKIT_PRIVATE_KEY!;
+
+        const encodedString = Buffer.from(privateKey + ':').toString('base64');
+        
+        const response = await fetch(`https://api.imagekit.io/v1/files/${fileId}`, {
+            method: "DELETE",
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Basic ${encodedString}`
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        return response.json();
     }
 }
 

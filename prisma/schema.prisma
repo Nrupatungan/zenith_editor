@@ -65,13 +65,14 @@ model VerificationToken {
 }
 
 model Object {
-  id           String  @id @default(cuid())
-  userId       String
-  title        String
-  type         String
-  objectUrl    String
-  thumbnailUrl String?
-  alt          String
+  id        String  @id @default(cuid())
+  fileId    String
+  userId    String
+  title     String
+  type      String
+  objectUrl String
+  alt       String?
+  // thumbnailUrl String?
   // description  String
   // controls              Boolean? @default(true)
   // transformationHeight  Int?     @default(1920)
@@ -83,5 +84,5 @@ model Object {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([id, objectUrl, thumbnailUrl])
+  @@index([id, objectUrl, type])
 }
