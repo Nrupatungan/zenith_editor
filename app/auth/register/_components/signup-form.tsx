@@ -28,29 +28,29 @@ const SignUpForm = ({
     const {handleSubmit, control, formState, setError} = form;
 
     const submit = async (values: SignUpType) => {
-        try {
-            const res = await fetch("/api/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(values)
-            })
-            let data: any = {};
-            const contentType = res.headers.get("content-type");
-            if (contentType && contentType.includes("application/json")) {
-              data = await res.json();
-            }
-            if (!res.ok) {
-              // Show server error in the form
-              setError("root", { message: data?.error || "Registration failed" });
-              return;
-            }
-            router.push("/auth/signin")
-        } catch (error) {
-            console.error(error)
-            setError("root", { message: "Something went wrong" });
-        }
+      try {
+          const res = await fetch("/api/auth/register", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify(values)
+          })
+          let data: any = {};
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            data = await res.json();
+          }
+          if (!res.ok) {
+            // Show server error in the form
+            setError("root", { message: data?.error || "Registration failed" });
+            return;
+          }
+          router.push("/auth/signin")
+      } catch (error) {
+          console.error(error)
+          setError("root", { message: "Something went wrong" });
+      }
     };
   
   return (

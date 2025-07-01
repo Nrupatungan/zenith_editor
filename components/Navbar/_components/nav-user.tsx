@@ -7,7 +7,6 @@ import {
     LogOut,
     Sparkles,
   } from "lucide-react"
-  
   import {
     Avatar,
     AvatarFallback,
@@ -26,6 +25,7 @@ import { getInitials } from "@/lib/utils"
 import { signoutAction } from "@/actions/signout-action"
 import { redirect } from "next/navigation"
 
+
 export interface NavUserProps {
     user: {
       name: string,
@@ -38,13 +38,13 @@ const NavUser = ({
     user,
   }: NavUserProps) => {
   
-    const handleLogout = async () => {
-        try {
-            await signoutAction();
-        } catch (error) {
-            console.error(error)
-        }
+  const handleLogOut = async () => {
+    try{
+      await signoutAction()
+    }catch(err){
+      console.error(err)
     }
+  }
 
   return (
     <DropdownMenu>
@@ -102,8 +102,9 @@ const NavUser = ({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
+             variant="destructive"
              className="text-red-600 focus:text-red-600 focus:bg-slate-200/80 dark:focus:bg-slate-50/20 cursor-pointer dark:text-red-300 dark:focus:text-red-500 font-semibold"
-             onClick={handleLogout}
+             onClick={handleLogOut}
             >
               <LogOut className="text-red-500" />
               Log out

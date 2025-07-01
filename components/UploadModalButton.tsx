@@ -22,52 +22,43 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from "./ui/input"
 import { UploadIcon } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useSession } from "next-auth/react"
 import { useForm } from "react-hook-form";
 import UploadFileSchema, { UploadFileType } from '@/validators/upload.validator'
-import FileUpload from "./FileUpload"
-import { apiClient } from "@/lib/api-client"
-import useStore from "@/store"
 import { useRouter } from "next/navigation"
-
+import useUpload from "@/app/hooks/use-upload"
+import { uploadAction } from "@/actions/upload-action"
+import { useSession } from "next-auth/react"
 const UploadModalButton =  () => {
-  const {data: session} = useSession();
-  const { url, fileId } = useStore()
+  const { data: session } = useSession()
+  const {progress, handleUpload, url, fileId} = useUpload() 
   const router = useRouter()
 
   const form = useForm<UploadFileType>({
     resolver: zodResolver(UploadFileSchema),
   })
 
-  const { handleSubmit, control, formState, setError, watch} = form;
+  const { handleSubmit, control, formState, setError, watch, reset} = form;
   const selectedType = watch("type");
 
   const submit = async (values: UploadFileType) => {
-    if (!session?.user) return;
-
-    console.log(url, fileId);
-
-    if (!url || !fileId) {
-      setError("root", { message: "Please upload a url or file Id before submitting." });
-      return;
-    }
-
-    const {title, type, alt} = values;
-
     try {
-      await apiClient.createObject({
-        title: title,
-        type: type,
-        alt: alt ?? null,
-        fileId: fileId,
-        userId: session.user?.id!,
-        objectUrl: url,
-      })
-      form.reset();
-      router.push("/");
+      const uploadResponse = await handleUpload(values.file);
+      // Use uploadResponse.fileId and uploadResponse.url directly
+      const res = await uploadAction({
+        ...values,
+        fileId: uploadResponse.fileId ?? "",
+        objectUrl: uploadResponse.url ?? "",
+        userId: session?.user?.id!,
+      });
+      if (res.success) {
+        router.push("/");
+      } else {
+        setError("root", { message: res.error });
+      }
     } catch (error) {
-      console.error(error)
       setError("root", { message: error instanceof Error ? error.message : String(error) });
+    }finally{
+      form.reset()
     }
   }
 
@@ -145,7 +136,25 @@ const UploadModalButton =  () => {
               )}
             />
 
-            <FileUpload className="grid" />
+            <FormField
+              control={form.control}
+              name="file"
+              render={({ field }) => (
+                <FormItem className='grid gap-3 mb-4'>
+                  <FormLabel>Upload File</FormLabel>
+                  <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/*,video/*"
+                        onChange={e => field.onChange(e.target.files?.[0])}
+                      />
+                    </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {( progress > 0 && progress < 100) && <progress value={progress} max={100} className="w-full h-1 my-3 rounded-md"></progress>}
 
             {formState.errors.root &&
               <p className='mt-2 text-red-600'>
@@ -161,9 +170,9 @@ const UploadModalButton =  () => {
 
             <DialogFooter className="mt-3">
               <DialogClose asChild>
-                <Button variant="outline" type="button" onClick={() => form.reset()}>Cancel</Button>
+                <Button variant="outline" type="button" onClick={() => reset()}>Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="" disabled={!url}>Submit</Button>
+              <Button type="submit" className="">Submit</Button>
             </DialogFooter>
           </form>
         </Form>

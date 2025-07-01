@@ -33,11 +33,12 @@ const SigninForm = ({
   const {handleSubmit, control, formState, setError} = form;
 
   const submit = async (values: SignInType) => {
-    try {
-      await signinAction(values);
-    } catch (error) {
-      console.error(error)
-      setError("root", { message: `${error}` });
+    const res = await signinAction(values);
+    
+    if(res.success){
+      router.push("/")
+    }else{
+      setError("root", { message: res.error });
     }
   };
 
@@ -110,7 +111,7 @@ const SigninForm = ({
           }
 
           
-          {formState.isSubmitted &&
+          {formState.isSubmitSuccessful &&
             <p className='mt-2 text-lime-600'>
               User logged In successfully
             </p>
