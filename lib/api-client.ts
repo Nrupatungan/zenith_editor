@@ -62,26 +62,7 @@ class ApiClient {
             body: {id}
         })
     }
-
-    async deleteObjectInDAM(fileId: string){
-        const privateKey = process.env.IMAGEKIT_PRIVATE_KEY!;
-
-        const encodedString = Buffer.from(privateKey + ':').toString('base64');
-        
-        const response = await fetch(`https://api.imagekit.io/v1/files/${fileId}`, {
-            method: "DELETE",
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Basic ${encodedString}`
-            }
-        })
-
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-
-        return response.json();
-    }
+    
 }
 
 export const apiClient = new ApiClient();

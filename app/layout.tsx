@@ -41,7 +41,7 @@ export default function RootLayout({
           >
             <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}>
               {children}
-              <Toaster />
+              <Toaster richColors expand={true} />
             </ImageKitProvider>
           </ThemeProvider>
         </SessionProvider>

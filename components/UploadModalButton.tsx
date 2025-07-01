@@ -25,9 +25,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import UploadFileSchema, { UploadFileType } from '@/validators/upload.validator'
 import { useRouter } from "next/navigation"
-import useUpload from "@/app/hooks/use-upload"
+import useUpload from "@/hooks/use-upload"
 import { uploadAction } from "@/actions/upload-action"
 import { useSession } from "next-auth/react"
+import { toast } from "sonner"
+
+
 const UploadModalButton =  () => {
   const { data: session } = useSession()
   const {progress, handleUpload, url, fileId} = useUpload() 
@@ -51,11 +54,14 @@ const UploadModalButton =  () => {
         userId: session?.user?.id!,
       });
       if (res.success) {
+        toast.success("File uploaded Successfully")
         router.push("/");
       } else {
+        toast.error(res.error)
         setError("root", { message: res.error });
       }
     } catch (error) {
+      toast.error("Failed to upload file")
       setError("root", { message: error instanceof Error ? error.message : String(error) });
     }finally{
       form.reset()

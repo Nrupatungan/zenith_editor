@@ -8,7 +8,6 @@ type Res =
 | { success: false; error: string; statusCode: 401 | 500 };
 
 export async function uploadAction(formData: UploadFileType & {fileId: string, userId: string, objectUrl: string}): Promise<Res>{
-    console.log(formData);
 
     try {
         // Validate required fields

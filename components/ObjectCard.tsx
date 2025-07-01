@@ -21,6 +21,8 @@ import Image from "next/image"
 import { Video } from "@imagekit/next"
 import { apiClient } from "@/lib/api-client"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { deleteImageKitFile } from "@/actions/delete-imagekit-file-action"
 
 export interface ObjectCardProps{
     title: string
@@ -44,7 +46,15 @@ const ObjectCard = ({
   const router = useRouter()
 
   const handleClick = () => {
-
+    console.log({
+      title,
+      createdAt,
+      alt,
+      objectUrl,
+      type,
+      id,
+      fileId
+    });
   }
 
   const handleDownload = async() => {
@@ -72,11 +82,13 @@ const ObjectCard = ({
 
   const handleDelete = async () => {
     try {
-      await apiClient.deleteObjectInDAM(fileId);
+      await deleteImageKitFile(fileId);
       await apiClient.deleteObject(id);
+      toast.success("Deleted Successfully")
     } catch (error) {
       console.error(error)
-    } finally {
+      toast.error("Couldn't delete the file")
+    }finally{
       router.push("/")
     }
   }
