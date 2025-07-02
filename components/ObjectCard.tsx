@@ -23,6 +23,7 @@ import { apiClient } from "@/lib/api-client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { deleteImageKitFile } from "@/actions/delete-imagekit-file-action"
+import { getInitials } from "@/lib/utils"
 
 export interface ObjectCardProps{
     title: string
@@ -82,14 +83,33 @@ const ObjectCard = ({
 
   const handleDelete = async () => {
     try {
-      await deleteImageKitFile(fileId);
-      await apiClient.deleteObject(id);
-      toast.success("Deleted Successfully")
+      const deletePromise = deleteImageKitFile(fileId);
+      toast.promise(deletePromise, {
+        loading: 'Loading...',
+        success: () => {
+          return `File deleted from ImageKit`;
+        },
+        error: 'Error deleting from ImageKit',
+      });
+
+      const deleteImagekitResponse = await deletePromise;
+      
+      if (deleteImagekitResponse) {
+        const deleteDbPromise = apiClient.deleteObject(id);
+        toast.promise(deleteDbPromise, {
+          loading: 'Loading...',
+          success: () => {
+            return `Deleted Successfully from database`;
+          },
+          error: 'Error deleting from database',
+        })
+      }
+
     } catch (error) {
-      console.error(error)
-      toast.error("Couldn't delete the file")
-    }finally{
-      router.push("/")
+      console.error(error);
+      toast.error("Couldn't delete the file");
+    } finally {
+      router.push("/");
     }
   }
 
@@ -111,7 +131,7 @@ const ObjectCard = ({
                 }
             </CardTitle>
 
-            <CardDescription className="overflow-ellipsis line-clamp-1">{title}</CardDescription>
+            <CardDescription className="overflow-ellipsis line-clamp-1 mt-1">{title}</CardDescription>
             
             <CardAction className="space-x-3">
                 <Tooltip>

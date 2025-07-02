@@ -4,22 +4,28 @@ import { NextRequest, NextResponse } from "next/server";
 
 type bodyType = Omit<Object, "createdAt" | "updatedAt" | "id">
 
-export async function GET(){
+export async function GET(request: NextRequest){
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if(!id){
+        return NextResponse.json(
+            { error: "Missing required field" },
+            { status: 400 }
+        );
+    }
+
     try {
         const objects = await prisma.object.findMany({
+            where: {
+                userId: id
+            },
             orderBy: {
                 createdAt: "desc"
             }
         })
 
-        if(!objects || objects.length === 0){
-            return NextResponse.json(
-                [],
-                {status: 200}
-            )
-        }
-
-        return NextResponse.json(objects, {status: 200});
+        return NextResponse.json(objects ?? [], {status: 200});
     } catch (error) {
         return NextResponse.json(
             {error: "Failed to fetch objects"},

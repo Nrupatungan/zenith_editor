@@ -4,13 +4,24 @@ import Credentials from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
 import { OAuthAccountAlreadyLinkedError } from "../custom-error"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 import {SignInSchema} from "@/validators/signin.validator"
 import { prisma } from "../prisma"
+import { oauthVerifyEmailAction } from "@/actions/oauth-verify-email-action"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma),
   providers: [
-    Google,
-    GitHub,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    GitHub({ 
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
     Credentials({
       credentials: {
         email: {
@@ -58,7 +69,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    async jwt({token, user}){
+    async jwt({token, user, trigger, session}){
+      if(trigger === "update"){
+        return {...token, ...session.user}
+      }
+
       if(user){
         token.id = user.id
       }
@@ -70,6 +85,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
       }
       return session;
+    },
+
+    async signIn({user, account, profile}){
+      if(account?.provider === "google"){
+        return !!profile?.email_verified;
+      }
+
+      if(account?.provider === "github"){
+        return true;
+      }
+
+      if(account?.provider === "credentials"){
+        if ("emailVerified" in user && user.emailVerified) return true;
+        return false;
+      }
+
+      return false;
+    }
+  },
+
+  events: {
+    async linkAccount({user, account}) {
+      if(["google", "github"].includes(account.provider)){
+        if(user.email) await oauthVerifyEmailAction(user.email)
+      }
     },
   },
 

@@ -5,9 +5,11 @@ import UploadModalButton from "@/components/UploadModalButton";
 import { apiClient } from "@/lib/api-client";
 import { Object } from "./generated/prisma";
 import { formatDateWithOrdinal } from "@/lib/utils";
+import { auth } from "@/lib/next-auth/auth";
 
 export default async function Home() {
-  const objects = await apiClient.getObjects();
+  const session = await auth();
+  const objects = await apiClient.getObjects(session?.user?.id!);
   
   return (
     <>

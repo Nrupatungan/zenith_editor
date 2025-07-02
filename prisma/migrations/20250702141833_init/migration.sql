@@ -50,20 +50,18 @@ CREATE TABLE "VerificationToken" (
 );
 
 -- CreateTable
-CREATE TABLE "Video" (
+CREATE TABLE "Object" (
     "id" TEXT NOT NULL,
+    "fileId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "videoUrl" TEXT NOT NULL,
-    "thumbnailUrl" TEXT NOT NULL,
-    "controls" BOOLEAN DEFAULT true,
-    "transformationHeight" INTEGER DEFAULT 1920,
-    "transformationWidth" INTEGER DEFAULT 1080,
-    "transformationQuality" INTEGER DEFAULT 80,
+    "type" TEXT NOT NULL,
+    "objectUrl" TEXT NOT NULL,
+    "alt" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Video_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Object_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -76,10 +74,13 @@ CREATE INDEX "User_id_email_password_idx" ON "User"("id", "email", "password");
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
-CREATE INDEX "Video_id_videoUrl_thumbnailUrl_idx" ON "Video"("id", "videoUrl", "thumbnailUrl");
+CREATE INDEX "Object_id_objectUrl_type_idx" ON "Object"("id", "objectUrl", "type");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Object" ADD CONSTRAINT "Object_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

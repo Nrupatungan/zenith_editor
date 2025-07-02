@@ -5,11 +5,11 @@ export default auth((req) => {
 
   // If user is not authenticated and not accessing signin/register, redirect to signin
   if (
-    !req.auth &&
+    !req.auth?.user &&
     pathname !== "/auth/signin" &&
     pathname !== "/auth/register" &&
     !pathname.startsWith("/api/auth") &&
-    !pathname.startsWith("/api/video")
+    !pathname.startsWith("/api/objects")
   ) {
     const newUrl = new URL("/auth/signin", req.nextUrl.origin)
     return Response.redirect(newUrl)
@@ -17,7 +17,7 @@ export default auth((req) => {
 
   // If user is authenticated and tries to access signin/register, redirect to home
   if (
-    req.auth &&
+    req.auth?.user &&
     (pathname === "/auth/signin" || pathname === "/auth/register")
   ) {
     const newUrl = new URL("/", req.nextUrl.origin)

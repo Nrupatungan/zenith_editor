@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from "./ui/input"
-import { UploadIcon } from "lucide-react"
+import { Loader2, UploadIcon } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import UploadFileSchema, { UploadFileType } from '@/validators/upload.validator'
@@ -29,15 +29,23 @@ import useUpload from "@/hooks/use-upload"
 import { uploadAction } from "@/actions/upload-action"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
+import { useState } from "react"
 
 
 const UploadModalButton =  () => {
+  const [open, setOpen] = useState(false);
   const { data: session } = useSession()
   const {progress, handleUpload, url, fileId} = useUpload() 
   const router = useRouter()
 
   const form = useForm<UploadFileType>({
     resolver: zodResolver(UploadFileSchema),
+    defaultValues: {
+      type: undefined,
+      file: null,
+      title: "",
+      alt: "",
+    }
   })
 
   const { handleSubmit, control, formState, setError, watch, reset} = form;
@@ -55,6 +63,8 @@ const UploadModalButton =  () => {
       });
       if (res.success) {
         toast.success("File uploaded Successfully")
+        setOpen(false); // Close the dialog
+        reset(); // Reset the form fields
         router.push("/");
       } else {
         toast.error(res.error)
@@ -63,13 +73,14 @@ const UploadModalButton =  () => {
     } catch (error) {
       toast.error("Failed to upload file")
       setError("root", { message: error instanceof Error ? error.message : String(error) });
-    }finally{
-      form.reset()
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={(open) => {
+      setOpen(open)
+      reset()
+    }}>
       <DialogTrigger asChild>
         <Button><UploadIcon /> Upload File</Button>
       </DialogTrigger>
@@ -82,6 +93,47 @@ const UploadModalButton =  () => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(submit)} autoComplete="off">
+
+          <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem className='grid gap-3 mb-4'>
+                  <FormLabel>Type</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a file type to upload" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="image">Image File</SelectItem>
+                      <SelectItem value="video">Video File</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+                control={form.control}
+                name="file"
+                render={({ field }) => (
+                  <FormItem className='grid gap-3 mb-4'>
+                    <FormLabel>File</FormLabel>
+                    <FormControl>
+                        <Input
+                          type="file"
+                          accept="image/*,video/*"
+                          onChange={e => field.onChange(e.target.files?.[0])}
+                        />
+                      </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+            />
+
             <FormField
               control={control}
               name="title"
@@ -120,46 +172,6 @@ const UploadModalButton =  () => {
               />
             )}
 
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem className='grid gap-3 mb-4'>
-                  <FormLabel>Type</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a file type to upload" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="image">Image File</SelectItem>
-                      <SelectItem value="video">Video File</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field }) => (
-                <FormItem className='grid gap-3 mb-4'>
-                  <FormLabel>Upload File</FormLabel>
-                  <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*,video/*"
-                        onChange={e => field.onChange(e.target.files?.[0])}
-                      />
-                    </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             {( progress > 0 && progress < 100) && <progress value={progress} max={100} className="w-full h-1 my-3 rounded-md"></progress>}
 
             {formState.errors.root &&
@@ -178,7 +190,7 @@ const UploadModalButton =  () => {
               <DialogClose asChild>
                 <Button variant="outline" type="button" onClick={() => reset()}>Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="">Submit</Button>
+              <Button type="submit" className="">Submit {formState.isSubmitting ? <Loader2 className="animate-spin"/> : ""}</Button>
             </DialogFooter>
           </form>
         </Form>

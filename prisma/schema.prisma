@@ -72,14 +72,7 @@ model Object {
   type      String
   objectUrl String
   alt       String?
-  // thumbnailUrl String?
-  // description  String
-  // controls              Boolean? @default(true)
-  // transformationHeight  Int?     @default(1920)
-  // transformationWidth   Int?     @default(1080)
-  // transformationQuality Int?     @default(80)
-
-  objects User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  objects   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

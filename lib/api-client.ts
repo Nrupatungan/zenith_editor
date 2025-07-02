@@ -45,8 +45,8 @@ class ApiClient {
         return response.json();
     }
 
-    async getObjects() {
-        return this.fetch('/objects');
+    async getObjects(id: string) {
+        return this.fetch(`/objects?id=${id}`);
     }
 
     async createObject(objectData: ObjectFormData) {

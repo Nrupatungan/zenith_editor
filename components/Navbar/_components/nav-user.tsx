@@ -49,7 +49,7 @@ const NavUser = ({
   return (
     <DropdownMenu>
           <DropdownMenuTrigger asChild>
-              <Avatar className="h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8 rounded-full cursor-pointer">
                 <AvatarImage src={user.image} alt={user.name} />
                 <AvatarFallback className="rounded-lg">{getInitials(user.name)}</AvatarFallback>
               </Avatar>
