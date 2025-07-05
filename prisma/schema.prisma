@@ -69,7 +69,6 @@ model Object {
   fileId    String
   userId    String
   title     String
-  type      String
   objectUrl String
   alt       String?
   objects   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -77,5 +76,5 @@ model Object {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([id, objectUrl, type])
+  @@index([id, objectUrl])
 }

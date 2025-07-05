@@ -21,11 +21,14 @@ const SignUpForm = ({
         defaultValues: {
           email: "",
           password: "",
-          name: ""
+          name: "",
+          confirmPassword: "",
         },
     })
 
     const {handleSubmit, control, formState, setError} = form;
+
+    form.watch("password")
 
     const submit = async (values: SignUpType) => {
       try {
@@ -120,6 +123,24 @@ const SignUpForm = ({
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" placeholder="e.g. ********" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem className="grid gap-3">
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="e.g. ********"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

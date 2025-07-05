@@ -41,15 +41,13 @@ const UploadModalButton =  () => {
   const form = useForm<UploadFileType>({
     resolver: zodResolver(UploadFileSchema),
     defaultValues: {
-      type: undefined,
       file: null,
       title: "",
       alt: "",
     }
   })
 
-  const { handleSubmit, control, formState, setError, watch, reset} = form;
-  const selectedType = watch("type");
+  const { handleSubmit, control, formState, setError, reset} = form
 
   const submit = async (values: UploadFileType) => {
     try {
@@ -82,7 +80,7 @@ const UploadModalButton =  () => {
       reset()
     }}>
       <DialogTrigger asChild>
-        <Button><UploadIcon /> Upload File</Button>
+        <Button className="cursor-pointer"><UploadIcon /> Upload File</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -94,28 +92,6 @@ const UploadModalButton =  () => {
         <Form {...form}>
           <form onSubmit={handleSubmit(submit)} autoComplete="off">
 
-          <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem className='grid gap-3 mb-4'>
-                  <FormLabel>Type</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a file type to upload" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="image">Image File</SelectItem>
-                      <SelectItem value="video">Video File</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
                 control={form.control}
                 name="file"
@@ -125,7 +101,7 @@ const UploadModalButton =  () => {
                     <FormControl>
                         <Input
                           type="file"
-                          accept="image/*,video/*"
+                          accept="image/*"
                           onChange={e => field.onChange(e.target.files?.[0])}
                         />
                       </FormControl>
@@ -152,25 +128,24 @@ const UploadModalButton =  () => {
               )}
             />
 
-            {selectedType === "image" && (
-              <FormField
-                control={control}
-                name="alt"
-                render={({ field }) => (
-                  <FormItem className='grid gap-3 mb-4'>
-                    <FormLabel>Alternative Text</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="e.g. My fav image"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
+            
+            <FormField
+              control={control}
+              name="alt"
+              render={({ field }) => (
+                <FormItem className='grid gap-3 mb-4'>
+                  <FormLabel>Alternative Text</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="e.g. My fav image"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {( progress > 0 && progress < 100) && <progress value={progress} max={100} className="w-full h-1 my-3 rounded-md"></progress>}
 
@@ -190,7 +165,7 @@ const UploadModalButton =  () => {
               <DialogClose asChild>
                 <Button variant="outline" type="button" onClick={() => reset()}>Cancel</Button>
               </DialogClose>
-              <Button type="submit" className="">Submit {formState.isSubmitting ? <Loader2 className="animate-spin"/> : ""}</Button>
+              <Button type="submit" className="cursor-pointer">Submit {formState.isSubmitting && <Loader2 className="animate-spin"/>}</Button>
             </DialogFooter>
           </form>
         </Form>

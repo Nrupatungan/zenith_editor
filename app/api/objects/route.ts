@@ -36,7 +36,7 @@ export async function GET(request: NextRequest){
 
 export async function POST(request: NextRequest){
     const body:bodyType  = await request.json();
-    if(!body.objectUrl || !body.title || !body.type || !body.fileId || !body.userId){
+    if(!body.objectUrl || !body.title || !body.fileId || !body.userId){
         return NextResponse.json(
             { error: "Missing required field" },
             { status: 400 }

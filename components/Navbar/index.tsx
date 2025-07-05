@@ -24,10 +24,7 @@ const Navbar = async () => {
                             <span className="text-lg sm:text-xl font-semibold">Zenith</span>
                         </Link>
 
-                        <div className="flex items-center justify-center space-x-3 sm:space-x-5">
-                            <NavUser user={user} />
-                            <ModeToggle/>
-                        </div>
+                        <NavUser user={user} />
                     </div>
 
             </div>

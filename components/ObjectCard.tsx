@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { DownloadIcon, FileVideo2, Images, Trash2Icon } from "lucide-react"
+import { BrainCircuit, Download, DownloadIcon, FileVideo2, Images, Trash2Icon } from "lucide-react"
 import { Button } from "./ui/button"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import Image from "next/image"
@@ -30,7 +30,6 @@ export interface ObjectCardProps{
     createdAt?: string
     alt?: string
     objectUrl: string
-    type: "video" | "image"
     id: string
     fileId: string
 }
@@ -40,23 +39,21 @@ const ObjectCard = ({
     createdAt,
     alt,
     objectUrl,
-    type,
     id,
     fileId
 }: ObjectCardProps) => {
   const router = useRouter()
 
+  const backgroundStyles = {backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${objectUrl})`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
+
   const handleClick = () => {
-    console.log({
-      title,
-      createdAt,
-      alt,
-      objectUrl,
-      type,
+    const params = new URLSearchParams({
       id,
-      fileId
-    });
-  }
+      fileId,
+      objectUrl,
+    }).toString();
+    router.push(`/transform/image?${params}`);
+  };
 
   const handleDownload = async() => {
     if (!objectUrl) return;
@@ -114,76 +111,55 @@ const ObjectCard = ({
   }
 
   return (
-    <Card className="bg-slate-400/20 dark:bg-card shadow-xl">
+    <Card className="overflow-hidden bg-slate-400/20 dark:bg-card shadow-xl rounded-3xl">
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
-                {type === "image"
-                ? (
-                    <>
-                     <Images/> Image File
-                    </>
-                  )
-                : (
-                    <>
-                      <FileVideo2/> Video File
-                    </>
-                  )
-                }
+                <Images />
+                Image File
             </CardTitle>
 
-            <CardDescription className="overflow-ellipsis line-clamp-1 mt-1">{title}</CardDescription>
+            <CardDescription className="overflow-ellipsis line-clamp-1 mt-1 text-white">{title}</CardDescription>
             
-            <CardAction className="space-x-3">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon" className="active:scale-75 cursor-pointer"
-                    onClick={handleDownload}
-                    >
-                      <DownloadIcon/>
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Download {type === "image" ? "image" : "video"}</p>
-                  </TooltipContent>
-                </Tooltip>
+            <CardAction>
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="destructive" size="icon" className="active:scale-75 cursor-pointer" 
+                    <Button size="icon" className="bg-[#fb2c36] hover:bg-[#fb2c36]/80 active:scale-75 cursor-pointer" 
                     onClick={handleDelete}
                     >
                       <Trash2Icon/>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Delete {type === "image" ? "image" : "video"}</p>
+                    <p>Delete image</p>
                   </TooltipContent>
                 </Tooltip>
                 
             </CardAction>
         </CardHeader>
 
-        <CardContent
-        className="cursor-pointer"
-        onClick={handleClick}
-        >
+        <CardContent>
           <AspectRatio ratio={16 / 9} className="bg-muted rounded-lg">
-            {type === "image"
-            ? <Image src={objectUrl} 
+            <Image src={objectUrl} 
             alt={alt ?? title}  
             fill
             className="h-full w-full rounded-lg object-cover"
             />
-            
-            : <Video 
-            src={objectUrl}
-            className="h-full w-full rounded-lg object-cover" />
-            }
           </AspectRatio>
         </CardContent>
         
-        <CardFooter className="justify-end">
-          <p className="text-xs">{createdAt}</p>
+        <CardFooter className="flex justify-between">
+          <Button className="bg-[#5ea500] hover:bg-[#5ea500]/80 font-semibold cursor-pointer" 
+          onClick={handleDownload}>
+            <Download/> 
+            Download
+          </Button>
+          <Button className="font-semibold cursor-pointer hover:bg-primary/80"
+          onClick={handleClick}
+          >
+            <BrainCircuit/>
+            Apply Transformation
+          </Button>
         </CardFooter>
     </Card>
   )

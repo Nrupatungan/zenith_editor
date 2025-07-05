@@ -11,9 +11,9 @@ export async function uploadAction(formData: UploadFileType & {fileId: string, u
 
     try {
         // Validate required fields
-        const { title, type, alt, fileId, userId, objectUrl } = formData;
+        const { title, alt, fileId, userId, objectUrl } = formData;
 
-        if (!title || !type || !fileId || !userId || !objectUrl ) {
+        if (!title || !fileId || !userId || !objectUrl ) {
             return {
             success: false,
             error: "Missing required fields",
@@ -25,7 +25,6 @@ export async function uploadAction(formData: UploadFileType & {fileId: string, u
         await prisma.object.create({
             data: {
             title,
-            type,
             alt: alt ?? null,
             fileId,
             userId,
