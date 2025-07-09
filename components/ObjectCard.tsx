@@ -44,8 +44,6 @@ const ObjectCard = ({
 }: ObjectCardProps) => {
   const router = useRouter()
 
-  const backgroundStyles = {backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${objectUrl})`, backgroundSize: "cover", backgroundRepeat: "no-repeat"};
-
   const handleClick = () => {
     const params = new URLSearchParams({
       id,
@@ -111,20 +109,20 @@ const ObjectCard = ({
   }
 
   return (
-    <Card className="overflow-hidden bg-slate-400/20 dark:bg-card shadow-xl rounded-3xl">
+    <Card className="overflow-hidden bg-primary/20 dark:bg-card shadow-xl rounded-xl">
         <CardHeader>
             <CardTitle className="flex items-center gap-2">
                 <Images />
-                Image File
+                Original File
             </CardTitle>
 
-            <CardDescription className="overflow-ellipsis line-clamp-1 mt-1 text-white">{title}</CardDescription>
+            <CardDescription className="overflow-ellipsis line-clamp-1 mt-1 font-semibold">{title}</CardDescription>
             
             <CardAction>
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="icon" className="bg-[#fb2c36] hover:bg-[#fb2c36]/80 active:scale-75 cursor-pointer" 
+                    <Button size="icon" className="bg-[#fb2c36]/80 hover:bg-[#fb2c36] active:scale-75 cursor-pointer" 
                     onClick={handleDelete}
                     >
                       <Trash2Icon/>
@@ -149,12 +147,12 @@ const ObjectCard = ({
         </CardContent>
         
         <CardFooter className="flex justify-between">
-          <Button className="bg-[#5ea500] hover:bg-[#5ea500]/80 font-semibold cursor-pointer" 
+          <Button className="bg-[#5ea500]/80 hover:bg-[#5ea500] font-semibold cursor-pointer" 
           onClick={handleDownload}>
             <Download/> 
             Download
           </Button>
-          <Button className="font-semibold cursor-pointer hover:bg-primary/80"
+          <Button className="font-semibold cursor-pointer bg-primary/80"
           onClick={handleClick}
           >
             <BrainCircuit/>

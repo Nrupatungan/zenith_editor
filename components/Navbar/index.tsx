@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
 import LogoIcon from '../LogoIcon'
-import { ModeToggle } from '../ModeToggle'
 import { auth } from '@/lib/next-auth/auth'
 import NavUser from './_components/nav-user'
 
@@ -9,13 +8,13 @@ const Navbar = async () => {
     const session = await auth();
 
     const user = {
-        name: session?.user?.name ?? '',
-        email: session?.user?.email ?? '',
+        name: session?.user?.name ?? 'John Doe',
+        email: session?.user?.email ?? 'example@email.com',
         image: session?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg'
     }
 
     return (
-        <header className='sticky top-0 left-0 z-30 border-b border-slate-400/30 bg-background'>
+        <header className='sticky top-0 left-0 z-30 border-b border-slate-400/30 bg-gray-100  dark:bg-background'>
             <div className="container mx-auto px-4 h-16">
                     <div className='flex items-center justify-between gap-4 h-full'>
 

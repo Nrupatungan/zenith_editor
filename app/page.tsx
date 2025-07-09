@@ -11,7 +11,7 @@ export default async function Home() {
   const objects = await apiClient.getObjects(session?.user?.id!);
   
   return (
-    <div className="bg-gray-200 dark:bg-background">
+    <div className="bg-gray-100 dark:bg-background">
       <Navbar/>
       <main className='container mx-auto px-7'>
           <div className='py-8 min-h-screen'>
