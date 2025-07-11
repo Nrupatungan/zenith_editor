@@ -61,13 +61,13 @@ export function NavUser({
     setTheme(e)
   }
 
-    const handleLogOut = async () => {
-        try{
-        await signoutAction()
-        }catch(err){
-        console.error(err)
-        }
-    }
+  const handleLogOut = async () => {
+      try{
+      await signoutAction()
+      }catch(err){
+      console.error(err)
+      }
+  }
 
   return (
     <SidebarMenu>

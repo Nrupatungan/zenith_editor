@@ -19,6 +19,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
+import useModalStore from "@/store"
 
 export function NavMain({
   items,
@@ -38,9 +39,24 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const {openResizeModal, openAiModal, openEffectsModal, openOverlayModal} = useModalStore();
 
-  const handleClick = () => {
-    
+  const handleClick = (modal: string) => {
+
+    switch (modal) {
+      case "resize":
+        openResizeModal()
+        break;
+      case "overlay":
+        openOverlayModal()
+        break;
+      case "ai":
+        openAiModal()
+        break;
+      case "effect":
+        openEffectsModal()
+        break;
+    }
   }
 
   return (
@@ -50,7 +66,7 @@ export function NavMain({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title} className="cursor-pointer" onClick={handleClick}>
+              <SidebarMenuButton asChild tooltip={item.title} className="cursor-pointer" onClick={() => handleClick(item.modalName!)}>
                   <div>
                     <item.icon />
                     <span>{item.title}</span>
@@ -59,7 +75,14 @@ export function NavMain({
               {item.items?.length ? (
                 <>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction className="data-[state=open]:rotate-90">
+                    <SidebarMenuAction className="data-[state=open]:rotate-90"
+                    onClick={() => {
+                      setTimeout(() => {
+                        handleClick(item.modalName!);
+                      }, 500);
+                      
+                    }}
+                    >
                       <ChevronRight />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>

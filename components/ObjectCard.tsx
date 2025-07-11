@@ -122,7 +122,7 @@ const ObjectCard = ({
 
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button size="icon" className="bg-[#fb2c36]/80 hover:bg-[#fb2c36] active:scale-75 cursor-pointer" 
+                    <Button size="sm" className="bg-[#fb2c36]/80 hover:bg-[#fb2c36] active:scale-75 cursor-pointer" 
                     onClick={handleDelete}
                     >
                       <Trash2Icon/>

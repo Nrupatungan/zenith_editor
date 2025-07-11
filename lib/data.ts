@@ -16,7 +16,7 @@ export const data = {
         title: "Resize and Crop",
         icon: Crop,
         isActive: true,
-        modalName: "resizeAndCropModal",
+        modalName: "resize",
         items: [
           {
             title: "Width",
@@ -71,7 +71,7 @@ export const data = {
       {
         title: "Add overlays",
         icon: BringToFront,
-        modalName: "addOverlaysModal",
+        modalName: "overlay",
         items: [
           {
             title: "Add image overlay",
@@ -133,7 +133,7 @@ export const data = {
       {
         title: "AI Transformations",
         icon: BrainCircuit,
-        modalName: "aiTransformationsModal",
+        modalName: "ai",
         items: [
           {
             title: "Backgrond removal",
@@ -185,7 +185,7 @@ export const data = {
         title: "Effects and Enhancements",
         url: "#opacity",
         icon: Settings2,
-        modalName: "effectsAndEnhancementsModal",
+        modalName: "effect",
         items: [
           {
             title: "Contrast stretch",

@@ -1,23 +1,43 @@
 import { create } from 'zustand'
 
-type State = {
-    // url: string;
-    // fileId: string;
+type modalState = {
+    resizeModalState: boolean,
+    aiModalState: boolean,
+    effectsModalState: boolean,
+    overlayModalState: boolean
 };
   
-type Action = {
-    // setUrl: (url: State['url']) => void;
-    // setFileId: (fileId: State['fileId']) => void;
+type modalAction = {
+    openResizeModal: () => void;
+    openAiModal: () => void;
+    openEffectsModal: () => void;
+    openOverlayModal: () => void;
+
+    closeResizeModal: () => void;
+    closeAiModal: () => void;
+    closeEffectsModal: () => void;
+    closeOverlayModal: () => void;
 };
 
-const useStore = create<State & Action>((set) => ({
-    // // initial states
-    // url: '',
-    // fileId: '',
+const useModalStore = create<modalState & modalAction>((set) => ({
+    // initial states
+    resizeModalState: false,
+    aiModalState: false,
+    effectsModalState: false,
+    overlayModalState: false,
 
-    // // functions
-    // setUrl: (url) => set(() => ({ url: url })),
-    // setFileId: (fileId) => set(() => ({fileId: fileId})),
+    // functions
+    openResizeModal: () => set(() => ({resizeModalState: true})),
+    closeResizeModal: () => set(() => ({resizeModalState: false})),
+
+    openAiModal: () => set(() => ({aiModalState: true})),
+    closeAiModal: () => set(() => ({aiModalState: false})),
+
+    openEffectsModal: () => set(() => ({effectsModalState: true})),
+    closeEffectsModal: () => set(() => ({effectsModalState: false})),
+
+    openOverlayModal: () => set(() => ({overlayModalState: true})),
+    closeOverlayModal: () => set(() => ({overlayModalState: false})),
 }));
   
-export default useStore;
+export default useModalStore;
