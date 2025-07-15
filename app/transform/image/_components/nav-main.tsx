@@ -64,7 +64,7 @@ export function NavMain({
       <SidebarGroupLabel>Transformations</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
+          <Collapsible key={item.title} asChild>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title} className="cursor-pointer" onClick={() => handleClick(item.modalName!)}>
                   <div>
@@ -76,12 +76,7 @@ export function NavMain({
                 <>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuAction className="data-[state=open]:rotate-90"
-                    onClick={() => {
-                      setTimeout(() => {
-                        handleClick(item.modalName!);
-                      }, 500);
-                      
-                    }}
+                    onClick={() => handleClick(item.modalName!)}
                     >
                       <ChevronRight />
                       <span className="sr-only">Toggle</span>

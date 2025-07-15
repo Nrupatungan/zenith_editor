@@ -1,3 +1,4 @@
+import { ResizeModalType } from "@/validators/resize.validator";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -29,4 +30,40 @@ export function formatDateWithOrdinal(dateInput: string | number | Date) {
   const month = date.toLocaleString("en-US", { month: "long" });
   const year = date.getFullYear();
   return `${month} ${day}${ordinal} ${year}`;
+}
+
+export function buildResizeParams(values: ResizeModalType){
+  const {width, height, padding_color, aspect_ratio, focus, crop_strategy} = values;
+  const params = [];
+
+  if (width) {
+    params.push(`w-${width}`);
+  }
+  if (height) {
+    params.push(`h-${height}`);
+  }
+
+  if (aspect_ratio) {
+    params.push(`ar-${aspect_ratio}`);
+  }
+
+  if (crop_strategy) {
+    if (crop_strategy === "cm-pad_extract" || crop_strategy === "cm-pad_resize") {
+      params.push(crop_strategy);
+      // Ensure padding_color is valid before adding
+      if (padding_color) {
+          params.push(`bg-${padding_color.slice(1).toUpperCase()}`);
+      }
+    } else {
+      params.push(crop_strategy);
+    }
+  }
+
+  if(focus){
+    if(crop_strategy !== 'c-force' && crop_strategy !== 'c-at_max' && crop_strategy !== "c-at_max_enlarge" && crop_strategy !== "cm-pad_extract"){
+      params.push(focus)
+    }
+  }
+
+  return params;
 }

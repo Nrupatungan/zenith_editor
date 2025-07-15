@@ -15,7 +15,6 @@ export const data = {
       {
         title: "Resize and Crop",
         icon: Crop,
-        isActive: true,
         modalName: "resize",
         items: [
           {
@@ -61,10 +60,6 @@ export const data = {
           {
             title: "Focus",
             info: "This parameter can be used along with pad resize, maintain ratio, or extract crop to change the behavior of padding or cropping. Learn more from the different examples shown in respective sections."
-          },
-          {
-            title: "Zoom",
-            info: "This parameter accepts a number that determines how much to zoom in or out of the cropped area. It must be used along with fo-face or fo-<object_name>. A value less than 1.0 zooms out to include more background surrounding the object, whereas a value larger than 1.0 zooms in to exclude more background surrounding the object."
           }
         ],
       },
