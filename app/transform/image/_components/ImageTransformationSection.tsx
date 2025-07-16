@@ -1,47 +1,65 @@
+"use client"
+
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Download } from 'lucide-react'
+import useModalStore from '@/store'
+import { Download, RotateCcw } from 'lucide-react'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
-const ImageTransformationSection = ({
-  href
-}: {href: string}) => {
+const ImageTransformationSection = () => {
+  const {transformUrl, url, setTransformUrl} = useModalStore()
+  const searchParams = useSearchParams()
+  const objectUrl = searchParams.get('objectUrl')
   
   const handleDownload = async () => {
-    if (!href) return;
+    if (!transformUrl) return;
 
     try {
-      const response = await fetch(href);
+      const response = await fetch(transformUrl);
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const newUrl = URL.createObjectURL(blob);
 
       const a = document.createElement("a");
-      a.href = url;
+      a.href = newUrl;
       a.download = "downloaded-file"; // set your filename here
       document.body.appendChild(a);
       a.click();
       a.remove();
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(newUrl);
     } catch (error) {
       console.error("Download failed:", error);
     }
+  }
+
+  const handleReset = () => {
+    setTransformUrl(url)
   }
 
   return (
     <div className='bg-gray-500/15 flex-1 rounded-xl shadow-xl md:min-h-min overflow-hidden'>
       <div className='relative w-full h-full p-6'>
         <div className='w-full h-full flex items-center justify-center'>
-          <div className='bg-muted aspect-video'>
-            <Image src={href} alt="" width="600" height="500"/>
+          <div className='bg-muted aspect-auto'>
+            <Image src={transformUrl || objectUrl} alt="" width="900" height="500" className="w-auto h-auto"/>
           </div>
         </div>
 
         <div className='absolute top-5 right-5'>
           <div className='flex gap-2'>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button size="sm" className='cursor-pointer' onClick={handleReset}><RotateCcw/></Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Reset</p>
+              </TooltipContent>
+            </Tooltip>
+
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button size="sm" className='cursor-pointer' onClick={handleDownload}><Download /></Button>

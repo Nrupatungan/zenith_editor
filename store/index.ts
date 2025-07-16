@@ -4,7 +4,11 @@ type modalState = {
     resizeModalState: boolean,
     aiModalState: boolean,
     effectsModalState: boolean,
-    overlayModalState: boolean
+    overlayModalState: boolean,
+
+    url: string,
+    // queryParams: string,
+    transformUrl: string,
 };
   
 type modalAction = {
@@ -17,6 +21,10 @@ type modalAction = {
     closeAiModal: () => void;
     closeEffectsModal: () => void;
     closeOverlayModal: () => void;
+
+    setUrl: (url: modalState['url']) => void;
+    // setQueryParams: (queryParams: modalState['queryParams']) => void;
+    setTransformUrl: (transformUrl: modalState['transformUrl']) => void;
 };
 
 const useModalStore = create<modalState & modalAction>((set) => ({
@@ -25,6 +33,10 @@ const useModalStore = create<modalState & modalAction>((set) => ({
     aiModalState: false,
     effectsModalState: false,
     overlayModalState: false,
+
+    url: "",
+    // queryParams: "",
+    transformUrl: "", 
 
     // functions
     openResizeModal: () => set(() => ({resizeModalState: true})),
@@ -38,6 +50,10 @@ const useModalStore = create<modalState & modalAction>((set) => ({
 
     openOverlayModal: () => set(() => ({overlayModalState: true})),
     closeOverlayModal: () => set(() => ({overlayModalState: false})),
+
+    setUrl: (url) => set(() => ({url: url})),
+    // setQueryParams: (queryParams) => set(() => ({queryParams: queryParams})),
+    setTransformUrl: (transformUrl) => set(() => ({transformUrl: transformUrl}))
 }));
   
 export default useModalStore;

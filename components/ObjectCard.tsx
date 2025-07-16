@@ -14,16 +14,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { BrainCircuit, Download, DownloadIcon, FileVideo2, Images, Trash2Icon } from "lucide-react"
+import { BrainCircuit, Download, Images, Trash2Icon } from "lucide-react"
 import { Button } from "./ui/button"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import Image from "next/image"
-import { Video } from "@imagekit/next"
 import { apiClient } from "@/lib/api-client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { deleteImageKitFile } from "@/actions/delete-imagekit-file-action"
-import { getInitials } from "@/lib/utils"
+import useModalStore from "@/store"
 
 export interface ObjectCardProps{
     title: string
@@ -43,13 +42,15 @@ const ObjectCard = ({
     fileId
 }: ObjectCardProps) => {
   const router = useRouter()
+  const {setUrl, setTransformUrl} = useModalStore()
 
   const handleClick = () => {
     const params = new URLSearchParams({
-      id,
-      fileId,
       objectUrl,
     }).toString();
+
+    setUrl(objectUrl);
+    setTransformUrl(objectUrl);
     router.push(`/transform/image?${params}`);
   };
 
@@ -146,7 +147,7 @@ const ObjectCard = ({
           </AspectRatio>
         </CardContent>
         
-        <CardFooter className="flex justify-between">
+        <CardFooter className="flex gap-2 justify-between">
           <Button className="bg-[#5ea500]/80 hover:bg-[#5ea500] font-semibold cursor-pointer" 
           onClick={handleDownload}>
             <Download/> 

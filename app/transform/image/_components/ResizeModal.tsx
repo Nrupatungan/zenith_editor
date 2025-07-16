@@ -13,7 +13,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 
 const ResizeModal = () => {
-  const {resizeModalState, closeResizeModal} = useModalStore();
+  const {resizeModalState, closeResizeModal, url, setTransformUrl} = useModalStore();
 
   const form = useForm<ResizeModalType>({
     resolver: zodResolver(ResizeModalSchema),
@@ -24,7 +24,7 @@ const ResizeModal = () => {
     }
   })
 
-  const {handleSubmit, control, formState, setError, watch} = form;
+  const {handleSubmit, control, formState, watch} = form;
   
   const strategy = watch("crop_strategy");
 
@@ -43,6 +43,8 @@ const ResizeModal = () => {
     }
 
     console.log(transformationString);
+    setTransformUrl(`${url}${transformationString}`);
+    handleClose();
   };
 
   const getFocusOptions = (strategy: ResizeModalType['crop_strategy']) => {
@@ -61,7 +63,6 @@ const ResizeModal = () => {
       case 'c-maintain_ratio':
         return <>
           <SelectItem value="fo-custom">Custom</SelectItem>
-          <SelectItem value="fo-center">Center</SelectItem>
         </>
       case 'cm-extract':
         // fo-custom for specific focus area, plus relative cropping
@@ -140,7 +141,7 @@ const ResizeModal = () => {
                 name="width"
                 render={({ field }) => (
                   <FormItem className='grid gap-3'>
-                    <FormLabel>Height</FormLabel>
+                    <FormLabel>Width</FormLabel>
                     <FormControl>
                       <Input
                         type="text"
@@ -158,7 +159,7 @@ const ResizeModal = () => {
                   name="height"
                   render={({ field }) => (
                     <FormItem className='grid gap-3'>
-                      <FormLabel>Width</FormLabel>
+                      <FormLabel>Height</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
