@@ -15,6 +15,7 @@ export const data = {
       {
         title: "Resize and Crop",
         icon: Crop,
+        isActive: true,
         modalName: "resize",
         items: [
           {
@@ -66,68 +67,23 @@ export const data = {
       {
         title: "Add overlays",
         icon: BringToFront,
+        isActive: false,
         modalName: "overlay",
         items: [
           {
-            title: "Add image overlay",
-            info: "Add an image over a base image.",
-            subitems: [
-              {
-                  title: "Position image",
-                  info: "Control image layer position using the lx and ly parameters. If the lx or ly value exceeds the dimensions of the input image, the values are adjusted to fit within the image. To change the direction, negative values are also supported by prefixing the value with 'N'."
-              },
-              {
-                  title: "Apply transformation",
-                  info: "Inside an image layer, you can apply these supported transformations to the image overlay before it is placed on the base image. You can chain the transformations one after the other to achieve the desired outcome."
-              },
-              {
-                  title: "Nest images",
-                  info: "A layer can have nested layers up to 3 levels."
-              }
-            ]
-          },
-          {
             title: "Add text overlay",
             info: "Add any text string over a base image",
-            subitems: [
-              {
-                  title: "Position text",
-                  info: "You can control text layer position using the lx and ly parameters. To change the direction, negative values are also supported by prefixing the value with 'N'."
-              },
-              {
-                  title: "Apply transformation",
-                  info: "Control the width, font size, font family, color, inner alignment, padding, transparency level, typography, background color, corner radius, rotation, and line height of the text overlay using these supported transformations parameters."
-              },
-              {
-                  title: "Change font family",
-                  info: "You can change the font family in the text overlay using the ff parameter. You can use the standard fonts available in ImageKit or upload your custom font file to use it in text overlays. To use a custom font in text overlays, upload the font file in your media library and pass its path in the ff parameter in a text layer."
-              },
-              {
-                  title: "Non english text",
-                  info: "You can overlay text in any language with custom fonts, for example."
-              },
-              
-            ]
           },
           {
-              title: "Add color blocks",
-              info: "Add a solid color block over a base image",
-              subItems: [
-                  {
-                      title: "Control position",
-                      info: "You can control solid color layer position using the lx and ly parameters. To change the direction, negative values are also supported by prefixing the value with 'N'."
-                  },
-                  {
-                      title: "Apply transformation",
-                      info: "Control the width, height, background, alpha, corner radius, linear gradient overlay, of the color overlay overlay using these supported transformations parameters."
-                  },
-              ]
+            title: "Add color blocks",
+            info: "Add a solid color block over a base image",
           }
         ],
       },
       {
         title: "AI Transformations",
         icon: BrainCircuit,
+        isActive: false,
         modalName: "ai",
         items: [
           {

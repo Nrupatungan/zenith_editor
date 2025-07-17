@@ -44,9 +44,18 @@ const ImageTransformationSection = () => {
     <div className='bg-gray-500/15 flex-1 rounded-xl shadow-xl md:min-h-min overflow-hidden'>
       <div className='relative w-full h-full p-6'>
         <div className='w-full h-full flex items-center justify-center'>
-          <div className='bg-muted aspect-auto'>
-            <Image src={transformUrl || objectUrl} alt="" width="900" height="500" className="w-auto h-auto"/>
-          </div>
+            <Image
+              src={transformUrl || objectUrl}
+              alt="Transformed Image"
+              width="1200"
+              height="800"
+              style={{
+                width: 'auto', 
+                height: 'auto',
+                maxWidth: '100%',
+                maxHeight: '100%'
+              }}
+            />
         </div>
 
         <div className='absolute top-5 right-5'>

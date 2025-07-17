@@ -27,6 +27,8 @@ const ResizeModal = () => {
   const {handleSubmit, control, formState, watch} = form;
   
   const strategy = watch("crop_strategy");
+  const height = watch("height");
+  const width = watch("width");
 
   const handleClose = () => {
     form.reset();
@@ -48,59 +50,54 @@ const ResizeModal = () => {
   };
 
   const getFocusOptions = (strategy: ResizeModalType['crop_strategy']) => {
-    switch (strategy) {
-      case 'cm-pad_resize':
-        // left, right, top, bottom for padding position
-        return (
-          <>
-            <SelectItem value="fo-center">Center</SelectItem> {/* Center is also common for padding */}
-            <SelectItem value="fo-top">Top</SelectItem>
-            <SelectItem value="fo-left">Left</SelectItem>
-            <SelectItem value="fo-bottom">Bottom</SelectItem>
-            <SelectItem value="fo-right">Right</SelectItem>
-          </>
-        );
-      case 'c-maintain_ratio':
-        return <>
+  switch (strategy) {
+    case 'cm-pad_resize':
+      return (
+        <>
+          <SelectItem value="fo-center">Center</SelectItem>
+          <SelectItem value="fo-top">Top</SelectItem>
+          <SelectItem value="fo-left">Left</SelectItem>
+          <SelectItem value="fo-bottom">Bottom</SelectItem>
+          <SelectItem value="fo-right">Right</SelectItem>
+        </>
+      );
+    case 'c-maintain_ratio':
+      return (
+        <>
           <SelectItem value="fo-custom">Custom</SelectItem>
         </>
-      case 'cm-extract':
-        // fo-custom for specific focus area, plus relative cropping
-        return (
-          <>
-            <SelectItem value="fo-center">Center</SelectItem>
-            <SelectItem value="fo-top">Top</SelectItem>
-            <SelectItem value="fo-left">Left</SelectItem>
-            <SelectItem value="fo-bottom">Bottom</SelectItem>
-            <SelectItem value="fo-right">Right</SelectItem>
-            <SelectItem value="fo-top_left">Top left</SelectItem>
-            <SelectItem value="fo-top_right">Top right</SelectItem>
-            <SelectItem value="fo-bottom_left">Bottom left</SelectItem>
-            <SelectItem value="fo-bottom_right">Bottom right</SelectItem>
-          </>
-        );
-      case 'c-force':
-      case 'c-at_max':
-      case 'c-at_max_enlarge':
-      case 'cm-pad_extract':
-        return null;
-      default:
-        return (
-          <>
-            <SelectItem value="fo-custom">Custom</SelectItem>
-            <SelectItem value="fo-center">Center</SelectItem>
-            <SelectItem value="fo-top">Top</SelectItem>
-            <SelectItem value="fo-left">Left</SelectItem>
-            <SelectItem value="fo-bottom">Bottom</SelectItem>
-            <SelectItem value="fo-right">Right</SelectItem>
-            <SelectItem value="fo-top_left">Top left</SelectItem>
-            <SelectItem value="fo-top_right">Top right</SelectItem>
-            <SelectItem value="fo-bottom_left">Bottom left</SelectItem>
-            <SelectItem value="fo-bottom_right">Bottom right</SelectItem>
-          </>
-        );
-    }
+      );
+    case 'cm-extract':
+      return (
+        <>
+          <SelectItem value="fo-center">Center</SelectItem>
+          <SelectItem value="fo-top">Top</SelectItem>
+          <SelectItem value="fo-left">Left</SelectItem>
+          <SelectItem value="fo-bottom">Bottom</SelectItem>
+          <SelectItem value="fo-right">Right</SelectItem>
+          <SelectItem value="fo-top_left">Top left</SelectItem>
+          <SelectItem value="fo-top_right">Top right</SelectItem>
+          <SelectItem value="fo-bottom_left">Bottom left</SelectItem>
+          <SelectItem value="fo-bottom_right">Bottom right</SelectItem>
+        </>
+      );
+    default:
+      return (
+        <>
+          <SelectItem value="fo-custom">Custom</SelectItem>
+          <SelectItem value="fo-center">Center</SelectItem>
+          <SelectItem value="fo-top">Top</SelectItem>
+          <SelectItem value="fo-left">Left</SelectItem>
+          <SelectItem value="fo-bottom">Bottom</SelectItem>
+          <SelectItem value="fo-right">Right</SelectItem>
+          <SelectItem value="fo-top_left">Top left</SelectItem>
+          <SelectItem value="fo-top_right">Top right</SelectItem>
+          <SelectItem value="fo-bottom_left">Bottom left</SelectItem>
+          <SelectItem value="fo-bottom_right">Bottom right</SelectItem>
+        </>
+      );
   }
+}
 
   if(!resizeModalState) return null;
 
@@ -172,7 +169,7 @@ const ResizeModal = () => {
                   )}
                 />
 
-                <FormField
+                {!(height && width) && <FormField
                   control={form.control}
                   name="aspect_ratio"
                   render={({ field }) => (
@@ -181,7 +178,7 @@ const ResizeModal = () => {
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a aspect ratio" />
+                            <SelectValue placeholder="Select an aspect ratio" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -197,7 +194,7 @@ const ResizeModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                />}
 
                 <FormField
                   control={form.control}

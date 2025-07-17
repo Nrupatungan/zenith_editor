@@ -33,7 +33,7 @@ const OverlayModal = () => {
                 <span className="sr-only">Close</span>
               </button>
     
-              <h2>Hello Overlay</h2>
+              <h2>Overlay</h2>
             </div>
           </div>
         </div>

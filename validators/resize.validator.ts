@@ -1,12 +1,36 @@
 import { z } from "zod";
 
 const ResizeModalSchema = z.object({
-    width: z.string().optional(),
-    height: z.string().optional(),
-    aspect_ratio: z.enum(["3-2", "4-3", "5-4", "16-10", "16-9", "1.85-1", "2.35-1"]).optional(),
-    crop_strategy: z.enum(["cm-pad_resize", "c-force", "c-at_max", "c-at_max_enlarge", "c-maintain_ratio", "cm-extract", "cm-pad_extract"]).optional(),
-    focus: z.enum(["fo-center", "fo-top", "fo-left", "fo-bottom", "fo-right", "fo-top_left", "fo-top_right", "fo-bottom_left", "fo-bottom_right", "fo-custom"]).optional(),
-    padding_color: z.string().optional(),
+    width: 
+        z.string()
+        .optional(),
+
+    height: 
+        z.string()
+        .optional(),
+
+    aspect_ratio: 
+        z.enum(["3-2", "4-3", "5-4", "16-10", "16-9", "1.85-1", "2.35-1"])
+        .or(z.literal("none"))
+        .transform(e => e === "none" ? undefined : e)
+        .optional(),
+
+    crop_strategy: 
+        z.enum(["cm-pad_resize", "c-force", "c-at_max", "c-at_max_enlarge", "c-maintain_ratio", "cm-extract", "cm-pad_extract"])
+        .or(z.literal("none"))
+        .transform(e => e === "none" ? undefined : e)
+        .optional(),
+
+    focus: 
+        z.enum(["fo-center", "fo-top", "fo-left", "fo-bottom", "fo-right", "fo-top_left", "fo-top_right", "fo-bottom_left", "fo-bottom_right", "fo-custom"])
+        .or(z.literal("none"))
+        .transform(e => e === "none" ? undefined : e)
+        .optional(),
+
+    padding_color: 
+        z.string()
+        .optional(),
+        
 }).superRefine((data, ctx) => {
     // Requirement 1: aspect_ratio must be used along with either height OR width
     if (data.aspect_ratio) {
