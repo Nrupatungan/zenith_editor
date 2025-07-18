@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const ResizeModalSchema = z.object({
+const ResizeSchema = z.object({
     width: 
         z.string()
         .optional(),
@@ -30,15 +30,15 @@ const ResizeModalSchema = z.object({
     padding_color: 
         z.string()
         .optional(),
-        
+
 }).superRefine((data, ctx) => {
-    // Requirement 1: aspect_ratio must be used along with either height OR width
+
     if (data.aspect_ratio) {
         if (!data.width && !data.height) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "When aspect_ratio is provided, either width or height must also be provided.",
-            path: ["aspect_ratio"], // Associate the error with the aspect_ratio field
+            path: ["aspect_ratio"],
         });
         }
 
@@ -46,25 +46,24 @@ const ResizeModalSchema = z.object({
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "When aspect_ratio is provided, either width or height must also be provided.",
-            path: ["aspect_ratio"], // Associate the error with the aspect_ratio field
+            path: ["aspect_ratio"],
         });
         }
     }
 
-    // Requirement 2: crop_strategy must be used along with both height AND width
     if (data.crop_strategy) {
         if (!data.width || !data.height) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: "When crop_strategy is provided, both width and height must also be provided.",
-            path: ["crop_strategy"], // Associate the error with the crop_strategy field
+            path: ["crop_strategy"],
         });
         }
     }
 })
 
-export type ResizeModalType = z.infer<typeof ResizeModalSchema>
+export type ResizeType = z.infer<typeof ResizeSchema>
 
 export {
-    ResizeModalSchema
+    ResizeSchema
 }

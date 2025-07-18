@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar"
 import { ChevronRight, type LucideIcon } from "lucide-react"
 import ResizeOptions from "./ResizeOptions"
+import OverlayOptions from "./OverlayOptions"
 
 export function NavMain({
   items,
@@ -58,6 +59,7 @@ export function NavMain({
               <CollapsibleContent>
                 <SidebarMenuSub>
                   {item.title === "Resize and Crop" && <ResizeOptions />}
+                  {item.title === "Add overlays" && <OverlayOptions />}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

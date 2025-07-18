@@ -186,3 +186,133 @@ export const data = {
       },
     ],
   }
+
+export const fontData = {
+  fonts: [
+    {
+      font: "AbrilFatFace",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "Amaranth",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Arvo",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Audiowide",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "Chivo",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Crimson Text",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "exo",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Fredoka One",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "Gravitas One",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "Kanit",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Lato",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Lobster",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "Lora",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Monoton",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "Montserrat",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "PT Mono",	
+      italicAllowed: false,	
+      boldAllowed: false,
+    },
+    {
+      font: "PT_Serif",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Open Sans",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Roboto",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Old Standard",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Ubuntu",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+    {
+      font: "Vollkorn",	
+      italicAllowed: true,	
+      boldAllowed: true,
+      
+    },
+  ]
+}

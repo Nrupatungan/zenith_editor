@@ -1,4 +1,5 @@
-import { ResizeModalType } from "@/validators/resize.validator";
+import { OverlayType } from "@/validators/overlay.validator";
+import { ResizeType } from "@/validators/resize.validator";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -32,9 +33,9 @@ export function formatDateWithOrdinal(dateInput: string | number | Date) {
   return `${month} ${day}${ordinal} ${year}`;
 }
 
-export function buildResizeParams(values: ResizeModalType){
+export function buildParams(values: ResizeType & OverlayType): string[]{
   const {width, height, padding_color, aspect_ratio, focus, crop_strategy} = values;
-  const params = [];
+  const params: string[] = [];
 
   if (width) {
     params.push(`w-${width}`);

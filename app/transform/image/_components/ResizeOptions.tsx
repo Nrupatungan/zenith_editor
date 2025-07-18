@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { buildResizeParams } from '@/lib/utils';
+import { buildParams } from '@/lib/utils';
 import useModalStore from '@/store';
-import { ResizeModalSchema, ResizeModalType } from '@/validators/resize.validator';
+import { ResizeSchema, ResizeType } from '@/validators/resize.validator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useRef, useCallback } from 'react'
 import { useForm } from 'react-hook-form';
@@ -14,8 +14,8 @@ import { useForm } from 'react-hook-form';
 export default function ResizeOptions() {
   const { url, setTransformUrl } = useModalStore();
 
-  const form = useForm<ResizeModalType>({
-    resolver: zodResolver(ResizeModalSchema),
+  const form = useForm<ResizeType>({
+    resolver: zodResolver(ResizeSchema),
     defaultValues: {
       width: "",
       height: "",
@@ -38,10 +38,10 @@ export default function ResizeOptions() {
 
   const isInitialMount = useRef(true);
 
-  const submitHandler = useCallback(async (values: ResizeModalType) => {
+  const submitHandler = useCallback(async (values: ResizeType) => {
     let transformationString;
 
-    const paramsArray = buildResizeParams(values);
+    const paramsArray = buildParams(values);
 
     if (paramsArray.length > 0) {
       transformationString = `?tr=${paramsArray.join(',')}`;
@@ -91,7 +91,7 @@ export default function ResizeOptions() {
   };
 
 
-  const getFocusOptions = (strategy: ResizeModalType['crop_strategy']) => {
+  const getFocusOptions = (strategy: ResizeType['crop_strategy']) => {
     switch (strategy) {
       case 'cm-pad_resize':
         return (
@@ -153,48 +153,50 @@ export default function ResizeOptions() {
         autoComplete="false"
       >
         <div className='flex flex-col gap-4'>
-          <FormField
-            control={control}
-            name="width"
-            render={({ field }) => (
-              <FormItem className='grid gap-3'>
-                <FormLabel>Width</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="e.g. 10"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+          
+          <div className='grid grid-cols-2 gap-3'>
+            <FormField
+              control={control}
+              name="width"
+              render={({ field }) => (
+                <FormItem className='grid gap-3'>
+                  <FormLabel>Width</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="e.g. 10"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
             )}
-          />
+            />
 
-          <FormField
-            control={control}
-            name="height"
-            render={({ field }) => (
-              <FormItem className='grid gap-3'>
-                <FormLabel>Height</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="e.g. 10"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={control}
+              name="height"
+              render={({ field }) => (
+                <FormItem className='grid gap-3'>
+                  <FormLabel>Height</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="e.g. 10"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          {!(watchedHeight && watchedWidth) && <FormField
+            {!(watchedHeight && watchedWidth) && <FormField
             control={form.control}
             name="aspect_ratio"
             render={({ field }) => (
               <FormItem className='grid gap-3'>
-                <FormLabel>Aspect Ratio</FormLabel>
+                <FormLabel>Aspect ratio</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value || "none"}>
                   <FormControl>
                     <SelectTrigger>
@@ -217,34 +219,6 @@ export default function ResizeOptions() {
             )}
           />}
 
-          <FormField
-            control={form.control}
-            name="crop_strategy"
-            render={({ field }) => (
-              <FormItem className='grid gap-3'>
-                <FormLabel>Crop Strategy</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value || "none"}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a crop strategy" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="none">None</SelectItem>
-                    <SelectItem value="cm-pad_resize">Pad Resize</SelectItem>
-                    <SelectItem value="c-force">Forced</SelectItem>
-                    <SelectItem value="c-at_max">Max Size</SelectItem>
-                    <SelectItem value="c-at_max_enlarge">Max Size Enlarge</SelectItem>
-                    <SelectItem value="c-maintain_ratio">Maintain Ratio</SelectItem>
-                    <SelectItem value="cm-extract">Extract</SelectItem>
-                    <SelectItem value="cm-pad_extract">Pad Extract</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           {(watchedCropStrategy !== 'c-force' && watchedCropStrategy !== 'c-at_max' && watchedCropStrategy !== "c-at_max_enlarge" && watchedCropStrategy !== "cm-pad_extract") && <FormField
             control={form.control}
             name="focus"
@@ -265,6 +239,35 @@ export default function ResizeOptions() {
               </FormItem>
             )}
           />}
+          </div>
+
+          <FormField
+            control={form.control}
+            name="crop_strategy"
+            render={({ field }) => (
+              <FormItem className='grid gap-3'>
+                <FormLabel>Crop Strategy</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value || "none"}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a crop strategy" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="none">Select an option</SelectItem>
+                    <SelectItem value="cm-pad_resize">Pad Resize</SelectItem>
+                    <SelectItem value="c-force">Forced</SelectItem>
+                    <SelectItem value="c-at_max">Max Size</SelectItem>
+                    <SelectItem value="c-at_max_enlarge">Max Size Enlarge</SelectItem>
+                    <SelectItem value="c-maintain_ratio">Maintain Ratio</SelectItem>
+                    <SelectItem value="cm-extract">Extract</SelectItem>
+                    <SelectItem value="cm-pad_extract">Pad Extract</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           {(watchedCropStrategy === "cm-pad_extract" || watchedCropStrategy === "cm-pad_resize") && <FormField
             control={control}
@@ -283,13 +286,13 @@ export default function ResizeOptions() {
             )}
           />}
 
-          <Button
+          {/* <Button
             type="button" // Change type to "button" to prevent accidental form submission
             className='w-full cursor-pointer'
             onClick={handleResetForm} // Call your custom reset handler
           >
             Reset
-          </Button>
+          </Button> */}
 
           {/* <Button
             type="submit"

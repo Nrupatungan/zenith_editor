@@ -30,7 +30,7 @@ export function ImageAppSidebar({ ...props }: React.ComponentProps<typeof Sideba
 
   return (
     <Sidebar
-      className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
+      className="top-(--header-height) h-[calc(100svh-var(--header-height))]! w-[260px]"
       {...props}
     >
       <SidebarHeader>
