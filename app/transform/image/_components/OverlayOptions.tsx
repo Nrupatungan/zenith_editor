@@ -23,7 +23,7 @@ export default function OverlayOptions() {
       font_size: undefined,
       font_color: "#000000",
       background_color: "#FFFFFF",
-      padding: undefined,
+      padding: "",
       line_height: "",
       transparency: undefined,
       lx: undefined,
@@ -281,7 +281,7 @@ export default function OverlayOptions() {
                                 <FormLabel>Padding</FormLabel>
                                 <FormControl>
                                     <Input
-                                    type="number"
+                                    type="text"
                                     placeholder="eg 0"
                                     {...field}
                                     />

@@ -30,7 +30,7 @@ const OverlaySchema = z.object({
         .optional(),
 
     padding:
-        z.number()
+        z.string()
         .optional(),
 
     transparency: //*
