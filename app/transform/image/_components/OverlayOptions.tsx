@@ -1,144 +1,24 @@
 "use client"
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { buildParams } from "@/lib/utils";
-import useModalStore from "@/store";
-import { OverlaySchema, OverlayType } from "@/validators/overlay.validator";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { useCallback, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 
-export default function OverlayOptions() {
-    const { url, setTransformUrl } = useModalStore();
-    
-    const form = useForm<OverlayType>({
-    resolver: zodResolver(OverlaySchema),
-    defaultValues: {
-      O_width: "",
-      O_height: "",
-      font_size: undefined,
-      font_color: "#000000",
-      background_color: "#FFFFFF",
-      padding: "",
-      line_height: "",
-      transparency: undefined,
-      lx: undefined,
-      ly: undefined,
-      overlay_type: undefined,
-      text_align: undefined,
-      rotate: undefined,
-      flip: undefined,
-      position_type: undefined,
-      relative_position: undefined
-    }
-  });
-    
-    const { handleSubmit, control, formState, watch, getValues, reset } = form;
-
-    const watchedWidth = watch("O_width");
-    const watchedHeight = watch("O_height");
-    const watchedFontSize = watch("font_size");
-    const watchedFontColor = watch("font_color");
-    const watchedBackgroundColor = watch("background_color");
-    const watchedPadding = watch("padding");
-    const watchedLineHeight = watch("line_height");
-    const watchedTransparency = watch("transparency");
-    const watchedLx = watch("lx");
-    const watchedLy = watch("ly");
-    const watchedOverlayType = watch("overlay_type");
-    const watchedTextAlign = watch("text_align");
-    const watchedRotate = watch("rotate");
-    const watchedFlip = watch("flip");
-    const watchedPositionType = watch("position_type");
-    const watchedRelativePosition = watch("relative_position");
-
-    const isInitialMount = useRef(true);
-    
-    const submitHandler = useCallback(async (values: OverlayType) => {
-    let transformationString;
-
-    const paramsArray = buildParams(values);
-
-    if (paramsArray.length > 0) {
-        transformationString = `?tr=${paramsArray.join(',')}`;
-    } else {
-        transformationString = '';
-    }
-
-    const newUrl = `${url}${transformationString}`;
-    console.log("Submitting new URL:", newUrl);
-    // setTransformUrl(newUrl);
-    }, [url, setTransformUrl]);
-
-    useEffect(() => {
-    if (isInitialMount.current) {
-        isInitialMount.current = false;
-        return;
-    }
-
-    const timeout = setTimeout(() => {
-        submitHandler(getValues());
-    }, 300);
-
-    return () => clearTimeout(timeout);
-    }, [
-    watchedWidth,
-    watchedHeight,
-    watchedFontSize,
-    watchedFontColor,
-    watchedBackgroundColor,
-    watchedPadding,
-    watchedLineHeight,
-    watchedTransparency,
-    watchedLx,
-    watchedLy,
+export default function OverlayOptions({
     watchedOverlayType,
-    watchedTextAlign,
-    watchedRotate,
-    watchedFlip,
     watchedPositionType,
-    watchedRelativePosition,
-    submitHandler,
-    getValues
-    ]);
-
-    const handleResetForm = () => {
-        reset({
-            O_width: "",
-            O_height: "",
-            font_size: undefined,
-            font_color: "#000000",
-            background_color: "#FFFFFF",
-            padding: undefined,
-            line_height: "",
-            transparency: undefined,
-            lx: undefined,
-            ly: undefined,
-            overlay_type: undefined,
-            text_align: undefined,
-            rotate: undefined,
-            flip: undefined,
-            position_type: undefined,
-            relative_position: undefined
-        });
-        
-        setTransformUrl(url); // Reset to the original image URL
-    };
+    control
+}: {
+    watchedOverlayType: "text" | "color_block" | undefined,
+    watchedPositionType: "axis" | "positional" | undefined,
+    control: any
+}) {
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={handleSubmit(submitHandler)}
-        className="p-3"
-        autoComplete="false"
-      >
         <div className='flex flex-col gap-4'>
             <FormField
-                control={form.control}
+                control={control}
                 name="overlay_type"
                 render={({ field }) => (
                 <FormItem className='grid gap-3'>
@@ -203,7 +83,7 @@ export default function OverlayOptions() {
 
                     <FormField
                     control={control}
-                    name="background_color"
+                    name="O_background_color"
                     render={({ field }) => (
                         <FormItem className='grid gap-3'>
                         <FormLabel>Background</FormLabel>
@@ -292,7 +172,7 @@ export default function OverlayOptions() {
                             />
                             
                             <FormField
-                            control={form.control}
+                            control={control}
                             name="text_align"
                             render={({ field }) => (
                             <FormItem className='grid gap-3'>
@@ -315,11 +195,11 @@ export default function OverlayOptions() {
                             />
 
                             <FormField
-                            control={form.control}
-                            name="flip"
+                            control={control}
+                            name="text_flip"
                             render={({ field }) => (
                             <FormItem className='grid gap-3'>
-                                <FormLabel>Rotate</FormLabel>
+                                <FormLabel>Text flip</FormLabel>
                                 <Select onValueChange={field.onChange} value={field.value || "none"}>
                                 <FormControl>
                                     <SelectTrigger>
@@ -343,7 +223,7 @@ export default function OverlayOptions() {
                             name="rotate"
                             render={({ field }) => (
                                 <FormItem className='grid gap-3'>
-                                <FormLabel>Rotate</FormLabel>
+                                <FormLabel>Text rotate</FormLabel>
                                 <FormControl>
                                     <Input
                                     type="number"
@@ -380,7 +260,7 @@ export default function OverlayOptions() {
                     </div>
 
                     <FormField
-                    control={form.control}
+                    control={control}
                     name="position_type"
                     render={({ field }) => (
                     <FormItem className='grid gap-3'>
@@ -444,7 +324,7 @@ export default function OverlayOptions() {
 
                     {watchedPositionType === "positional" && 
                         <FormField
-                        control={form.control}
+                        control={control}
                         name="relative_position"
                         render={({ field }) => (
                         <FormItem className='grid gap-3'>
@@ -476,16 +356,7 @@ export default function OverlayOptions() {
                     }
                 </div>
             }
-
-            <Button
-                type="button" // Change type to "button" to prevent accidental form submission
-                className='w-full cursor-pointer'
-                onClick={handleResetForm} // Call your custom reset handler
-            >
-            Reset
-          </Button>
+            
         </div>
-      </form>
-    </Form>
   )
 }

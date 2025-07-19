@@ -1,97 +1,23 @@
 "use client"
 
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { buildParams } from '@/lib/utils';
-import useModalStore from '@/store';
-import { ResizeSchema, ResizeType } from '@/validators/resize.validator';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useRef, useCallback } from 'react'
-import { useForm } from 'react-hook-form';
+import { TransformType } from '@/validators/transformations.validator';
 
-export default function ResizeOptions() {
-  const { url, setTransformUrl } = useModalStore();
-
-  const form = useForm<ResizeType>({
-    resolver: zodResolver(ResizeSchema),
-    defaultValues: {
-      width: "",
-      height: "",
-      padding_color: "#ff0000",
-      // Set to undefined by default to reflect the schema's transformed state
-      crop_strategy: undefined,
-      aspect_ratio: undefined,
-      focus: undefined,
-    }
-  });
-
-  const { handleSubmit, control, formState, watch, getValues, reset } = form;
-
-  const watchedWidth = watch("width");
-  const watchedHeight = watch("height");
-  const watchedCropStrategy = watch("crop_strategy");
-  const watchedAspectRatio = watch("aspect_ratio");
-  const watchedFocus = watch("focus");
-  const watchedPaddingColor = watch("padding_color");
-
-  const isInitialMount = useRef(true);
-
-  const submitHandler = useCallback(async (values: ResizeType) => {
-    let transformationString;
-
-    const paramsArray = buildParams(values);
-
-    if (paramsArray.length > 0) {
-      transformationString = `?tr=${paramsArray.join(',')}`;
-    } else {
-      transformationString = '';
-    }
-
-    const newUrl = `${url}${transformationString}`;
-    console.log("Submitting new URL:", newUrl);
-    setTransformUrl(newUrl);
-  }, [url, setTransformUrl]);
-
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      submitHandler(getValues());
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [
-    watchedWidth,
+export default function ResizeOptions({
     watchedHeight,
+    watchedWidth,
     watchedCropStrategy,
-    watchedAspectRatio,
-    watchedFocus,
-    watchedPaddingColor,
-    submitHandler,
-    getValues
-  ]);
+    control
+}: {
+    watchedHeight: string | undefined,
+    watchedWidth: string | undefined,
+    watchedCropStrategy: TransformType['crop_strategy']
+    control: any
+}) {
 
-
-  const handleResetForm = () => {
-    reset({
-      width: "",
-      height: "",
-      padding_color: "#ff0000",
-      crop_strategy: undefined,
-      aspect_ratio: undefined,
-      focus: undefined,
-    });
-    
-    setTransformUrl(url); // Reset to the original image URL
-  };
-
-
-  const getFocusOptions = (strategy: ResizeType['crop_strategy']) => {
+  const getFocusOptions = (strategy: TransformType['crop_strategy']) => {
     switch (strategy) {
       case 'cm-pad_resize':
         return (
@@ -146,12 +72,6 @@ export default function ResizeOptions() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={handleSubmit(submitHandler)}
-        className="p-3"
-        autoComplete="false"
-      >
         <div className='flex flex-col gap-4'>
           
           <div className='grid grid-cols-2 gap-3'>
@@ -192,7 +112,7 @@ export default function ResizeOptions() {
             />
 
             {!(watchedHeight && watchedWidth) && <FormField
-            control={form.control}
+            control={control}
             name="aspect_ratio"
             render={({ field }) => (
               <FormItem className='grid gap-3'>
@@ -220,7 +140,7 @@ export default function ResizeOptions() {
           />}
 
           {(watchedCropStrategy !== 'c-force' && watchedCropStrategy !== 'c-at_max' && watchedCropStrategy !== "c-at_max_enlarge" && watchedCropStrategy !== "cm-pad_extract") && <FormField
-            control={form.control}
+            control={control}
             name="focus"
             render={({ field }) => (
               <FormItem className='grid gap-3'>
@@ -242,7 +162,7 @@ export default function ResizeOptions() {
           </div>
 
           <FormField
-            control={form.control}
+            control={control}
             name="crop_strategy"
             render={({ field }) => (
               <FormItem className='grid gap-3'>
@@ -286,24 +206,6 @@ export default function ResizeOptions() {
             )}
           />}
 
-          {/* <Button
-            type="button" // Change type to "button" to prevent accidental form submission
-            className='w-full cursor-pointer'
-            onClick={handleResetForm} // Call your custom reset handler
-          >
-            Reset
-          </Button> */}
-
-          {/* <Button
-            type="submit"
-            disabled={formState.isSubmitting}
-            className="w-full cursor-pointer"
-          >
-            Apply Changes
-          </Button> */}
-
         </div>
-      </form>
-    </Form>
   )
 }

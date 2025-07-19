@@ -10,7 +10,7 @@ children: React.ReactNode;
     return (
         <div className="[--header-height:calc(--spacing(14))]">
             <SidebarProvider defaultOpen={true} className="flex flex-col">
-                {children}
+                    {children}
             </SidebarProvider>
         </div >
     );

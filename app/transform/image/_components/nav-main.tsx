@@ -13,9 +13,7 @@ import {
   SidebarMenuSub,
 } from "@/components/ui/sidebar"
 import { ChevronRight, type LucideIcon } from "lucide-react"
-import ResizeOptions from "./ResizeOptions"
-import OverlayOptions from "./OverlayOptions"
-import EffectsOptions from "./EffectsOptions"
+import TransformOptions from "./TransformOptions"
 
 export function NavMain({
   items,
@@ -58,11 +56,9 @@ export function NavMain({
                 </SidebarMenuAction>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.title === "Resize and Crop" && <ResizeOptions />}
-                  {item.title === "Add overlays" && <OverlayOptions />}
-                  {/* AI Options */}
-                  {item.title === "Effects and Enhancements" && <EffectsOptions />}
+                <SidebarMenuSub className="p-0 mx-1">
+                  {/* Options */}
+                  <TransformOptions title={item.title} />
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

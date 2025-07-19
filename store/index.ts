@@ -7,8 +7,9 @@ type modalState = {
     overlayModalState: boolean,
 
     url: string,
-    // queryParams: string,
     transformUrl: string,
+
+    resetForm?: () => void,
 };
   
 type modalAction = {
@@ -23,8 +24,9 @@ type modalAction = {
     closeOverlayModal: () => void;
 
     setUrl: (url: modalState['url']) => void;
-    // setQueryParams: (queryParams: modalState['queryParams']) => void;
     setTransformUrl: (transformUrl: modalState['transformUrl']) => void;
+
+    setResetForm: (fn: () => void) => void;
 };
 
 const useModalStore = create<modalState & modalAction>((set) => ({
@@ -35,8 +37,8 @@ const useModalStore = create<modalState & modalAction>((set) => ({
     overlayModalState: false,
 
     url: "",
-    // queryParams: "",
-    transformUrl: "", 
+    transformUrl: "",
+    resetForm: undefined,
 
     // functions
     openResizeModal: () => set(() => ({resizeModalState: true})),
@@ -52,8 +54,9 @@ const useModalStore = create<modalState & modalAction>((set) => ({
     closeOverlayModal: () => set(() => ({overlayModalState: false})),
 
     setUrl: (url) => set(() => ({url: url})),
-    // setQueryParams: (queryParams) => set(() => ({queryParams: queryParams})),
-    setTransformUrl: (transformUrl) => set(() => ({transformUrl: transformUrl}))
+    setTransformUrl: (transformUrl) => set(() => ({transformUrl: transformUrl})),
+
+    setResetForm: (fn) => set(() => ({ resetForm: fn })),
 }));
   
 export default useModalStore;
