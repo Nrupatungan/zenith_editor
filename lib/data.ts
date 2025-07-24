@@ -1,9 +1,9 @@
 import {
-    BrainCircuit,
-    BringToFront,
-    Crop,
-    Settings2,
-  } from "lucide-react"
+  BrainCircuit,
+  BringToFront,
+  Crop,
+  Settings2,
+} from "lucide-react"
 
 export const data = {
     user: {
@@ -190,129 +190,393 @@ export const data = {
 export const fontData = {
   fonts: [
     {
-      font: "AbrilFatFace",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "none",
+      label: "--__--"
     },
     {
-      font: "Amaranth",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Amaranth",
+      label: "Amaranth", 	
     },
     {
-      font: "Arvo",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Arvo",
+      label: "Arvo", 	
     },
     {
-      font: "Audiowide",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "Chivo",
+      label: "Chivo", 	
     },
     {
-      font: "Chivo",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Crimson Text",
+      label: "Crimson", 	
     },
     {
-      font: "Crimson Text",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "exo",
+      label: "exo", 	
     },
     {
-      font: "exo",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Kanit",
+      label: "Kanit", 	
     },
     {
-      font: "Fredoka One",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "Lato",
+      label: "Lato", 	
     },
     {
-      font: "Gravitas One",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "Lora",
+      label: "Lora", 	
     },
     {
-      font: "Kanit",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Montserrat",
+      label: "Montserrat", 	
     },
     {
-      font: "Lato",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "PT_Serif",
+      label: "PT", 	
     },
     {
-      font: "Lobster",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "Open Sans",
+      label: "Open", 	
     },
     {
-      font: "Lora",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Roboto",
+      label: "Roboto", 	
     },
     {
-      font: "Monoton",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "Old Standard",
+      label: "Old", 	
     },
     {
-      font: "Montserrat",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "Ubuntu",
+      label: "Ubuntu", 	
     },
     {
-      font: "PT Mono",	
-      italicAllowed: false,	
-      boldAllowed: false,
+      value: "Vollkorn",
+      label: "Vollkorn", 	
+    },
+  ]
+}
+
+export const focusObjects = {
+  objects: [
+    {
+      value: "person",
+      label: "person"
     },
     {
-      font: "PT_Serif",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "bicycle",
+      label: "bicycle"
     },
     {
-      font: "Open Sans",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "car",
+      label: "car"
     },
     {
-      font: "Roboto",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "motorcycle",
+      label: "motorcycle"
     },
     {
-      font: "Old Standard",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "airplane",
+      label: "airplane"
     },
     {
-      font: "Ubuntu",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "bus",
+      label: "bus"
     },
     {
-      font: "Vollkorn",	
-      italicAllowed: true,	
-      boldAllowed: true,
-      
+      value: "train",
+      label: "train"
     },
+    {
+      value: "truck",
+      label: "truck"
+    },
+    {
+      value: "boat",
+      label: "boat"
+    },
+    {
+      value: "trafficLight",
+      label: "trafficLight"
+    },
+    {
+      value: "fireHydrant",
+      label: "fireHydrant"
+    },
+    {
+      value: "stopSign",
+      label: "stopSign"
+    },
+    {
+      value: "parkingMeter",
+      label: "parkingMeter"
+    },
+    {
+      value: "bench",
+      label: "bench"
+    },
+    {
+      value: "bird",
+      label: "bird"
+    },
+    {
+      value: "cat",
+      label: "cat"
+    },
+    {
+      value: "dog",
+      label: "dog"
+    },
+    {
+      value: "horse",
+      label: "horse"
+    },
+    {
+      value: "sheep",
+      label: "sheep"
+    },
+    {
+      value: "cow",
+      label: "cow"
+    },
+    {
+      value: "elephant",
+      label: "elephant"
+    },
+    {
+      value: "bear",
+      label: "bear"
+    },
+    {
+      value: "zebra",
+      label: "zebra"
+    },
+    {
+      value: "giraffe",
+      label: "giraffe"
+    },
+    {
+      value: "backpack",
+      label: "backpack"
+    },
+    {
+      value: "umbrella",
+      label: "umbrella"
+    },
+    {
+      value: "handbag",
+      label: "handbag"
+    },
+    {
+      value: "tie",
+      label: "tie"
+    },
+    {
+      value: "suitcase",
+      label: "suitcase"
+    },
+    {
+      value: "frisbee",
+      label: "frisbee"
+    },
+    {
+      value: "skis",
+      label: "skis"
+    },
+    {
+      value: "snowboard",
+      label: "snowboard"
+    },
+    {
+      value: "sportsBall",
+      label: "sportsBall"
+    },
+    {
+      value: "kite",
+      label: "kite"
+    },
+    {
+      value: "baseballBat",
+      label: "baseballBat"
+    },
+    {
+      value: "baseballGlove",
+      label: "baseballGlove"
+    },
+    {
+      value: "skateboard",
+      label: "skateboard"
+    },
+    {
+      value: "surfboard",
+      label: "surfboard"
+    },
+    {
+      value: "tennisRacket",
+      label: "tennisRacket"
+    },
+    {
+      value: "bottle",
+      label: "bottle"
+    },
+    {
+      value: "wineGlass",
+      label: "wineGlass"
+    },
+    {
+      value: "cup",
+      label: "cup"
+    },
+    {
+      value: "fork",
+      label: "fork"
+    },
+    {
+      value: "knife",
+      label: "knife"
+    },
+    {
+      value: "spoon",
+      label: "spoon"
+    },
+    {
+      value: "bowl",
+      label: "bowl"
+    },
+    {
+      value: "banana",
+      label: "banana"
+    },
+    {
+      value: "apple",
+      label: "apple"
+    },
+    {
+      value: "sandwich",
+      label: "sandwich"
+    },
+    {
+      value: "orange",
+      label: "orange"
+    },
+    {
+      value: "broccoli",
+      label: "broccoli"
+    },
+    {
+      value: "carrot",
+      label: "carrot"
+    },
+    {
+      value: "hotDog",
+      label: "hotDog"
+    },
+    {
+      value: "pizza",
+      label: "pizza"
+    },
+    {
+      value: "donut",
+      label: "donut"
+    },
+    {
+      value: "cake",
+      label: "cake"
+    },
+    {
+      value: "chair",
+      label: "chair"
+    },
+    {
+      value: "couch",
+      label: "couch"
+    },
+    {
+      value: "pottedPlant",
+      label: "pottedPlant"
+    },
+    {
+      value: "bed",
+      label: "bed"
+    },
+    {
+      value: "diningTable",
+      label: "diningTable"
+    },
+    {
+      value: "toilet",
+      label: "toilet"
+    },
+    {
+      value: "tv",
+      label: "tv"
+    },
+    {
+      value: "laptop",
+      label: "laptop"
+    },
+    {
+      value: "mouse",
+      label: "mouse"
+    },
+    {
+      value: "remote",
+      label: "remote"
+    },
+    {
+      value: "keyboard",
+      label: "keyboard"
+    },
+    {
+      value: "cellPhone",
+      label: "cellPhone"
+    },
+    {
+      value: "microwave",
+      label: "microwave"
+    },
+    {
+      value: "oven",
+      label: "oven"
+    },
+    {
+      value: "toaster",
+      label: "toaster"
+    },
+    {
+      value: "sink",
+      label: "sink"
+    },
+    {
+      value: "refrigerator",
+      label: "refrigerator"
+    },
+    {
+      value: "book",
+      label: "book"
+    },
+    {
+      value: "clock",
+      label: "clock"
+    },
+    {
+      value: "vase",
+      label: "vase"
+    },
+    {
+      value: "scissors",
+      label: "scissors"
+    },
+    {
+      value: "teddyBear",
+      label: "teddyBear"
+    },
+    {
+      value: "hairDrier",
+      label: "hairDrier"
+    },
+    {
+      value: "toothbrush",
+      label: "toothbrush"
+    }
   ]
 }

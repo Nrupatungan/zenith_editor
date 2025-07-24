@@ -74,12 +74,12 @@ export default function ResizeOptions({
   return (
         <div className='flex flex-col gap-4'>
           
-          <div className='grid grid-cols-2 gap-3'>
+          <div className='grid grid-cols-2 gap-4'>
             <FormField
               control={control}
               name="width"
               render={({ field }) => (
-                <FormItem className='grid gap-3'>
+                <FormItem className='grid gap-2'>
                   <FormLabel>Width</FormLabel>
                   <FormControl>
                     <Input
@@ -97,7 +97,7 @@ export default function ResizeOptions({
               control={control}
               name="height"
               render={({ field }) => (
-                <FormItem className='grid gap-3'>
+                <FormItem className='grid gap-2'>
                   <FormLabel>Height</FormLabel>
                   <FormControl>
                     <Input
@@ -115,7 +115,7 @@ export default function ResizeOptions({
             control={control}
             name="aspect_ratio"
             render={({ field }) => (
-              <FormItem className='grid gap-3'>
+              <FormItem className='grid gap-2'>
                 <FormLabel>Aspect ratio</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value || "none"}>
                   <FormControl>
@@ -143,7 +143,7 @@ export default function ResizeOptions({
             control={control}
             name="focus"
             render={({ field }) => (
-              <FormItem className='grid gap-3'>
+              <FormItem className='grid gap-2'>
                 <FormLabel>Focus</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value || "none"}>
                   <FormControl>
@@ -165,7 +165,7 @@ export default function ResizeOptions({
             control={control}
             name="crop_strategy"
             render={({ field }) => (
-              <FormItem className='grid gap-3'>
+              <FormItem className='grid gap-2'>
                 <FormLabel>Crop Strategy</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value || "none"}>
                   <FormControl>
@@ -193,7 +193,7 @@ export default function ResizeOptions({
             control={control}
             name="padding_color"
             render={({ field }) => (
-              <FormItem className='grid gap-3'>
+              <FormItem className='grid gap-2'>
                 <FormLabel>Padding Color</FormLabel>
                 <FormControl className='w-20'>
                   <Input

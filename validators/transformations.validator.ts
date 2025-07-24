@@ -1,10 +1,14 @@
+import { focusObjects, fontData } from "@/lib/data";
 import { z } from "zod";
+
+const fonts: string[] = fontData.fonts.map((font) => font.value);
+const objects: string[] = focusObjects.objects.map((obj) => obj.value);
 
 const TransformSchema = z.object({
     // RESIZE SCHEMA
     width: 
-    z.string()
-    .optional(),
+        z.string()
+        .optional(),
 
     height: 
         z.string()
@@ -47,8 +51,18 @@ const TransformSchema = z.object({
         z.string()
         .optional(),
 
+    text_prompt: 
+        z.string()
+        .optional(),
+
+    font_family:
+        z.enum([...fonts] as [string, ...string[]])
+        .or(z.literal("none"))
+        .transform(e => e === "none" ? undefined : e)
+        .optional(),
+
     font_size: 
-        z.number()
+        z.string()
         .optional(),
 
     font_color:
@@ -65,10 +79,6 @@ const TransformSchema = z.object({
         z.string()
         .optional(),
 
-    transparency: //*
-        z.number()
-        .optional(),
-
     typography:
         z.enum(["b", "i", "b_i"])
         .or(z.literal("none"))
@@ -79,8 +89,14 @@ const TransformSchema = z.object({
         z.string()
         .optional(),
     
-    rotate:
-        z.number()
+    O_radius_corner: //*
+        z.string()
+        .optional(),
+    
+    O_rotate:
+        z.number() //-180-180
+        .max(180, '-180 to 180')
+        .min(-180, '-180 to 180')
         .optional(),
     
     text_flip:
@@ -131,7 +147,7 @@ const TransformSchema = z.object({
         z.number() //0-15
         .optional(),
 
-    saturation: 
+    shadow_saturation: 
         z.number() //0-100
         .optional(),
 
@@ -200,6 +216,86 @@ const TransformSchema = z.object({
 
     opacity:
         z.number()
+        .optional(),
+
+    // AI SCHEMA
+    bg_remove:
+        z.boolean()
+        .optional(),
+    
+    //shadow
+    e_dropshadow:
+        z.boolean()
+        .optional(),
+    
+    azimuth:
+        z.number()
+        .min(0, "0-360")
+        .max(360, "0-360")
+        .optional(),
+    
+    elevation:
+        z.number()
+        .min(0, "0-90")
+        .max(90, "0-90")
+        .optional(),
+    
+    saturation:
+        z.number()
+        .min(0, "0-100")
+        .max(100, "0-100")
+        .optional(),
+    
+    // Change Background
+    change_bg:
+        z.boolean()
+        .optional(),
+
+    change_prompt:
+        z.string()
+        .optional(),
+
+    // Edit Background
+    edit_image:
+        z.boolean()
+        .optional(),
+
+    edit_prompt:
+        z.string()
+        .optional(),
+
+    retouch:
+        z.boolean()
+        .optional(),
+
+    upscale:
+        z.boolean()
+        .optional(),
+    
+    //Gen Image
+    gen_image:
+        z.boolean()
+        .optional(),
+    
+    gen_image_prompt:
+        z.string()
+        .optional(),
+    
+    //Gen Variation
+    gen_variation:
+        z.boolean()
+        .optional(),
+
+    face_crop:
+        z.boolean()
+        .optional(),
+
+    smart_crop:
+        z.boolean()
+        .optional(),
+
+    object_aware_crop:
+        z.enum([...objects] as [string, ...string[]])
         .optional(),
 })
 
