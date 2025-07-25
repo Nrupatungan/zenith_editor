@@ -147,10 +147,6 @@ export const data = {
             info: "It is used to sharpen the input image. It is useful when highlighting the edges and finer details within an image."
           },
           {
-            title: "Unsharp mask",
-            info: "Unsharp Masking (USM) is an image sharpening technique. This transform allows you to apply and control unsharp masks on your images."
-          },
-          {
             title: "Gradient",
             info: "This is used to add a gradient overlay over an input image. The gradient formed is a linear gradient containing two colors, and it can be customized with the following parameters:"
           },

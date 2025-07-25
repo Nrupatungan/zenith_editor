@@ -417,8 +417,8 @@ export default function OverlayOptions({
                                             <FormControl>
                                                 <Input
                                                 type="number"
-                                                min={-180}
-                                                max={180}
+                                                min={0}
+                                                max={359}
                                                 placeholder="eg 0"
                                                 {...field}
                                                 />

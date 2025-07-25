@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
@@ -157,7 +157,16 @@ export default function AiOptions({
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between">
                 <div className="space-y-0.5">
-                  <FormLabel>Change background</FormLabel>
+                  <Tooltip>
+                  <TooltipTrigger asChild>
+                      <FormLabel>
+                          Change background
+                      </FormLabel>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="w-64 text-justify">
+                      <p>Easily transform the background of an image by providing a descriptive text prompt.</p>
+                  </TooltipContent>
+                  </Tooltip>
                 </div>
                 <FormControl>
                   <Switch
@@ -195,7 +204,16 @@ export default function AiOptions({
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between">
                 <div className="space-y-0.5">
-                  <FormLabel>Edit Image</FormLabel>
+                  <Tooltip>
+                  <TooltipTrigger asChild>
+                      <FormLabel>
+                          Edit Image
+                      </FormLabel>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="w-64 text-justify">
+                      <p>Modify the contents of an image using the e-edit transformation by providing a descriptive text prompt. The output image dimensions will be 1024x1024 if the input image is square. Otherwise, the output image dimensions will be one of 1536x1024 or 1024x1536, depending on which side is longer in the input image.</p>
+                  </TooltipContent>
+                  </Tooltip>
                 </div>
                 <FormControl>
                   <Switch
@@ -233,7 +251,16 @@ export default function AiOptions({
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between">
                   <div className="space-y-0.5">
-                    <FormLabel>Generate Image</FormLabel>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                          <FormLabel>
+                              Generate Image
+                          </FormLabel>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="w-64 text-justify">
+                          <p>You can generate an image based on a text prompt. The text prompt can simply describe the image you want to generate.</p>
+                      </TooltipContent>
+                    </Tooltip>
                   </div>
                   <FormControl>
                     <Switch
@@ -270,7 +297,16 @@ export default function AiOptions({
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-lg">
               <div className="space-y-0.5">
-                <FormLabel>Generate variation</FormLabel>
+                <Tooltip>
+                      <TooltipTrigger asChild>
+                          <FormLabel>
+                              Generate Variation
+                          </FormLabel>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="w-64 text-justify">
+                          <p>This will generate a new image with slight variations from the original image. The variations include changes in color, texture, and other visual elements. However, the model will try to preserve the structure and essence of the original image.</p>
+                      </TooltipContent>
+                </Tooltip>
               </div>
               <FormControl>
                 <Switch
@@ -288,7 +324,16 @@ export default function AiOptions({
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-lg">
               <div className="space-y-0.5">
-                <FormLabel>Retouch</FormLabel>
+                <Tooltip>
+                      <TooltipTrigger asChild>
+                          <FormLabel>
+                              Retouch
+                          </FormLabel>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="w-64 text-justify">
+                          <p>Improve the quality of an image using the e-retouch transformation parameter. The input image's resolution must be less than 16 MP.</p>
+                      </TooltipContent>
+                </Tooltip>
               </div>
               <FormControl>
                 <Switch
@@ -306,7 +351,16 @@ export default function AiOptions({
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-lg">
               <div className="space-y-0.5">
-                <FormLabel>Upscale</FormLabel>
+                <Tooltip>
+                      <TooltipTrigger asChild>
+                          <FormLabel>
+                              Upscale
+                          </FormLabel>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="w-64 text-justify">
+                          <p>Increase the resolution of an image using the e-upscale transformation parameter. The input image's resolution must be less than 16 MP. The output image's resolution will be 16 MP.</p>
+                      </TooltipContent>
+                </Tooltip>
               </div>
               <FormControl>
                 <Switch
@@ -319,13 +373,23 @@ export default function AiOptions({
         />
 
       <div className="p-3 border rounded-lg shadow-lg flex flex-col gap-4">
+          <p className="text-sm underline">AI Cropping</p>
           <FormField
           control={control}
           name="face_crop"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-lg">
               <div className="space-y-0.5">
-                <FormLabel>Face crop</FormLabel>
+                <Tooltip>
+                      <TooltipTrigger asChild>
+                          <FormLabel>
+                              Face crop
+                          </FormLabel>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="w-64 text-justify">
+                          <p>Crop an image based on the detected face using the fo-face transformation parameter. Optionally, zoom in or out using zoom transformation.</p>
+                      </TooltipContent>
+                </Tooltip>
               </div>
               <FormControl>
                 <Switch
@@ -337,87 +401,105 @@ export default function AiOptions({
           )}
         />
       
-      <FormField
-          control={control}
-          name="smart_crop"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-lg">
-              <div className="space-y-0.5">
-                <FormLabel>Smart crop</FormLabel>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-      <FormField
-        control={control}
-        name="object_aware_crop"
-        render={({ field }) => (
-            <FormItem className="grid gap-2">
-            <FormLabel className="pl-1.5">Object aware crop</FormLabel>
-            <Popover>
-                <PopoverTrigger asChild>
+        <FormField
+            control={control}
+            name="smart_crop"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-lg">
+                <div className="space-y-0.5">
+                  <Tooltip>
+                        <TooltipTrigger asChild>
+                            <FormLabel>
+                                Smart crop
+                            </FormLabel>
+                        </TooltipTrigger>
+                        <TooltipContent side="top" className="w-64 text-justify">
+                            <p>Automatically focus on the most important part of an image using the fo-auto transformation parameter.</p>
+                        </TooltipContent>
+                  </Tooltip>
+                </div>
                 <FormControl>
-                    <Button
-                    variant="outline"
-                    role="combobox"
-                    className={cn(
-                        "justify-between",
-                        !field.value && "text-muted-foreground"
-                    )}
-                    >
-                    {field.value
-                        ? focusObjects.objects.find(
-                            (obj) => obj.value === field.value
-                        )?.label
-                        : "Select font family"}
-                    <ChevronsUpDown className="opacity-50" />
-                    </Button>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                <Command>
-                    <CommandInput
-                    placeholder="Search font..."
-                    className="h-9"
-                    />
-                    <CommandList>
-                    <CommandEmpty>No object found.</CommandEmpty>
-                    <CommandGroup>
-                        {focusObjects.objects.map((obj) => (
-                        <CommandItem
-                            value={obj.label}
-                            key={obj.value}
-                            onSelect={() => {
-                            form.setValue("object_aware_crop", obj.value)
-                            }}
-                        >
-                            {obj.label}
-                            <Check
-                            className={cn(
-                                "ml-auto",
-                                obj.value === field.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                            />
-                        </CommandItem>
-                        ))}
-                    </CommandGroup>
-                    </CommandList>
-                </Command>
-                </PopoverContent>
-            </Popover>
-            <FormMessage />
-            </FormItem>
-        )}
-        />
+              </FormItem>
+            )}
+          />
+
+        <FormField
+          control={control}
+          name="object_aware_crop"
+          render={({ field }) => (
+              <FormItem className="grid gap-2">
+              <Tooltip>
+                  <TooltipTrigger asChild>
+                      <FormLabel className="pl-1.5">
+                          Object aware crop
+                      </FormLabel>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="w-64 text-justify">
+                      <p>We can also crop out a particular object of interest out of multiple different objects present in an image.</p>
+                  </TooltipContent>
+              </Tooltip>
+              <Popover>
+                  <PopoverTrigger asChild>
+                  <FormControl>
+                      <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                          "justify-between",
+                          !field.value && "text-muted-foreground"
+                      )}
+                      >
+                      {field.value
+                          ? focusObjects.objects.find(
+                              (obj) => obj.value === field.value
+                          )?.label
+                          : "Select font family"}
+                      <ChevronsUpDown className="opacity-50" />
+                      </Button>
+                  </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                      <CommandInput
+                      placeholder="Search font..."
+                      className="h-9"
+                      />
+                      <CommandList>
+                      <CommandEmpty>No object found.</CommandEmpty>
+                      <CommandGroup>
+                          {focusObjects.objects.map((obj) => (
+                          <CommandItem
+                              value={obj.label}
+                              key={obj.value}
+                              onSelect={() => {
+                              form.setValue("object_aware_crop", obj.value)
+                              }}
+                          >
+                              {obj.label}
+                              <Check
+                              className={cn(
+                                  "ml-auto",
+                                  obj.value === field.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                              />
+                          </CommandItem>
+                          ))}
+                      </CommandGroup>
+                      </CommandList>
+                  </Command>
+                  </PopoverContent>
+              </Popover>
+              <FormMessage />
+              </FormItem>
+          )}
+          />
       </div>
 
     </div>

@@ -94,9 +94,9 @@ const TransformSchema = z.object({
         .optional(),
     
     O_rotate:
-        z.number() //-180-180
-        .max(180, '-180 to 180')
-        .min(-180, '-180 to 180')
+        z.number() //0-359
+        .max(0, '0 to 359')
+        .min(359, '0 to 359')
         .optional(),
     
     text_flip:
@@ -133,9 +133,15 @@ const TransformSchema = z.object({
     contrast:
         z.boolean()
         .optional(),
-
+    
     sharpen:
+        z.boolean()
+        .optional(),
+
+    sharpen_val:
         z.number() //0-10
+        .min(0)
+        .max(10)
         .optional(),
 
     // Shadow properties
@@ -145,18 +151,26 @@ const TransformSchema = z.object({
 
     shadow_blur:
         z.number() //0-15
+        .min(0)
+        .max(15)
         .optional(),
 
     shadow_saturation: 
         z.number() //0-100
+        .min(0)
+        .max(100)
         .optional(),
 
     x_offset:
         z.number() //-100-0-100
+        .min(-100)
+        .max(100)
         .optional(),
 
     y_offset:
         z.number()  //-100-0-100
+        .min(-100)
+        .max(100)
         .optional(),
 
     // Gradient properties
@@ -166,6 +180,8 @@ const TransformSchema = z.object({
         
     linear_direction:
         z.number()  //0-359
+        .min(0)
+        .max(359)
         .optional(),
 
     from_color:
@@ -178,6 +194,8 @@ const TransformSchema = z.object({
     
     stop_point:
         z.number()
+        .min(0.01)
+        .max(0.99)
         .optional(),
 
     grayscale:
@@ -186,10 +204,18 @@ const TransformSchema = z.object({
 
     blur:
         z.number()
+        .min(0)
+        .max(100)
+        .optional(),
+
+    trim_edges:
+        z.boolean()
         .optional(),
     
-    trim_edges:
+    trim_edges_val:
         z.number()
+        .min(1)
+        .max(99)
         .optional(),
     
     border:
@@ -199,6 +225,12 @@ const TransformSchema = z.object({
     border_color:
         z.string()
         .optional(),
+
+    rotate:
+        z.number()
+        .min(0, '0 to 359')
+        .max(359, '0 to 359')
+        .optional(),
     
     flip:
         z.enum(["fl-h", "fl-v", "fl-h_v"])
@@ -207,7 +239,7 @@ const TransformSchema = z.object({
         .optional(),
 
     radius:
-        z.number()
+        z.string()
         .optional(),
 
     background_color:
@@ -216,6 +248,8 @@ const TransformSchema = z.object({
 
     opacity:
         z.number()
+        .min(0)
+        .max(100)
         .optional(),
 
     // AI SCHEMA

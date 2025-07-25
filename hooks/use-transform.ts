@@ -55,8 +55,33 @@ export const useTransform = () => {
       gen_image_prompt: "",
       gen_variation: false,
       smart_crop: false,
-      face_crop: false
+      face_crop: false,
+      object_aware_crop: undefined,
       //EFFECTS OPTIONS
+      contrast: false,
+      sharpen: false,
+      sharpen_val: undefined,
+      shadow: false,
+      shadow_blur: undefined,
+      shadow_saturation: undefined,
+      x_offset: undefined,
+      y_offset: undefined,
+      gradient: false,
+      linear_direction: undefined,
+      from_color: "#FFFFFF",
+      to_color: "#000000",
+      stop_point: undefined,
+      grayscale: false,
+      blur: undefined,
+      trim_edges: false,
+      trim_edges_val: undefined,
+      border: undefined,
+      border_color: "#FFFFFF",
+      rotate: undefined,
+      flip: undefined,
+      radius: "",
+      background_color: "#FFFFFF",
+      opacity: undefined,
     }
   });
     
@@ -83,9 +108,9 @@ export const useTransform = () => {
     const watchedLy = watch("ly");
     const watchedOverlayType = watch("overlay_type");
     const watchedTextAlign = watch("text_align");
-    const watchedRotate = watch("O_rotate");
+    const watchedoRotate = watch("O_rotate");
     const watchedRadiusCorner = watch("O_radius_corner");
-    const watchedFlip = watch("text_flip");
+    const watchedOFlip = watch("text_flip");
     const watchedPositionType = watch("position_type");
     const watchedRelativePosition = watch("relative_position");
 
@@ -105,6 +130,32 @@ export const useTransform = () => {
     const watchedGen_variation = watch('gen_variation');
     const watchedSmart_crop = watch('smart_crop');
     const watchedFace_crop = watch('face_crop');
+    const watchedObject_aware_crop = watch('object_aware_crop');
+
+    const watchedContrast = watch("contrast")
+    const watchedSharpen = watch("sharpen")
+    const watchedSharpen_val = watch("sharpen_val")
+    const watchedShadow = watch("shadow")
+    const watchedShadow_blur = watch("shadow_blur")
+    const watchedShadow_saturation = watch("shadow_saturation")
+    const watchedX_offset = watch("x_offset")
+    const watchedY_offset = watch("y_offset")
+    const watchedGradient = watch("gradient")
+    const watchedLinear_direction = watch("linear_direction")
+    const watchedFrom_color = watch("from_color")
+    const watchedTo_color = watch("to_color")
+    const watchedStop_point = watch("stop_point")
+    const watchedGrayscale = watch("grayscale")
+    const watchedBlur = watch("blur")
+    const watchedTrim_edges = watch("trim_edges")
+    const watchedTrim_edges_val = watch("trim_edges_val")
+    const watchedBorder = watch("border")
+    const watchedBorder_color = watch("border_color")
+    const watchedRotate = watch("rotate")
+    const watchedFlip = watch("flip")
+    const watchedRadius = watch("radius")
+    const watchedBackground_color = watch("background_color")
+    const watchedOpacity = watch("opacity")
 
     const isInitialMount = useRef(true);
     
@@ -127,7 +178,7 @@ export const useTransform = () => {
         }
 
         const newUrl = `${url}${transformationString}`;
-        console.log("Submitting new URL:", newUrl);
+        console.log(newUrl);
         // setTransformUrl(newUrl);
     }, [url, setTransformUrl]);
 
@@ -148,12 +199,10 @@ export const useTransform = () => {
             submitHandler(getValues());
         }, 300);
 
-
-
         return () => clearTimeout(timeout);
     }, [
-    watchedWidth, watchedHeight, watchedCropStrategy, watchedTextPrompt, watchedFontFamily, watchedTypography, watchedRadiusCorner, watchedAspectRatio, watchedFocus, watchedPaddingColor, watchedOWidth, watchedOHeight, watchedFontSize, watchedFontColor, watchedBackgroundColor, watchedPadding, watchedLineHeight, watchedLx, watchedLy, watchedOverlayType, watchedTextAlign, watchedRotate, watchedFlip, watchedPositionType, watchedRelativePosition, watchedBg_remove, watchedE_dropshadow, watchedAzimuth, watchedElevation, watchedSaturation, watchedChange_bg, watchedChange_prompt, watchedEdit_image, watchedEdit_prompt, watchedRetouch, watchedUpscale, watchedGen_image, watchedGen_image_prompt, watchedGen_variation, watchedSmart_crop, watchedFace_crop , submitHandler, getValues
+    watchedWidth, watchedHeight, watchedCropStrategy, watchedTextPrompt, watchedFontFamily, watchedTypography, watchedRadiusCorner, watchedAspectRatio, watchedFocus, watchedPaddingColor, watchedOWidth, watchedOHeight, watchedFontSize, watchedFontColor, watchedBackgroundColor, watchedPadding, watchedLineHeight, watchedLx, watchedLy, watchedOverlayType, watchedTextAlign, watchedoRotate, watchedOFlip, watchedPositionType, watchedRelativePosition, watchedBg_remove, watchedE_dropshadow, watchedAzimuth, watchedElevation, watchedSaturation, watchedChange_bg, watchedChange_prompt, watchedEdit_image, watchedEdit_prompt, watchedRetouch, watchedUpscale, watchedGen_image, watchedGen_image_prompt, watchedGen_variation, watchedSmart_crop, watchedFace_crop,watchedContrast, watchedSharpen, watchedSharpen_val, watchedShadow, watchedShadow_blur, watchedShadow_saturation, watchedX_offset, watchedY_offset, watchedGradient, watchedLinear_direction, watchedFrom_color, watchedTo_color, watchedStop_point, watchedGrayscale, watchedBlur, watchedTrim_edges, watchedTrim_edges_val, watchedBorder, watchedBorder_color, watchedRotate, watchedFlip, watchedRadius, watchedBackground_color, watchedOpacity, watchedObject_aware_crop, submitHandler, getValues
     ]);
 
-    return {form, formState, handleSubmit, submitHandler, watchedOverlayType, watchedPositionType, control, watchedHeight, watchedWidth, watchedCropStrategy, watchedE_dropshadow, watchedChange_bg, watchedEdit_image, watchedGen_image}
+    return {form, formState, handleSubmit, submitHandler, watchedOverlayType, watchedPositionType, control, watchedHeight, watchedWidth, watchedCropStrategy, watchedE_dropshadow, watchedChange_bg, watchedEdit_image, watchedGen_image, watchedSharpen, watchedShadow, watchedGradient, watchedTrim_edges,}
 }

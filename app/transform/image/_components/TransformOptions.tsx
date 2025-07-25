@@ -8,7 +8,7 @@ import AiOptions from "./AiOptions"
 export default function TransformOptions({
     title
 }: {title: string}) {
-  const { form, handleSubmit, submitHandler, watchedOverlayType, watchedPositionType, watchedCropStrategy, watchedHeight, watchedWidth, control, watchedE_dropshadow, watchedChange_bg, watchedEdit_image, watchedGen_image } = useTransform();
+  const { form, handleSubmit, submitHandler, watchedOverlayType, watchedPositionType, watchedCropStrategy, watchedHeight, watchedWidth, control, watchedE_dropshadow, watchedChange_bg, watchedEdit_image, watchedGen_image, watchedSharpen, watchedTrim_edges, watchedShadow, watchedGradient } = useTransform();
 
   return (
     <Form {...form}>
@@ -23,7 +23,7 @@ export default function TransformOptions({
             
             {title === "AI Transformations" && <AiOptions watchedE_dropshadow={watchedE_dropshadow!} watchedChange_bg={watchedChange_bg!} watchedEdit_image={watchedEdit_image!} watchedGen_image={watchedGen_image!}  control={control} form={form} />}
             
-            {title === "Effects and Enhancements" && <EffectsOptions />}
+            {title === "Effects and Enhancements" && <EffectsOptions  watchedSharpen={watchedSharpen!} watchedTrim_edges={watchedTrim_edges!} watchedShadow={watchedShadow!} watchedGradient={watchedGradient!} control={control} form={form} />}
         </form>
     </Form>
   )

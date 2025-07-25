@@ -32,8 +32,18 @@ export function formatDateWithOrdinal(dateInput: string | number | Date) {
   return `${month} ${day}${ordinal} ${year}`;
 }
 
+function stringToBase64Url(str: string) {
+  // Encode the string to Base64
+  const base64 = btoa(str);
+
+  // Convert Base64 to Base64 URL-encoded by replacing '+' with '-', '/' with '_', and removing padding '='
+  const base64Url = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+  return base64Url;
+}
+
 export function buildParams(values: TransformType): string[]{
-  const {width, height, padding_color, aspect_ratio, focus, crop_strategy} = values;
+  const {width, height, padding_color, aspect_ratio, focus, crop_strategy, bg_remove, e_dropshadow, azimuth, elevation, saturation, change_bg, change_prompt, edit_image, edit_prompt, retouch, upscale, gen_image, gen_image_prompt, gen_variation, smart_crop, face_crop, object_aware_crop, contrast, sharpen, sharpen_val, shadow, shadow_blur, shadow_saturation, x_offset, y_offset, gradient, linear_direction, from_color, to_color, stop_point, grayscale, blur, trim_edges, trim_edges_val, border, border_color, rotate, flip, radius, background_color, opacity, O_width, O_height, O_background_color, O_radius_corner, O_rotate, overlay_type, text_align, text_flip, text_prompt, font_color, font_family, font_size, padding, position_type, line_height, typography, lx, ly, relative_position} = values;
   const params: string[] = [];
 
   if (width) {
