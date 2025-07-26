@@ -13,8 +13,7 @@ export default function EffectsOptions({
   watchedTrim_edges, 
   watchedShadow, 
   watchedGradient,
-  control,
-  form, 
+  control, 
 }: {
   watchedSharpen: boolean, 
   watchedTrim_edges: boolean, 
@@ -366,7 +365,7 @@ export default function EffectsOptions({
             <FormItem className="grid gap-7">
                 <FormLabel>Stop point</FormLabel>
               <FormControl>
-                <Slider defaultValue={[0.00]} value={field.value} min={0.00} max={1} step={0.01} onValueChange={field.onChange} />
+                <Slider defaultValue={[0]} value={field.value} min={0.00} max={1} step={0.01} onValueChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -468,8 +467,8 @@ export default function EffectsOptions({
                 <FormControl>
                   <Input
                     type="number"
-                    min={0}
-                    max={359}
+                    min={-180}
+                    max={180}
                     placeholder="0"
                     {...field}
                   />

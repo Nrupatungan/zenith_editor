@@ -67,9 +67,9 @@ export const useTransform = () => {
       x_offset: undefined,
       y_offset: undefined,
       gradient: false,
-      linear_direction: undefined,
+      linear_direction: 0,
       from_color: "#FFFFFF",
-      to_color: "#000000",
+      to_color: "#00000000",
       stop_point: undefined,
       grayscale: false,
       blur: undefined,
@@ -80,7 +80,7 @@ export const useTransform = () => {
       rotate: undefined,
       flip: undefined,
       radius: "",
-      background_color: "#FFFFFF",
+      background_color: undefined,
       opacity: undefined,
     }
   });
@@ -177,8 +177,10 @@ export const useTransform = () => {
             transformationString = '';
         }
 
-        const newUrl = `${url}${transformationString}`;
-        console.log(newUrl);
+        console.log(transformationString);
+
+        // const newUrl = `${url}${transformationString}`;
+        // console.log(newUrl);
         // setTransformUrl(newUrl);
     }, [url, setTransformUrl]);
 

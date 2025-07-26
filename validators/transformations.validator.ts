@@ -195,7 +195,7 @@ const TransformSchema = z.object({
     stop_point:
         z.number()
         .min(0.01)
-        .max(0.99)
+        .max(1)
         .optional(),
 
     grayscale:
@@ -228,8 +228,8 @@ const TransformSchema = z.object({
 
     rotate:
         z.number()
-        .min(0, '0 to 359')
-        .max(359, '0 to 359')
+        .min(-180, '0 to 180')
+        .max(180, '0 to 180')
         .optional(),
     
     flip:
