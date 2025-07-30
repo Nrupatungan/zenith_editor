@@ -32,10 +32,6 @@ const TransformSchema = z.object({
         .transform(e => e === "none" ? undefined : e)
         .optional(),
 
-    padding_color: 
-        z.string()
-        .optional(),
-
     // OVERLAY SCHEMA
     overlay_type: 
         z.enum(["text", "color_block"])
@@ -94,9 +90,9 @@ const TransformSchema = z.object({
         .optional(),
     
     O_rotate:
-        z.number() //0-359
-        .max(0, '0 to 359')
-        .min(359, '0 to 359')
+        z.number() //-180 to 180
+        .max(180, '-180 to 180')
+        .min(-180, '-180 to 180')
         .optional(),
     
     text_flip:

@@ -145,7 +145,7 @@ export default function OverlayOptions({
                                         <ToggleGroup type="single" variant="outline">
                                             <ToggleGroupItem value="b" aria-label="Toggle bold"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600"
-                                            onSelect={() => {
+                                            onClick={(e) => {
                                                 form.setValue("typography", "b")
                                             }}
                                             title="Bold"
@@ -155,7 +155,7 @@ export default function OverlayOptions({
                                             
                                             <ToggleGroupItem value="i" aria-label="Toggle italic"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600"
-                                            onSelect={() => {
+                                            onClick={(e) => {
                                                 form.setValue("typography", "i")
                                             }}
                                             title="Italic"
@@ -165,7 +165,7 @@ export default function OverlayOptions({
 
                                             <ToggleGroupItem value="b_i" aria-label="Toggle italic"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600 flex gap-0"
-                                            onSelect={() => {
+                                            onClick={(e) => {
                                                 form.setValue("typography", "b_i")
                                             }}
                                             title="Bold_italic"
@@ -176,7 +176,7 @@ export default function OverlayOptions({
 
                                             <ToggleGroupItem value="none" aria-label="Toggle italic"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600 flex gap-0"
-                                            onSelect={() => {
+                                            onClick={(e) => {
                                                 form.setValue("typography", "none")
                                             }}
                                             title="None"
@@ -417,8 +417,8 @@ export default function OverlayOptions({
                                             <FormControl>
                                                 <Input
                                                 type="number"
-                                                min={0}
-                                                max={359}
+                                                min={-180}
+                                                max={180}
                                                 placeholder="eg 0"
                                                 {...field}
                                                 />
@@ -510,16 +510,15 @@ export default function OverlayOptions({
                                 </FormControl>
                                 <SelectContent>
                                     <SelectItem value="none">Select an option</SelectItem>
-                                    <SelectItem value="fo-custom">Custom</SelectItem>
-                                    <SelectItem value="fo-center">Center</SelectItem>
-                                    <SelectItem value="fo-top">Top</SelectItem>
-                                    <SelectItem value="fo-left">Left</SelectItem>
-                                    <SelectItem value="fo-bottom">Bottom</SelectItem>
-                                    <SelectItem value="fo-right">Right</SelectItem>
-                                    <SelectItem value="fo-top_left">Top left</SelectItem>
-                                    <SelectItem value="fo-top_right">Top right</SelectItem>
-                                    <SelectItem value="fo-bottom_left">Bottom left</SelectItem>
-                                    <SelectItem value="fo-bottom_right">Bottom right</SelectItem>
+                                    <SelectItem value="center">Center</SelectItem>
+                                    <SelectItem value="top">Top</SelectItem>
+                                    <SelectItem value="left">Left</SelectItem>
+                                    <SelectItem value="bottom">Bottom</SelectItem>
+                                    <SelectItem value="right">Right</SelectItem>
+                                    <SelectItem value="top_left">Top left</SelectItem>
+                                    <SelectItem value="top_right">Top right</SelectItem>
+                                    <SelectItem value="bottom_left">Bottom left</SelectItem>
+                                    <SelectItem value="bottom_right">Bottom right</SelectItem>
                                 </SelectContent>
                                 </Select>
                                 <FormMessage />

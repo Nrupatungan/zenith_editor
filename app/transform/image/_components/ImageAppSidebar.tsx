@@ -19,7 +19,11 @@ import { NavUser } from "./nav-user"
 import { useSession } from "next-auth/react"
 import { data } from "@/lib/data"
 
-export function ImageAppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+interface ImageAppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  transform: any;
+}
+
+export function ImageAppSidebar({ transform, ...props }: ImageAppSidebarProps) {
   const session = useSession();
 
   const user = {
@@ -51,7 +55,7 @@ export function ImageAppSidebar({ ...props }: React.ComponentProps<typeof Sideba
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} transform={transform} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser

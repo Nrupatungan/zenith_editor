@@ -9,12 +9,14 @@ export default function ResizeOptions({
     watchedHeight,
     watchedWidth,
     watchedCropStrategy,
-    control
+    control,
+    form
 }: {
     watchedHeight: string | undefined,
     watchedWidth: string | undefined,
     watchedCropStrategy: TransformType['crop_strategy']
     control: any
+    form: any
 }) {
 
   const getFocusOptions = (strategy: TransformType['crop_strategy']) => {
@@ -191,12 +193,12 @@ export default function ResizeOptions({
 
           {(watchedCropStrategy === "cm-pad_extract" || watchedCropStrategy === "cm-pad_resize") && <FormField
             control={control}
-            name="padding_color"
+            name="background_color"
             render={({ field }) => (
               <FormItem className='grid gap-2'>
                 <FormLabel>Padding Color</FormLabel>
-                <FormControl className='w-20'>
-                  <Input
+                <FormControl>
+                  <input
                     type="color"
                     {...field}
                   />

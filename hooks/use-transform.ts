@@ -15,7 +15,6 @@ export const useTransform = () => {
       //RESIZE OPTIONS 
       width: "",
       height: "",
-      padding_color: undefined,
       crop_strategy: undefined,
       aspect_ratio: undefined,
       focus: undefined,
@@ -25,8 +24,8 @@ export const useTransform = () => {
       text_prompt: "",
       font_family: undefined,
       font_size: undefined,
-      font_color: "#000000",
-      O_background_color: "#FFFFFF",
+      font_color: undefined,
+      O_background_color: undefined,
       padding: "",
       line_height: "",
       typography: undefined,
@@ -68,15 +67,15 @@ export const useTransform = () => {
       y_offset: undefined,
       gradient: false,
       linear_direction: 0,
-      from_color: "#FFFFFF",
-      to_color: "#00000000",
+      from_color: undefined,
+      to_color: undefined,
       stop_point: undefined,
       grayscale: false,
       blur: undefined,
       trim_edges: false,
       trim_edges_val: undefined,
       border: undefined,
-      border_color: "#FFFFFF",
+      border_color: undefined,
       rotate: undefined,
       flip: undefined,
       radius: "",
@@ -92,7 +91,6 @@ export const useTransform = () => {
     const watchedCropStrategy = watch("crop_strategy");
     const watchedAspectRatio = watch("aspect_ratio");
     const watchedFocus = watch("focus");
-    const watchedPaddingColor = watch("padding_color");
     
     const watchedOWidth = watch("O_width");
     const watchedOHeight = watch("O_height");
@@ -177,11 +175,9 @@ export const useTransform = () => {
             transformationString = '';
         }
 
-        console.log(transformationString);
-
-        // const newUrl = `${url}${transformationString}`;
-        // console.log(newUrl);
-        // setTransformUrl(newUrl);
+        const newUrl = `${url}${transformationString}`;
+        console.log(newUrl);
+        setTransformUrl(newUrl);
     }, [url, setTransformUrl]);
 
     useEffect(() => {
@@ -203,7 +199,7 @@ export const useTransform = () => {
 
         return () => clearTimeout(timeout);
     }, [
-    watchedWidth, watchedHeight, watchedCropStrategy, watchedTextPrompt, watchedFontFamily, watchedTypography, watchedRadiusCorner, watchedAspectRatio, watchedFocus, watchedPaddingColor, watchedOWidth, watchedOHeight, watchedFontSize, watchedFontColor, watchedBackgroundColor, watchedPadding, watchedLineHeight, watchedLx, watchedLy, watchedOverlayType, watchedTextAlign, watchedoRotate, watchedOFlip, watchedPositionType, watchedRelativePosition, watchedBg_remove, watchedE_dropshadow, watchedAzimuth, watchedElevation, watchedSaturation, watchedChange_bg, watchedChange_prompt, watchedEdit_image, watchedEdit_prompt, watchedRetouch, watchedUpscale, watchedGen_image, watchedGen_image_prompt, watchedGen_variation, watchedSmart_crop, watchedFace_crop,watchedContrast, watchedSharpen, watchedSharpen_val, watchedShadow, watchedShadow_blur, watchedShadow_saturation, watchedX_offset, watchedY_offset, watchedGradient, watchedLinear_direction, watchedFrom_color, watchedTo_color, watchedStop_point, watchedGrayscale, watchedBlur, watchedTrim_edges, watchedTrim_edges_val, watchedBorder, watchedBorder_color, watchedRotate, watchedFlip, watchedRadius, watchedBackground_color, watchedOpacity, watchedObject_aware_crop, submitHandler, getValues
+    watchedWidth, watchedHeight, watchedCropStrategy, watchedTextPrompt, watchedFontFamily, watchedTypography, watchedRadiusCorner, watchedAspectRatio, watchedFocus, , watchedOWidth, watchedOHeight, watchedFontSize, watchedFontColor, watchedBackgroundColor, watchedPadding, watchedLineHeight, watchedLx, watchedLy, watchedOverlayType, watchedTextAlign, watchedoRotate, watchedOFlip, watchedPositionType, watchedRelativePosition, watchedBg_remove, watchedE_dropshadow, watchedAzimuth, watchedElevation, watchedSaturation, watchedChange_bg, watchedChange_prompt, watchedEdit_image, watchedEdit_prompt, watchedRetouch, watchedUpscale, watchedGen_image, watchedGen_image_prompt, watchedGen_variation, watchedSmart_crop, watchedFace_crop,watchedContrast, watchedSharpen, watchedSharpen_val, watchedShadow, watchedShadow_blur, watchedShadow_saturation, watchedX_offset, watchedY_offset, watchedGradient, watchedLinear_direction, watchedFrom_color, watchedTo_color, watchedStop_point, watchedGrayscale, watchedBlur, watchedTrim_edges, watchedTrim_edges_val, watchedBorder, watchedBorder_color, watchedRotate, watchedFlip, watchedRadius, watchedBackground_color, watchedOpacity, watchedObject_aware_crop, submitHandler, getValues
     ]);
 
     return {form, formState, handleSubmit, submitHandler, watchedOverlayType, watchedPositionType, control, watchedHeight, watchedWidth, watchedCropStrategy, watchedE_dropshadow, watchedChange_bg, watchedEdit_image, watchedGen_image, watchedSharpen, watchedShadow, watchedGradient, watchedTrim_edges,}

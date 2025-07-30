@@ -1,3 +1,4 @@
+import useModalStore from "@/store";
 import { TransformType } from "@/validators/transformations.validator";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -43,35 +44,29 @@ function stringToBase64Url(str: string) {
 }
 
 function getShadowParam({shadow, shadow_blur, shadow_saturation, x_offset, y_offset}: {shadow: TransformType['shadow'], shadow_blur:TransformType['shadow_blur'], shadow_saturation: TransformType['shadow_saturation'], x_offset: TransformType['x_offset'], y_offset: TransformType['y_offset']}) {
-  // If shadow is not enabled, return an empty string or null
+
   if (!shadow) {
     return null;
   }
 
   let paramString = "e-shadow";
 
-  // Check if any of the specific shadow parameters are provided
-  // If all are undefined/null/0, it means the default "e-shadow" is desired
   if (shadow_blur || shadow_saturation || x_offset || y_offset) {
     paramString += "-";
 
-    // Append blur if provided
+
     if (shadow_blur) {
       paramString += `bl-${shadow_blur}`;
     }
 
-    // Append saturation if provided
     if (shadow_saturation) {
-      // Add underscore separator only if blur was added or it's the first parameter
       if (shadow_blur) {
         paramString += "_";
       }
       paramString += `st-${shadow_saturation}`;
     }
 
-    // Append x-offset if provided
     if (x_offset) {
-      // Add underscore separator only if blur or saturation was added
       if (shadow_blur || shadow_saturation) {
         paramString += "_";
       }
@@ -79,13 +74,11 @@ function getShadowParam({shadow, shadow_blur, shadow_saturation, x_offset, y_off
       paramString += `x-${formattedXOffset}`;
     }
 
-    // Append y-offset if provided, handling negative values with 'N'
     if (y_offset) {
-      // Add underscore separator only if blur, saturation, or x-offset was added
       if (shadow_blur || shadow_saturation || x_offset) {
         paramString += "_";
       }
-      // Handle negative y_offset with 'N' prefix
+
       const formattedYOffset = y_offset < 0 ? `N${Math.abs(y_offset)}` : y_offset;
       paramString += `y-${formattedYOffset}`;
     }
@@ -93,6 +86,33 @@ function getShadowParam({shadow, shadow_blur, shadow_saturation, x_offset, y_off
 
   return paramString;
 }
+
+function getDropShadow({e_dropshadow, azimuth, elevation, saturation}: {e_dropshadow:TransformType['e_dropshadow'], azimuth:TransformType['azimuth'], elevation:TransformType['elevation'], saturation:TransformType['saturation']}) {
+  if (!e_dropshadow) {
+    return null;
+  }
+
+  let paramString = "e-dropshadow";
+  let parts = [];
+
+  if (azimuth !== undefined && azimuth !== null) {
+    parts.push(`az-${azimuth}`);
+  }
+  if (elevation !== undefined && elevation !== null) {
+    parts.push(`el-${elevation}`);
+  }
+  if (saturation !== undefined && saturation !== null) {
+    parts.push(`st-${saturation}`);
+  }
+
+  if (parts.length > 0) {
+    paramString += "-" + parts.join("_");
+  }
+
+  return paramString;
+}
+
+
 
 function getGradientParam({gradient, linear_direction, from_color, to_color, stop_point}: {gradient:TransformType['gradient'], linear_direction:TransformType['linear_direction'], from_color:TransformType['from_color'], to_color:TransformType['to_color'], stop_point:TransformType['stop_point']}) {
   if (!gradient) {
@@ -129,24 +149,169 @@ function getZero(number: number){
 }
 
 export function buildParams(values: TransformType): string[]{
-  const {width, height, padding_color, aspect_ratio, focus, crop_strategy, bg_remove, e_dropshadow, azimuth, elevation, saturation, change_bg, change_prompt, edit_image, edit_prompt, retouch, upscale, gen_image, gen_image_prompt, gen_variation, smart_crop, face_crop, object_aware_crop, contrast, sharpen, sharpen_val, shadow, shadow_blur, shadow_saturation, x_offset, y_offset, gradient, linear_direction, from_color, to_color, stop_point, grayscale, blur, trim_edges, trim_edges_val, border, border_color, rotate, flip, radius, background_color, opacity, O_width, O_height, O_background_color, O_radius_corner, O_rotate, overlay_type, text_align, text_flip, text_prompt, font_color, font_family, font_size, padding, position_type, line_height, typography, lx, ly, relative_position} = values;
+  const {width, height, aspect_ratio, focus, crop_strategy, bg_remove, e_dropshadow, azimuth, elevation, saturation, change_bg, change_prompt, edit_image, edit_prompt, retouch, upscale, gen_image, gen_image_prompt, gen_variation, smart_crop, face_crop, object_aware_crop, contrast, sharpen, sharpen_val, shadow, shadow_blur, shadow_saturation, x_offset, y_offset, gradient, linear_direction, from_color, to_color, stop_point, grayscale, blur, trim_edges, trim_edges_val, border, border_color, rotate, flip, radius, background_color, opacity, O_width, O_height, O_background_color, O_radius_corner, O_rotate, overlay_type, text_align, text_flip, text_prompt, font_color, font_family, font_size, padding, position_type, line_height, typography, lx, ly, relative_position} = values;
 
   const params: string[] = [];
+
+  if(bg_remove && !e_dropshadow){
+    params.push("e-bgremove")
+  }
+
+  if(bg_remove && e_dropshadow){
+    params.push(`e-bgremove:${getDropShadow({e_dropshadow, azimuth, elevation, saturation})!}`)
+  }
+
+  if(e_dropshadow && !bg_remove){
+    params.push(getDropShadow({e_dropshadow, azimuth, elevation, saturation})!)
+  }
+
+  if(change_bg && change_prompt && !edit_image){
+    params.push(`e-changebg-prompte-${stringToBase64Url(change_prompt)}`)
+  }
+
+  if(edit_image && edit_prompt && !change_bg){
+    params.push(`e-edit-prompte-${stringToBase64Url(edit_prompt)}`)
+  }
+
+  if(gen_image && gen_image_prompt){
+    const {setUrl} = useModalStore();
+    const newUrl = `${process.env.NEXT_PUBLIC_URL_ENDPOINT}/ik-genimg-prompt-${gen_image_prompt}]/gen-${Math.floor(Math.random() * 1000)}.jpg`
+    setUrl(newUrl)
+  }
+
+  if(retouch){
+    params.push("e-retouch")
+  }
+
+  if(upscale){
+    params.push("e-upscale")
+  }
 
   if(sharpen && !sharpen_val){
     params.push("e-sharpen")
   }
+  
+  if(object_aware_crop){
+    params.push(`fo-${object_aware_crop}`)
+  }
 
+  if(overlay_type === "text"){
+    params.push("l-text")
+
+    if(text_prompt){
+      params.push(`ie-${encodeURIComponent(btoa(text_prompt))}`)
+    }
+
+    if(font_family){
+      params.push(`ff-${font_family}`)
+    }
+
+    if(O_background_color){
+      params.push(`bg-${O_background_color}`)
+    }
+
+    if(font_color){
+      params.push(`co-${font_color}`)
+    }
+
+    if(font_size){
+      params.push(`fs-${Number(font_size) < 0 ? "0" : font_size}`)
+    }
+
+    if(text_align){
+      params.push(`ia-${text_align}`)
+    }
+
+    if(padding){
+      params.push(`pa-${Number(padding) < 0 ? "0" : padding}`)
+    }
+
+    if(position_type === "positional" && relative_position){
+      params.push(`lfo-${relative_position}`)
+    }
+
+    if(position_type === "axis"){
+      if(lx){
+        const formattedLx = lx < 0 ? `N${Math.abs(lx)}` : lx;
+        params.push(`lx-${formattedLx}`)
+      }
+
+      if(ly){
+        const formatteLy = ly < 0 ? `N${Math.abs(ly)}` : ly;
+        params.push(`ly-${formatteLy}`)
+      }
+    }
+
+    if(typography){
+      params.push(`tg-${typography}`)
+    }
+
+    if(line_height){
+      params.push(`lh-${Number(line_height) < 0 ? "0" : line_height}`)
+    }
+
+    if(O_width){
+      params.push(`w-${Number(O_width) < 0 ? "0" : O_width}`)
+    }
+
+    if(O_radius_corner){
+      params.push(`r-${Number(O_radius_corner) < 0 ? "0" : O_radius_corner}`)
+    }
+
+    if(O_rotate){
+      const formattedRotate = O_rotate < 0 ? `N${Math.abs(O_rotate)}` : O_rotate;
+      params.push(`rt-${formattedRotate}`)
+    }
+
+    if(text_flip){
+      params.push(text_flip)
+    }
+
+    params.push("l-end")
+  }
+
+  if(overlay_type === "color_block"){
+    params.push("l-image")
+
+    params.push("i-ik_canvas")
+
+    if(O_background_color){
+      params.push(`bg-${O_background_color}`)
+    }
+
+    if(O_width){
+      params.push(`w-${Number(O_width) < 0 ? "0" : O_width}`)
+    }
+
+    if(O_height){
+      params.push(`h-${Number(O_height) < 0 ? "0" : O_height}`)
+    }
+
+    if(O_radius_corner){
+      params.push(`r-${Number(O_radius_corner) < 0 ? "0" : O_radius_corner}`)
+    }
+
+    if(position_type === "positional" && relative_position){
+      params.push(`lfo-${relative_position}`)
+    }
+
+    if(position_type === "axis"){
+      if(lx){
+        const formattedLx = lx < 0 ? `N${Math.abs(lx)}` : lx;
+        params.push(`lx-${formattedLx}`)
+      }
+
+      if(ly){
+        const formatteLy = ly < 0 ? `N${Math.abs(ly)}` : ly;
+        params.push(`ly-${formatteLy}`)
+      }
+    }
+
+    params.push("l-end")
+  }
+  
   if(sharpen && sharpen_val){
     params.push(`e-sharpen-${sharpen_val}`)
-  }
-
-  if(trim_edges && !trim_edges_val){
-    params.push("trim")
-  }
-
-  if(trim_edges && trim_edges_val){
-    params.push(`trim-${trim_edges_val}`)
   }
 
   if (shadow) {
@@ -162,6 +327,18 @@ export function buildParams(values: TransformType): string[]{
   }
   if (height) {
     params.push(`h-${height}`);
+  }
+
+  if(gen_variation && width && height){
+    params.push(':e-genvar')
+  }
+
+  if(face_crop && width && height){
+    params.push('fo-face')
+  }
+
+  if(smart_crop && width && height){
+    params.push('fo-auto')
   }
 
   const gradientParam = getGradientParam({gradient, linear_direction, from_color, to_color, stop_point});
@@ -185,6 +362,14 @@ export function buildParams(values: TransformType): string[]{
     params.push("e-grayscale")
   }
 
+  if(trim_edges && !trim_edges_val){
+    params.push("trim")
+  }
+
+  if(trim_edges && trim_edges_val){
+    params.push(`trim-${trim_edges_val}`)
+  }
+
   if(rotate){
     const formattedRotateVal = rotate < 0 ? `N${Math.abs(rotate)}` : rotate;
     params.push(`rt-${formattedRotateVal}`)
@@ -202,10 +387,6 @@ export function buildParams(values: TransformType): string[]{
     params.push(`o-${getZero(opacity)}`)
   }
 
-  if(background_color){
-    params.push(`bg-${background_color}`)
-  }
-
   if (aspect_ratio) {
     params.push(`ar-${aspect_ratio}`);
   }
@@ -214,12 +395,16 @@ export function buildParams(values: TransformType): string[]{
     if (crop_strategy === "cm-pad_extract" || crop_strategy === "cm-pad_resize") {
       params.push(crop_strategy);
       // Ensure padding_color is valid before adding
-      if (padding_color) {
-          params.push(`bg-${padding_color.slice(1).toUpperCase()}`);
+      if (background_color) {
+          params.push(`bg-${background_color.slice(1).toUpperCase()}`);
       }
     } else {
       params.push(crop_strategy);
     }
+  }
+
+  if(background_color && !crop_strategy){
+    params.push(`bg-${background_color.slice(1).toUpperCase()}`)
   }
 
   if(focus){

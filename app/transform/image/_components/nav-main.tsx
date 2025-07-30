@@ -17,6 +17,7 @@ import TransformOptions from "./TransformOptions"
 
 export function NavMain({
   items,
+  transform
 }: {
   items: {
     title: string
@@ -31,7 +32,8 @@ export function NavMain({
         info: string,
       }[]
     }[]
-  }[]
+  }[],
+  transform: any
 }) {
 
   return (
@@ -58,7 +60,7 @@ export function NavMain({
               <CollapsibleContent>
                 <SidebarMenuSub className="p-0 mx-1">
                   {/* Options */}
-                  <TransformOptions title={item.title} />
+                  <TransformOptions title={item.title} {...transform} />
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
