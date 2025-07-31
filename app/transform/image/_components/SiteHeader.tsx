@@ -86,14 +86,7 @@ export function SiteHeader() {
               </TooltipContent>
             </Tooltip>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button className='cursor-pointer' onClick={handleDownload}><Download /></Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Download</p>
-              </TooltipContent>
-            </Tooltip>
+            <Button className='cursor-pointer' onClick={handleDownload}><Download />Download</Button>
       </div>
     </header>
   )

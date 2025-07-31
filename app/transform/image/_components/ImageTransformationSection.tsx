@@ -1,5 +1,6 @@
 "use client"
 
+import { Slider } from '@/components/ui/slider'
 import useModalStore from '@/store'
 import { useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
@@ -9,8 +10,12 @@ const ImageTransformationSection = () => {
   const searchParams = useSearchParams()
   const objectUrl = searchParams.get('objectUrl')
   const [isLoading, setIsLoading] = useState(true)
+  const [sliderValue, setSliderValue] = useState([100]); // Start at 100 for no zoom
 
   const imageSrc = transformUrl || (objectUrl as string)
+
+  // Calculate the scale factor from the slider value (e.g., 100 -> 1, 50 -> 0.5)
+  const scale = sliderValue[0] / 100;
 
   return (
     <div className='bg-gray-500/15 flex-1 rounded-xl shadow-xl md:min-h-min overflow-hidden'>
@@ -25,9 +30,23 @@ const ImageTransformationSection = () => {
           <img
             src={imageSrc}
             alt="Transformed Image"
-            style={{ maxWidth: '100%', maxHeight: '100%', display: isLoading ? 'none' : 'block' }}
+            style={{
+              transform: `scale(${scale})`,
+              transformOrigin: 'center center',
+              display: isLoading ? 'none' : 'block'
+            }}
             onLoad={() => setIsLoading(false)}
           />
+          <div className='fixed bottom-3 w-[10rem] py-3 h-5 bg-transparent backdrop-blur-sm flex items-center'>
+            <Slider
+              defaultValue={[50]}
+              value={sliderValue}
+              min={10}
+              max={200} // Increased max to allow for zoom-in
+              step={10}
+              onValueChange={setSliderValue}
+            />
+          </div>
         </div>
       </div>
     </div>
