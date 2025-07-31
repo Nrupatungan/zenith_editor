@@ -126,10 +126,10 @@ function getGradientParam({gradient, linear_direction, from_color, to_color, sto
     parts.push(`ld-${getZero(linear_direction)}`);
   }
   if (from_color) {
-    parts.push(`from-${from_color}`);
+    parts.push(`from-${from_color.slice(1).toUpperCase()}40`);
   }
   if (to_color) {
-    parts.push(`to-${to_color}`);
+    parts.push(`to-${to_color.slice(1).toUpperCase()}40`);
   }
   // Check for undefined/null as 0 is a valid stop_point
   if (stop_point !== undefined && stop_point !== null) {
@@ -195,7 +195,7 @@ export function buildParams(values: TransformType): string[]{
     params.push(`fo-${object_aware_crop}`)
   }
 
-  if(overlay_type === "text"){
+  if(overlay_type === "text" && text_prompt){
     params.push("l-text")
 
     if(text_prompt){
@@ -207,11 +207,11 @@ export function buildParams(values: TransformType): string[]{
     }
 
     if(O_background_color){
-      params.push(`bg-${O_background_color}`)
+      params.push(`bg-${O_background_color.slice(1).toUpperCase()}`)
     }
 
     if(font_color){
-      params.push(`co-${font_color}`)
+      params.push(`co-${font_color.slice(1).toUpperCase()}`)
     }
 
     if(font_size){
@@ -276,7 +276,7 @@ export function buildParams(values: TransformType): string[]{
     params.push("i-ik_canvas")
 
     if(O_background_color){
-      params.push(`bg-${O_background_color}`)
+      params.push(`bg-${O_background_color.slice(1).toUpperCase()}`)
     }
 
     if(O_width){
@@ -322,15 +322,15 @@ export function buildParams(values: TransformType): string[]{
     params.push(`bl-${getZero(blur)}`)
   }
 
-  if (width) {
+  if (width && !gen_variation) {
     params.push(`w-${width}`);
   }
-  if (height) {
+  if (height && !gen_variation) {
     params.push(`h-${height}`);
   }
 
-  if(gen_variation && width && height){
-    params.push(':e-genvar')
+  if (gen_variation && width && height) {
+    params.push(`w-${width},h-${height}:e-genvar`)
   }
 
   if(face_crop && width && height){
@@ -351,7 +351,7 @@ export function buildParams(values: TransformType): string[]{
   }
 
   if(border && border_color){
-    params.push(`b-${getZero(border)}_${border_color}`);
+    params.push(`b-${getZero(border)}_${border_color.slice(1).toUpperCase()}`);
   }
 
   if(contrast){
