@@ -153,3 +153,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes gradient-flow {
+  0% {
+    background-position-x: 0%;
+  }
+  100% {
+    background-position-x: -200%;
+  }
+}
+
+.animate-gradient-flow {
+  animation: gradient-flow 8s linear infinite;
+}

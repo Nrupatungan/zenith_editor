@@ -15,6 +15,7 @@ model User {
   password      String?
   emailVerified DateTime?
   image         String?
+  isPremium     Boolean   @default(false)
   accounts      Account[]
   sessions      Session[]
   objects       Object[]
@@ -22,7 +23,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([id, email, password])
+  @@index([id, email, password, isPremium])
 }
 
 model Account {

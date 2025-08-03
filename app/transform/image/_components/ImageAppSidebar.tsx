@@ -18,18 +18,21 @@ import {
 import { NavUser } from "./nav-user"
 import { useSession } from "next-auth/react"
 import { data } from "@/lib/data"
+import { useTransform } from '@/hooks/use-transform'
 
 interface ImageAppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  transform: any;
+  isPremium: any;
 }
 
-export function ImageAppSidebar({ transform, ...props }: ImageAppSidebarProps) {
+export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
   const session = useSession();
+  const transform = useTransform();
 
   const user = {
     name: session.data?.user?.name ?? 'John Doe',
     email: session.data?.user?.email ?? 'example@email.com',
-    image: session.data?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg'
+    image: session.data?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
+    isPremium: isPremium ?? false,
   }
 
   return (

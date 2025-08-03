@@ -50,6 +50,7 @@ export function NavUser({
     name: string
     email: string
     image?: string
+    isPremium: boolean
   }
 }) {
   const { isMobile } = useSidebar()
@@ -108,13 +109,17 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem className="text-amber-600 focus:text-amber-600 focus:bg-slate-200/80 dark:focus:bg-slate-50/20 cursor-pointer dark:text-amber-300 dark:focus:text-amber-500 font-semibold">
-                <Sparkles className="text-amber-500 fill-amber-500" />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            {!user.isPremium &&
+              <>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="text-amber-600 focus:text-amber-600 focus:bg-slate-200/80 dark:focus:bg-slate-50/20 cursor-pointer dark:text-amber-300 dark:focus:text-amber-500 font-semibold">
+                    <Sparkles className="text-amber-500 fill-amber-500" />
+                    Upgrade to Pro
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+              </>
+            }
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck />

@@ -62,6 +62,13 @@ class ApiClient {
             body: {id}
         })
     }
+
+    async createOrder(amount: number){
+        return this.fetch('/create-order', {
+            method: "POST",
+            body: {amount}
+        })
+    }
     
 }
 
