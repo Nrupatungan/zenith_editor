@@ -4,6 +4,7 @@ import EffectsOptions from "./EffectsOptions"
 import { Form } from "@/components/ui/form"
 import AiOptions from "./AiOptions"
 import { TransformType } from "@/validators/transformations.validator"
+import AiPremium from "./AiPremium"
 
 interface TransformOptionsProps {
     isPremium: boolean;
@@ -45,7 +46,15 @@ export default function TransformOptions({
 
             {title === "Add overlays" && <OverlayOptions watchedOverlayType={watchedOverlayType} watchedPositionType={watchedPositionType} control={control} form={form} />}
             
-            {(title === "AI Transformations" && isPremium) && <AiOptions watchedE_dropshadow={watchedE_dropshadow!} watchedChange_bg={watchedChange_bg!} watchedEdit_image={watchedEdit_image!} watchedGen_image={watchedGen_image!}  control={control} form={form} />}
+            {(title === "AI Transformations" && isPremium) 
+            &&
+            <AiOptions watchedE_dropshadow={watchedE_dropshadow!} watchedChange_bg={watchedChange_bg!} watchedEdit_image={watchedEdit_image!} watchedGen_image={watchedGen_image!}  control={control} form={form} />
+            }
+
+            {(title === "AI Transformations" && !isPremium)
+            &&
+            <AiPremium />
+            }
             
             {title === "Effects and Enhancements" && <EffectsOptions  watchedSharpen={watchedSharpen!} watchedTrim_edges={watchedTrim_edges!} watchedShadow={watchedShadow!} watchedGradient={watchedGradient!} control={control} form={form} />}
         </form>

@@ -1,3 +1,4 @@
+import { ValidateProps } from "@/app/api/validate-order/route";
 import { Object } from "@/app/generated/prisma";
 
 type FetchOptions = {
@@ -70,6 +71,12 @@ class ApiClient {
         })
     }
     
+    async validateOrder({razorpay_payment_id, razorpay_order_id, razorpay_signature}: ValidateProps){
+        return this.fetch('/validate-order', {
+            method: "POST",
+            body: {razorpay_order_id, razorpay_payment_id, razorpay_signature}
+        })
+    }
 }
 
 export const apiClient = new ApiClient();

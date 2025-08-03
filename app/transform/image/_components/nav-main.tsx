@@ -45,7 +45,7 @@ export function NavMain({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title} hidden={item.title === "AI Transformations" && !isPremium} className="cursor-pointer" 
+              <SidebarMenuButton asChild tooltip={item.title} className="cursor-pointer" 
               >
                   <div>
                     <item.icon />
@@ -54,7 +54,6 @@ export function NavMain({
               </SidebarMenuButton>
               <CollapsibleTrigger asChild>
                 <SidebarMenuAction className="data-[state=open]:rotate-90"
-                hidden={item.title === "AI Transformations" && !isPremium}
                 >
                   <ChevronRight />
                   <span className="sr-only">Toggle</span>
