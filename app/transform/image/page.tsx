@@ -19,7 +19,7 @@ const ImageTransformPage = async () => {
     <>
       <SiteHeader />
       <div className="flex flex-1">
-        <ImageAppSidebar isPremium={isPremiumResult?.isPremium} />
+        <ImageAppSidebar isPremium={isPremiumResult?.isPremium ?? false} />
         <SidebarInset className='overflow-hidden'>
             <div className="flex flex-1 flex-col">
               <ImageTransformationSection />

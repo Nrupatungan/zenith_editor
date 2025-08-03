@@ -17,7 +17,8 @@ import TransformOptions from "./TransformOptions"
 
 export function NavMain({
   items,
-  transform
+  transform,
+  isPremium
 }: {
   items: {
     title: string
@@ -33,7 +34,8 @@ export function NavMain({
       }[]
     }[]
   }[],
-  transform: any
+  transform: any,
+  isPremium: boolean
 }) {
 
   return (
@@ -43,15 +45,16 @@ export function NavMain({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip={item.title} className="cursor-pointer" 
+              <SidebarMenuButton asChild tooltip={item.title} hidden={item.title === "AI Transformations" && !isPremium} className="cursor-pointer" 
               >
                   <div>
                     <item.icon />
-                    <span>{item.title}</span>
+                     <span>{item.title}</span>
                   </div>
               </SidebarMenuButton>
               <CollapsibleTrigger asChild>
                 <SidebarMenuAction className="data-[state=open]:rotate-90"
+                hidden={item.title === "AI Transformations" && !isPremium}
                 >
                   <ChevronRight />
                   <span className="sr-only">Toggle</span>
@@ -60,7 +63,7 @@ export function NavMain({
               <CollapsibleContent>
                 <SidebarMenuSub className="p-0 mx-1">
                   {/* Options */}
-                  <TransformOptions title={item.title} {...transform} />
+                  <TransformOptions title={item.title} {...transform} isPremium={isPremium} />
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>

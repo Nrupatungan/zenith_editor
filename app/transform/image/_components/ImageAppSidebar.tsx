@@ -21,7 +21,7 @@ import { data } from "@/lib/data"
 import { useTransform } from '@/hooks/use-transform'
 
 interface ImageAppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  isPremium: any;
+  isPremium: boolean;
 }
 
 export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
@@ -58,7 +58,7 @@ export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} transform={transform} />
+        <NavMain items={data.navMain} transform={transform} isPremium={isPremium}/>
       </SidebarContent>
       <SidebarFooter>
         <NavUser

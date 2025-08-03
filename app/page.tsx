@@ -5,14 +5,28 @@ import { apiClient } from "@/lib/api-client";
 import { Object } from "./generated/prisma";
 import { formatDateWithOrdinal } from "@/lib/utils";
 import { auth } from "@/lib/next-auth/auth";
+import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
   const session = await auth();
   const objects = await apiClient.getObjects(session?.user?.id!);
+  const isPremiumResult = await prisma.user.findFirst({
+        where: {
+            id: session?.user?.id
+        },
+        select: { isPremium: true }
+  })
+
+  const user = {
+        name: session?.user?.name ?? 'John Doe',
+        email: session?.user?.email ?? 'example@email.com',
+        image: session?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
+        isPremium: isPremiumResult?.isPremium ?? false,
+    }
   
   return (
     <div className="bg-gray-100 dark:bg-background">
-      <Navbar/>
+      <Navbar user={user}/>
       <main className='container mx-auto px-7'>
           <div className='py-8 min-h-screen'>
             <div className="flex justify-between items-center mb-8">

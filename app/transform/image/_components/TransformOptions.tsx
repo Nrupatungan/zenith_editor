@@ -6,6 +6,7 @@ import AiOptions from "./AiOptions"
 import { TransformType } from "@/validators/transformations.validator"
 
 interface TransformOptionsProps {
+    isPremium: boolean;
     title: string;
     form: any;
     handleSubmit: (handler: any) => any;
@@ -28,6 +29,7 @@ interface TransformOptionsProps {
 
 export default function TransformOptions({
     title,
+    isPremium,
     ...transform
 }: TransformOptionsProps) {
   const {form, handleSubmit, submitHandler, watchedOverlayType, watchedPositionType, watchedCropStrategy, watchedHeight, watchedWidth, control, watchedE_dropshadow, watchedChange_bg, watchedEdit_image, watchedGen_image, watchedSharpen, watchedTrim_edges, watchedShadow, watchedGradient} = transform
@@ -43,7 +45,7 @@ export default function TransformOptions({
 
             {title === "Add overlays" && <OverlayOptions watchedOverlayType={watchedOverlayType} watchedPositionType={watchedPositionType} control={control} form={form} />}
             
-            {title === "AI Transformations" && <AiOptions watchedE_dropshadow={watchedE_dropshadow!} watchedChange_bg={watchedChange_bg!} watchedEdit_image={watchedEdit_image!} watchedGen_image={watchedGen_image!}  control={control} form={form} />}
+            {(title === "AI Transformations" && isPremium) && <AiOptions watchedE_dropshadow={watchedE_dropshadow!} watchedChange_bg={watchedChange_bg!} watchedEdit_image={watchedEdit_image!} watchedGen_image={watchedGen_image!}  control={control} form={form} />}
             
             {title === "Effects and Enhancements" && <EffectsOptions  watchedSharpen={watchedSharpen!} watchedTrim_edges={watchedTrim_edges!} watchedShadow={watchedShadow!} watchedGradient={watchedGradient!} control={control} form={form} />}
         </form>

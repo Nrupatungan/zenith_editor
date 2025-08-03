@@ -2,14 +2,11 @@
 
 import {
   BadgeCheck,
-  Bell,
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  Moon,
   Palette,
   Sparkles,
-  Sun,
 } from "lucide-react"
 
 import {
@@ -42,6 +39,7 @@ import { getInitials } from "@/lib/utils"
 import { signoutAction } from "@/actions/signout-action"
 import { useTheme } from "next-themes"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export function NavUser({
   user,
@@ -56,6 +54,7 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const { setTheme } = useTheme()
   const [position, setPosition] = useState("system")
+  const router = useRouter()
 
   const handleChange = (e: string) => {
     setPosition(e)
@@ -68,6 +67,10 @@ export function NavUser({
       }catch(err){
       console.error(err)
       }
+  }
+
+  const handleRoute = () => {
+    router.push("/purchase")
   }
 
   return (
@@ -112,7 +115,9 @@ export function NavUser({
             {!user.isPremium &&
               <>
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className="text-amber-600 focus:text-amber-600 focus:bg-slate-200/80 dark:focus:bg-slate-50/20 cursor-pointer dark:text-amber-300 dark:focus:text-amber-500 font-semibold">
+                  <DropdownMenuItem className="text-amber-600 focus:text-amber-600 focus:bg-slate-200/80 dark:focus:bg-slate-50/20 cursor-pointer dark:text-amber-300 dark:focus:text-amber-500 font-semibold"
+                  onClick={handleRoute}
+                  >
                     <Sparkles className="text-amber-500 fill-amber-500" />
                     Upgrade to Pro
                   </DropdownMenuItem>
