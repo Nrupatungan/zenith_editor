@@ -9,7 +9,7 @@ type FetchOptions = {
 
 export type ObjectFormData = Omit<Object, "createdAt" | "updatedAt" | "id">;
 
-function getBaseUrl() {
+export function getBaseUrl() {
     if (typeof window !== "undefined") {
         // Running on the client
         return "";
@@ -47,7 +47,7 @@ class ApiClient {
     }
 
     async getObjects(id: string) {
-        return this.fetch(`/objects?id=${id}`);
+        return this.fetch(`/objects?id=${id}&take=6&skip=6`);
     }
 
     async createObject(objectData: ObjectFormData) {

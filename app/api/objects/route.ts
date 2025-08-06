@@ -7,10 +7,24 @@ type bodyType = Omit<Object, "createdAt" | "updatedAt" | "id">
 export async function GET(request: NextRequest){
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    // Pagination parameters
+    const takeParam = searchParams.get("take");
+    const skipParam = searchParams.get("skip");
 
     if(!id){
         return NextResponse.json(
             { error: "Missing required field" },
+            { status: 400 }
+        );
+    }
+
+    const take = takeParam ? parseInt(takeParam, 10) : undefined;
+    const skip = skipParam ? parseInt(skipParam, 10) : undefined;
+
+    // Validation for pagination parameters to ensure they are positive numbers
+    if ((take !== undefined && isNaN(take)) || (skip !== undefined && isNaN(skip))) {
+        return NextResponse.json(
+            { error: "Invalid pagination parameters. 'take' and 'skip' must be numbers." },
             { status: 400 }
         );
     }
@@ -22,11 +36,14 @@ export async function GET(request: NextRequest){
             },
             orderBy: {
                 createdAt: "desc"
-            }
+            },
+            take: take,
+            skip: skip,
         })
-
+        
         return NextResponse.json(objects ?? [], {status: 200});
     } catch (error) {
+        console.error("Failed to fetch objects:", error);
         return NextResponse.json(
             {error: "Failed to fetch objects"},
             {status: 500}

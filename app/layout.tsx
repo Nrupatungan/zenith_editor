@@ -32,19 +32,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-          >
-            <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}>
-              {children}
-              <Toaster richColors expand={true} />
-            </ImageKitProvider>
-          </ThemeProvider>
-        </SessionProvider>
+            <SessionProvider>
+                <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+                >
+                    <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}>
+                        {children}
+                        <Toaster richColors expand={true} />
+                    </ImageKitProvider>
+                </ThemeProvider>
+            </SessionProvider>
       </body>
     </html>
   );
