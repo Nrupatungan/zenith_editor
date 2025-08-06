@@ -23,7 +23,6 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { deleteImageKitFile } from "@/actions/delete-imagekit-file-action"
 import useModalStore from "@/store"
-import { mutate } from "swr"
 
 export interface ObjectCardProps{
     title: string
@@ -94,7 +93,7 @@ const ObjectCard = ({
         toast.promise(deleteDbPromise, {
           loading: 'Loading...',
           success: () => {
-            mutateObject && mutateObject();
+            if(mutateObject) mutateObject();
             return `Deleted Successfully from database`;
           },
           error: 'Error deleting from database',

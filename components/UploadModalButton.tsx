@@ -29,7 +29,7 @@ import useModalStore from "@/store"
 const UploadModalButton =  () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession()
-  const {progress, handleUpload, url, fileId} = useUpload() 
+  const {progress, handleUpload} = useUpload() 
   const router = useRouter()
   const {mutateObject} = useModalStore()
 
@@ -58,7 +58,7 @@ const UploadModalButton =  () => {
         toast.success("File uploaded Successfully")
         setOpen(false); // Close the dialog
         reset(); // Reset the form fields
-        mutateObject && mutateObject();
+        if(mutateObject) mutateObject();
         router.push("/");
       } else {
         toast.error(res.error)

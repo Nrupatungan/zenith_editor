@@ -331,7 +331,7 @@ export default function AiOptions({
                           </FormLabel>
                       </TooltipTrigger>
                       <TooltipContent side="top" className="w-64 text-justify">
-                          <p>Improve the quality of an image using the e-retouch transformation parameter. The input image's resolution must be less than 16 MP.</p>
+                          <p>Improve the quality of an image using the e-retouch transformation parameter. The input image&apos;s resolution must be less than 16 MP.</p>
                       </TooltipContent>
                 </Tooltip>
               </div>
@@ -358,7 +358,7 @@ export default function AiOptions({
                           </FormLabel>
                       </TooltipTrigger>
                       <TooltipContent side="top" className="w-64 text-justify">
-                          <p>Increase the resolution of an image using the e-upscale transformation parameter. The input image's resolution must be less than 16 MP. The output image's resolution will be 16 MP.</p>
+                          <p>Increase the resolution of an image using the e-upscale transformation parameter. The input image&apos;s resolution must be less than 16 MP. The output image&apos;s resolution will be 16 MP.</p>
                       </TooltipContent>
                 </Tooltip>
               </div>

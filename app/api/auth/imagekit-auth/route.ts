@@ -1,4 +1,5 @@
 import { getUploadAuthParams } from "@imagekit/next/server"
+import { NextResponse } from "next/server";
 
 export async function GET() {
 
@@ -10,13 +11,15 @@ export async function GET() {
             // token: "random-token", // Optional, a unique token for request
         })
     
-        return Response.json({ token, expire, signature, publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY })
+        return Response.json({ token, expire, signature, publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY }, {status: 200})
     } catch (error) {
-        return Response.json(
+        // Log the error to explicitly use the 'error' variable and aid debugging
+        console.error("ImageKit authentication failed:", error);
+        return NextResponse.json(
             {
                 error: "Authentication for imagekit failed"
             },
-            { status: 500}
+            { status: 500 }
         )
     }
 }

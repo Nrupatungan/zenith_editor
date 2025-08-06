@@ -176,7 +176,7 @@ export default function EffectsOptions({
                     </FormLabel>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="w-64 text-justify">
-                    <p>The shadow is applied under the areas constituted by the non-transparent pixels in the input image. You can adjust the shadow's saturation, blur level, and positional offsets with the following parameters.</p>
+                    <p>The shadow is applied under the areas constituted by the non-transparent pixels in the input image. You can adjust the shadow&apos;s saturation, blur level, and positional offsets with the following parameters.</p>
                 </TooltipContent>
                 </Tooltip>
               </div>

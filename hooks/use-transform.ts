@@ -176,7 +176,6 @@ export const useTransform = () => {
         }
 
         const newUrl = `${url}${transformationString}`;
-        console.log(newUrl);
         setTransformUrl(newUrl);
     }, [url, setTransformUrl]);
 

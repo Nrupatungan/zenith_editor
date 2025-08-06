@@ -140,12 +140,12 @@ export default function OverlayOptions({
                             <FormField
                                 control={control}
                                 name="typography"
-                                render={({ field }) => (
+                                render={() => (
                                     <FormItem>
                                         <ToggleGroup type="single" variant="outline">
                                             <ToggleGroupItem value="b" aria-label="Toggle bold"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600"
-                                            onClick={(e) => {
+                                            onClick={() => {
                                                 form.setValue("typography", "b")
                                             }}
                                             title="Bold"
@@ -155,7 +155,7 @@ export default function OverlayOptions({
                                             
                                             <ToggleGroupItem value="i" aria-label="Toggle italic"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600"
-                                            onClick={(e) => {
+                                            onClick={() => {
                                                 form.setValue("typography", "i")
                                             }}
                                             title="Italic"
@@ -165,7 +165,7 @@ export default function OverlayOptions({
 
                                             <ToggleGroupItem value="b_i" aria-label="Toggle italic"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600 flex gap-0"
-                                            onClick={(e) => {
+                                            onClick={() => {
                                                 form.setValue("typography", "b_i")
                                             }}
                                             title="Bold_italic"
@@ -176,7 +176,7 @@ export default function OverlayOptions({
 
                                             <ToggleGroupItem value="none" aria-label="Toggle italic"
                                             className="data-[state=on]:bg-gray-300 dark:data-[state=on]:bg-gray-600 flex gap-0"
-                                            onClick={(e) => {
+                                            onClick={() => {
                                                 form.setValue("typography", "none")
                                             }}
                                             title="None"
@@ -410,7 +410,7 @@ export default function OverlayOptions({
                                                     </FormLabel>
                                                 </TooltipTrigger>
                                                 <TooltipContent side="right" className="w-64 text-justify">
-                                                    <p>It is used to specify the degree by which the overlay text must be rotated. It accepts any number 0 to 180 for a clockwise rotation, or any number preceded with "-" e.g. -45, or -180 for counter-clockwise rotation.</p>
+                                                    <p>It is used to specify the degree by which the overlay text must be rotated. It accepts any number 0 to 180 for a clockwise rotation, or any number preceded with &quot;-&quot; e.g. -45, or -180 for counter-clockwise rotation.</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                             

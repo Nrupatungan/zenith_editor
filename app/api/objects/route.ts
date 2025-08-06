@@ -66,6 +66,7 @@ export async function POST(request: NextRequest){
         }) 
         return NextResponse.json(newObject, {status: 200});
     } catch (error) {
+        console.error("Object Creation failed:", error);
         return NextResponse.json(
             {error: "Failed to create object"},
             {status: 500}
@@ -90,6 +91,7 @@ export async function DELETE(request: NextRequest){
         })
         return NextResponse.json(deletedObject, {status: 200});
     } catch (error) {
+        console.error("Object Deletion failed:", error);
         return NextResponse.json(
             { error: "Failed to delete object" },
             { status: 500 }
