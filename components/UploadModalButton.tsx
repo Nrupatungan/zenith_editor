@@ -11,13 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from "./ui/input"
 import { Loader2, UploadIcon } from "lucide-react"
@@ -30,6 +23,7 @@ import { uploadAction } from "@/actions/upload-action"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { useState } from "react"
+import useModalStore from "@/store"
 
 
 const UploadModalButton =  () => {
@@ -37,6 +31,7 @@ const UploadModalButton =  () => {
   const { data: session } = useSession()
   const {progress, handleUpload, url, fileId} = useUpload() 
   const router = useRouter()
+  const {mutateObject} = useModalStore()
 
   const form = useForm<UploadFileType>({
     resolver: zodResolver(UploadFileSchema),
@@ -63,6 +58,7 @@ const UploadModalButton =  () => {
         toast.success("File uploaded Successfully")
         setOpen(false); // Close the dialog
         reset(); // Reset the form fields
+        mutateObject && mutateObject();
         router.push("/");
       } else {
         toast.error(res.error)

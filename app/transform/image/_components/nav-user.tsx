@@ -39,7 +39,7 @@ import { getInitials } from "@/lib/utils"
 import { signoutAction } from "@/actions/signout-action"
 import { useTheme } from "next-themes"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 
 export function NavUser({
   user,
@@ -54,7 +54,6 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const { setTheme } = useTheme()
   const [position, setPosition] = useState("system")
-  const router = useRouter()
 
   const handleChange = (e: string) => {
     setPosition(e)
@@ -67,10 +66,6 @@ export function NavUser({
       }catch(err){
       console.error(err)
       }
-  }
-
-  const handleRoute = () => {
-    router.push("/purchase")
   }
 
   return (
@@ -116,7 +111,7 @@ export function NavUser({
               <>
                 <DropdownMenuGroup>
                   <DropdownMenuItem className="text-amber-600 focus:text-amber-600 focus:bg-slate-200/80 dark:focus:bg-slate-50/20 cursor-pointer dark:text-amber-300 dark:focus:text-amber-500 font-semibold"
-                  onClick={handleRoute}
+                  onClick={() => redirect("/purchase")}
                   >
                     <Sparkles className="text-amber-500 fill-amber-500" />
                     Upgrade to Pro
@@ -126,11 +121,15 @@ export function NavUser({
               </>
             }
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+              onClick={() => redirect("/profile")}
+              >
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+              onClick={() => redirect("/billing")}
+              >
                 <CreditCard />
                 Billing
               </DropdownMenuItem>

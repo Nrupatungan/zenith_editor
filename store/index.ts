@@ -10,6 +10,7 @@ type modalState = {
     transformUrl: string,
 
     resetForm?: () => void,
+    mutateObject?: () => void,
 };
   
 type modalAction = {
@@ -27,6 +28,8 @@ type modalAction = {
     setTransformUrl: (transformUrl: modalState['transformUrl']) => void;
 
     setResetForm: (fn: () => void) => void;
+
+    setMutateObjects: (fn: () => void) => void;
 };
 
 const useModalStore = create<modalState & modalAction>((set) => ({
@@ -39,6 +42,7 @@ const useModalStore = create<modalState & modalAction>((set) => ({
     url: "",
     transformUrl: "",
     resetForm: undefined,
+    mutateObject: undefined,
 
     // functions
     openResizeModal: () => set(() => ({resizeModalState: true})),
@@ -57,6 +61,8 @@ const useModalStore = create<modalState & modalAction>((set) => ({
     setTransformUrl: (transformUrl) => set(() => ({transformUrl: transformUrl})),
 
     setResetForm: (fn) => set(() => ({ resetForm: fn })),
+
+    setMutateObjects: (fn) => set(() => ({ mutateObject: fn})),
 }));
   
 export default useModalStore;

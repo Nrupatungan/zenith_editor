@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import ObjectCard from './ObjectCard'
 import useSWR from "swr"
 import { Object } from '@/app/generated/prisma'
 import { formatDateWithOrdinal } from '@/lib/utils'
 import fetcher from '@/lib/fetcher'
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination'
+import useModalStore from '@/store';
 
 function ImageGrid({
     id,
@@ -18,9 +19,10 @@ function ImageGrid({
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
+    const {setMutateObjects} = useModalStore()
     const skip = useMemo(() => (currentPage - 1) * itemsPerPage, [currentPage, itemsPerPage]);
 
-    const { data: objects, error, isLoading } = useSWR<Object[]>(`/objects?id=${id}&take=${itemsPerPage}&skip=${skip}`, fetcher);
+    const { data: objects, error, isLoading, mutate } = useSWR<Object[]>(`/objects?id=${id}&take=${itemsPerPage}&skip=${skip}`, fetcher);
 
     // Calculate the total number of pages
     const totalPages = useMemo(() => Math.ceil(objectCount / itemsPerPage), [objectCount, itemsPerPage]);
@@ -36,6 +38,10 @@ function ImageGrid({
     const handlePageClick = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
+
+    useEffect(() => {
+        setMutateObjects(mutate)
+    }, [])
 
     if (isLoading) return <div className="text-center py-8">Loading objects...</div>;
     if (error) return <div className="text-center py-8 text-red-500">Failed to load objects.</div>;
@@ -57,7 +63,6 @@ function ImageGrid({
                             objectUrl={object.objectUrl}
                             title={object.title}
                             alt={object.alt ?? ""}
-                            createdAt={formatDateWithOrdinal(object.createdAt)}
                         />
                     ))
                 ) : (

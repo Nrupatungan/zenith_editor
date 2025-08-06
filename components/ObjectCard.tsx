@@ -23,10 +23,10 @@ import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { deleteImageKitFile } from "@/actions/delete-imagekit-file-action"
 import useModalStore from "@/store"
+import { mutate } from "swr"
 
 export interface ObjectCardProps{
     title: string
-    createdAt?: string
     alt?: string
     objectUrl: string
     id: string
@@ -35,14 +35,13 @@ export interface ObjectCardProps{
 
 const ObjectCard = ({
     title,
-    createdAt,
     alt,
     objectUrl,
     id,
     fileId
 }: ObjectCardProps) => {
   const router = useRouter()
-  const {setUrl, setTransformUrl} = useModalStore()
+  const {setUrl, setTransformUrl, mutateObject} = useModalStore()
 
   const handleClick = () => {
     const params = new URLSearchParams({
@@ -95,12 +94,12 @@ const ObjectCard = ({
         toast.promise(deleteDbPromise, {
           loading: 'Loading...',
           success: () => {
+            mutateObject && mutateObject();
             return `Deleted Successfully from database`;
           },
           error: 'Error deleting from database',
         })
       }
-
     } catch (error) {
       console.error(error);
       toast.error("Couldn't delete the file");

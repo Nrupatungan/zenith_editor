@@ -19,6 +19,7 @@ import { NavUser } from "./nav-user"
 import { useSession } from "next-auth/react"
 import { data } from "@/lib/data"
 import { useTransform } from '@/hooks/use-transform'
+import { redirect } from "next/navigation"
 
 interface ImageAppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   isPremium: boolean;
@@ -43,7 +44,10 @@ export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg"
+            className="cursor-pointer"
+            onClick={() => redirect('/')}
+            asChild>
               <div>
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <Command className="size-4" />

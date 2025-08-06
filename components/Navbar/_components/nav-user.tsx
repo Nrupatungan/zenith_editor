@@ -110,7 +110,7 @@ const NavUser = ({
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem
-              onClick={() => redirect("/pricing")}
+              onClick={() => redirect("/billing")}
               >
                 <CreditCard />
                 Billing

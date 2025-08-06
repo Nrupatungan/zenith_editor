@@ -29,16 +29,20 @@ export default async function Home() {
   return (
     <div className="bg-gray-100 dark:bg-background">
       <Navbar user={user}/>
-      <main className='container mx-auto px-7 relative'>
-          <div className='py-8 min-h-screen'>
-            <div className="flex justify-between items-center py-5 bg-background sticky top-16 left-0 z-10">
-              <h1 className="text-2xl md:text-3xl underline font-semibold">Your Images</h1>
-              <UploadModalButton />
-            </div>
 
-            <ImageGrid id={session?.user?.id!} objectCount={objectCount}/>
-          </div>
+      <div className="fixed top-16 left-0 right-0 z-10 bg-background shadow-md">
+        <div className="container mx-auto px-7 flex justify-between items-center py-5">
+          <h1 className="text-2xl md:text-3xl underline font-semibold">Your Images</h1>
+          <UploadModalButton />
+        </div>
+      </div>
+
+      {/* Main Content Section */}
+      <main className='container mx-auto px-7 relative overflow-hidden'>
+        <div className={`py-8 min-h-screen pt-[90px]`}>
+          <ImageGrid id={session?.user?.id!} objectCount={objectCount}/>
+        </div>
       </main>
-    </div>    
+    </div>
   );
 }
