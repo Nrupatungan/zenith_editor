@@ -1,7 +1,7 @@
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "../prisma"
-import { authConfig } from "./auth.config"
+import { authConfig } from "@/lib/next-auth/auth.config"
 import { oauthVerifyEmailAction } from "@/actions/oauth-verify-email-action"
 import Credentials from "next-auth/providers/credentials"
 import { SignInSchema } from "@/validators/signin.validator"
