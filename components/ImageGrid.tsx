@@ -4,9 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 import ObjectCard from './ObjectCard'
 import useSWR from "swr"
 import { Object } from '@/app/generated/prisma'
-import { formatDateWithOrdinal } from '@/lib/utils'
 import fetcher from '@/lib/fetcher'
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination'
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination'
 import useModalStore from '@/store';
 
 function ImageGrid({
