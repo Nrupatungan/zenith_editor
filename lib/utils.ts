@@ -1,4 +1,4 @@
-import useModalStore from "@/store";
+// import useModalStore from "@/store";
 import { TransformType } from "@/validators/transformations.validator";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -173,11 +173,11 @@ export function buildParams(values: TransformType): string[]{
     params.push(`e-edit-prompte-${stringToBase64Url(edit_prompt)}`)
   }
 
-  if(gen_image && gen_image_prompt){
-    const {setUrl} = useModalStore();
-    const newUrl = `${process.env.NEXT_PUBLIC_URL_ENDPOINT}/ik-genimg-prompt-${gen_image_prompt}]/gen-${Math.floor(Math.random() * 1000)}.jpg`
-    setUrl(newUrl)
-  }
+  // if(gen_image && gen_image_prompt){
+  //   const {setUrl} = useModalStore();
+  //   const newUrl = `${process.env.NEXT_PUBLIC_URL_ENDPOINT}/ik-genimg-prompt-${gen_image_prompt}]/gen-${Math.floor(Math.random() * 1000)}.jpg`
+  //   setUrl(newUrl)
+  // }
 
   if(retouch){
     params.push("e-retouch")
