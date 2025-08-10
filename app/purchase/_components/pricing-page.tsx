@@ -5,7 +5,7 @@ import { RazorpayResponse } from '@/app/transform/image/_components/AiPremium';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader} from '@/components/ui/card';
 import { apiClient } from '@/lib/api-client';
-import { Box, CircleCheck, Codesandbox } from 'lucide-react';
+import { ArrowLeft, Box, CircleCheck, Codesandbox } from 'lucide-react';
 import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -54,7 +54,7 @@ function PricingPage() {
               console.error("Razorpay script not loaded.");
           }
   
-          router.push("/")
+          router.push("/purchase")
       } catch (error) {
           console.error("Payment failed", error);
       } finally{
@@ -63,8 +63,21 @@ function PricingPage() {
   
     }
 
+  const handlePreviousRoute = () => {
+    router.push("/")
+  }
+
   return (
     <main className='container mx-auto px-7 overflow-hidden space-y-10'>
+            <div className='relative'>
+                <Button variant="ghost"
+                onClick={handlePreviousRoute}
+                className='underline'
+                >
+                    <ArrowLeft/>
+                    Back
+                </Button>
+            </div>
             <div className='text-center pt-12 flex flex-col space-y-3'>
                 <h1 className='text-4xl font-bold'>Pricing plans</h1>
                 <p>Try our free tier forever. Switch plans or cancel anytime.</p>

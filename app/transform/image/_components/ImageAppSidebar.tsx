@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import {
+  ArrowLeft,
   Command,
 } from "lucide-react"
 
@@ -20,6 +21,7 @@ import { useSession } from "next-auth/react"
 import { data } from "@/lib/data"
 import { useTransform } from '@/hooks/use-transform'
 import { redirect } from "next/navigation"
+import { Button } from "@/components/ui/button"
 
 interface ImageAppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   isPremium: boolean;
@@ -48,14 +50,17 @@ export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
             className="cursor-pointer"
             onClick={() => redirect('/')}
             asChild>
-              <div>
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
+              <div className="flex justify-between">
+                <div className="flex gap-3">
+                  <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                    <Command className="size-4" />
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">Zenith Inc</span>
+                    <span className="truncate text-xs">Enterprise</span>
+                  </div>
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Zenith Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
-                </div>
+                <Button variant="outline"><ArrowLeft/>Back</Button>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

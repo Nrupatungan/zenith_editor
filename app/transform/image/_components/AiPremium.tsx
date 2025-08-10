@@ -4,8 +4,9 @@ import { paymentAction } from "@/actions/payment-action";
 import { Button } from "@/components/ui/button"
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
 import { apiClient } from "@/lib/api-client";
+import useModalStore from "@/store";
 import { CircleCheck, Codesandbox } from "lucide-react"
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export interface RazorpayOptions {
@@ -37,6 +38,10 @@ function AiPremium() {
   const AMOUNT = 5*100;
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { transformUrl } = useModalStore()
+  const searchParams = useSearchParams()
+  const objectUrl = searchParams.get('objectUrl')
+  const imageSrc = transformUrl || (objectUrl as string)
 
   const handlePayment = async () => {
     setLoading(true)
@@ -78,7 +83,7 @@ function AiPremium() {
             console.error("Razorpay script not loaded.");
         }
 
-        router.push("/")
+        router.push(`/transform/image?objectUrl=${imageSrc}`)
     } catch (error) {
         console.error("Payment failed", error);
     } finally{

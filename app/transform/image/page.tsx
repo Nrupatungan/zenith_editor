@@ -3,7 +3,7 @@ import { ImageAppSidebar } from './_components/ImageAppSidebar'
 import { SidebarInset } from '@/components/ui/sidebar'
 import ImageTransformationSection from './_components/ImageTransformationSection'
 import { auth } from '@/lib/next-auth/auth'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 
 
 const ImageTransformPage = async () => {

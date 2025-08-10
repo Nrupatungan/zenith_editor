@@ -1,5 +1,5 @@
 import { Object } from "@/app/generated/prisma";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 type bodyType = Omit<Object, "createdAt" | "updatedAt" | "id">

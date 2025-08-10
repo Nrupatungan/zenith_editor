@@ -1,7 +1,7 @@
 import Navbar from '@/components/Navbar'
 import PricingPage from './_components/pricing-page'
 import { auth } from '@/lib/next-auth/auth';
-import { prisma } from '@/lib/prisma';
+import prisma from '@/lib/prisma';
 
 async function PurchasePage() {
   const session = await auth();

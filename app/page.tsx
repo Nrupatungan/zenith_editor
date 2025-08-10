@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import UploadModalButton from "@/components/UploadModalButton";
 import { auth } from "@/lib/next-auth/auth";
-import { prisma } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import ImageGrid from "@/components/ImageGrid";
 
 export default async function Home() {

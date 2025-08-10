@@ -21,7 +21,7 @@ function ImageGrid({
     const {setMutateObjects} = useModalStore()
     const skip = useMemo(() => (currentPage - 1) * itemsPerPage, [currentPage, itemsPerPage]);
 
-    const { data: objects, error, isLoading, mutate } = useSWR<Object[]>(`/objects?id=${id}&take=${itemsPerPage}&skip=${skip}`, fetcher);
+    const { data: objects, error, isLoading, mutate } = useSWR<Object[]>(`/api/objects?id=${id}&take=${itemsPerPage}&skip=${skip}`, fetcher);
 
     // Calculate the total number of pages
     const totalPages = useMemo(() => Math.ceil(objectCount / itemsPerPage), [objectCount, itemsPerPage]);
