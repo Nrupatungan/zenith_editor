@@ -16,6 +16,8 @@ model User {
   emailVerified DateTime?
   image         String?
   isPremium     Boolean   @default(false)
+  location      String?
+  bio           String?
   accounts      Account[]
   sessions      Session[]
   objects       Object[]
