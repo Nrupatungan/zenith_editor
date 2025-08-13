@@ -85,7 +85,7 @@ async function ProfilePage() {
             
             <CardFooter className='flex-col gap-3'>
               {user?.password && <Button variant="outline" className="w-full">Change Password</Button>}
-              <DeleteButton />  
+              <DeleteButton email={user?.email!} />
             </CardFooter>
           </Card>
         </div>
