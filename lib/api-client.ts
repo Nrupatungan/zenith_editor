@@ -1,5 +1,6 @@
 import { ValidateProps } from "@/app/api/validate-order/route";
 import { Object } from "@/app/generated/prisma";
+import { ProfileType } from "@/validators/profile.validator";
 
 type FetchOptions = {
     method?: "POST" | "GET" | "PUT" | "DELETE";
@@ -75,6 +76,13 @@ class ApiClient {
         return this.fetch('/validate-order', {
             method: "POST",
             body: {razorpay_order_id, razorpay_payment_id, razorpay_signature}
+        })
+    }
+
+    async updateProfile(data: FormData){
+        return this.fetch('/update-profile', {
+            method: "POST",
+            body: data
         })
     }
 }

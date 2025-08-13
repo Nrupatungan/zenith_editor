@@ -1,4 +1,3 @@
-// import useModalStore from "@/store";
 import { TransformType } from "@/validators/transformations.validator";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -111,8 +110,6 @@ function getDropShadow({e_dropshadow, azimuth, elevation, saturation}: {e_dropsh
 
   return paramString;
 }
-
-
 
 function getGradientParam({gradient, linear_direction, from_color, to_color, stop_point}: {gradient:TransformType['gradient'], linear_direction:TransformType['linear_direction'], from_color:TransformType['from_color'], to_color:TransformType['to_color'], stop_point:TransformType['stop_point']}) {
   if (!gradient) {
@@ -414,4 +411,9 @@ export function buildParams(values: TransformType): string[]{
   }
 
   return params;
+}
+
+export const getS3KeyFromUrl = (url: string | null | undefined, endpoint: string): string | null => {
+    if (!url) return null;
+    return url.replace(endpoint + '/', "");
 }
