@@ -17,26 +17,14 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { NavUser } from "./nav-user"
-import { useSession } from "next-auth/react"
 import { data } from "@/lib/data"
 import { useTransform } from '@/hooks/use-transform'
 import { redirect } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { NavUserProps } from "@/components/Navbar/_components/nav-user"
 
-interface ImageAppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  isPremium: boolean;
-}
-
-export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
-  const session = useSession();
+export function ImageAppSidebar({ user, ...props }: NavUserProps) {
   const transform = useTransform();
-
-  const user = {
-    name: session.data?.user?.name ?? 'John Doe',
-    email: session.data?.user?.email ?? 'example@email.com',
-    image: session.data?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
-    isPremium: isPremium ?? false,
-  }
 
   return (
     <Sidebar
@@ -67,7 +55,7 @@ export function ImageAppSidebar({ isPremium, ...props }: ImageAppSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} transform={transform} isPremium={isPremium}/>
+        <NavMain items={data.navMain} transform={transform} isPremium={user.isPremium}/>
       </SidebarContent>
       <SidebarFooter>
         <NavUser

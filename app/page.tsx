@@ -6,11 +6,10 @@ import ImageGrid from "@/components/ImageGrid";
 
 export default async function Home() {
   const session = await auth();
-  const isPremiumResult = await prisma.user.findFirst({
+  const userData = await prisma.user.findFirst({
         where: {
             id: session?.user?.id
         },
-        select: { isPremium: true }
   })
 
   const objectCount = await prisma.object.count({
@@ -20,10 +19,10 @@ export default async function Home() {
   })
 
   const user = {
-    name: session?.user?.name ?? 'John Doe',
-    email: session?.user?.email ?? 'example@email.com',
-    image: session?.user?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
-    isPremium: isPremiumResult?.isPremium ?? false,
+    name: userData?.name ?? 'John Doe',
+    email: userData?.email ?? 'example@email.com',
+    image: userData?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
+    isPremium: userData?.isPremium ?? false,
   }
   
   return (

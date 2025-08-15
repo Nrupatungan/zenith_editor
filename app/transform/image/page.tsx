@@ -8,18 +8,24 @@ import prisma from '@/lib/prisma'
 
 const ImageTransformPage = async () => {
   const session = await auth();
-  const isPremiumResult = await prisma.user.findFirst({
+  const userData = await prisma.user.findFirst({
       where: {
           id: session?.user?.id
-      },
-      select: { isPremium: true }
+      }
   })
+
+  const user = {
+    name: userData?.name ?? 'John Doe',
+    email: userData?.email ?? 'example@email.com',
+    image: userData?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
+    isPremium: userData?.isPremium ?? false,
+  }
 
   return (
     <>
       <SiteHeader />
       <div className="flex flex-1">
-        <ImageAppSidebar isPremium={isPremiumResult?.isPremium ?? false} />
+        <ImageAppSidebar user={user} />
         <SidebarInset className='overflow-hidden'>
             <div className="flex flex-1 flex-col">
               <ImageTransformationSection />

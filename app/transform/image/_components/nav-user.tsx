@@ -40,17 +40,9 @@ import { signoutAction } from "@/actions/signout-action"
 import { useTheme } from "next-themes"
 import { useState } from "react"
 import { redirect } from "next/navigation"
+import { NavUserProps } from "@/components/Navbar/_components/nav-user"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    image?: string
-    isPremium: boolean
-  }
-}) {
+export function NavUser({user}: NavUserProps) {
   const { isMobile } = useSidebar()
   const { setTheme } = useTheme()
   const [position, setPosition] = useState("system")
