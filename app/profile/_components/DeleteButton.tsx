@@ -4,7 +4,6 @@ import { deleteUserAction } from '@/actions/delete-user-action'
 import { signoutAction } from '@/actions/signout-action'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 import { toast } from 'sonner'
 
@@ -13,7 +12,6 @@ function DeleteButton({
 }: {
   email: string
 }) {
-  const router = useRouter();
 
   const handleDelete = async () => {
     try {
