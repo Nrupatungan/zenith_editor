@@ -83,12 +83,12 @@ function PricingPage() {
                 Back
             </Button>
         </div>
-        <div className='text-center pt-12 flex flex-col space-y-3'>
+        <div className='text-center flex flex-col space-y-3'>
             <h1 className='text-4xl font-bold'>Pricing plans</h1>
             <p>Try our free tier forever. Switch plans or cancel anytime.</p>
         </div>
-        <div className='w-2xl mx-auto grid grid-cols-2 gap-8'>
-            <Card>
+        <div className='w-2xl mx-auto grid grid-cols-2 gap-8 py-10'>
+            <Card className='shadow-2xl [box-shadow:0_0_35px_oklch(0.646_0.222_41.116)] dark:[box-shadow:0_0_35px_oklch(0.488_0.243_264.376)]'>
                 <CardHeader>
                     <span className='font-bold'
                     >
@@ -123,7 +123,7 @@ function PricingPage() {
                 </CardFooter>
             </Card>
 
-            <Card>
+            <Card className='shadow-2xl [box-shadow:0_0_35px_oklch(0.828_0.189_84.429)] dark:[box-shadow:0_0_35px_oklch(0.627_0.265_303.9)]'>
                 <CardHeader>
                     <span className='bg-[linear-gradient(to_right,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF,#DD7DDF,#E1CD86,#BBCB92,#71C2EF,#3BFFFF)] [background-size:200%] text-transparent bg-clip-text font-bold animate-gradient-flow'
                     >

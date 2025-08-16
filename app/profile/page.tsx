@@ -23,7 +23,7 @@ async function ProfilePage() {
       <div className='container mx-auto px-7 overflow-hidden relative'>
         <div className='min-h-screen grid place-items-center'>
           <TopBar/>
-          <Card className='w-sm'>
+          <Card className='w-sm [box-shadow:5px_10px_35px_oklch(0.606_0.25_292.717)]'>
             <CardHeader>
               <CardTitle>User Profile</CardTitle>
 
@@ -84,7 +84,7 @@ async function ProfilePage() {
             </CardContent>
             
             <CardFooter className='flex-col gap-3'>
-              {user?.password && <Button variant="outline" className="w-full">Change Password</Button>}
+              {user?.password && <Button variant="outline" className="w-full border-2">Change Password</Button>}
               <DeleteButton email={user?.email!} />
             </CardFooter>
           </Card>
