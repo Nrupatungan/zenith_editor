@@ -68,8 +68,7 @@ model VerificationToken {
 }
 
 model Object {
-  id        String  @id @default(cuid())
-  fileId    String
+  fileId    String  @id @default(cuid())
   userId    String
   title     String
   objectUrl String
@@ -79,5 +78,5 @@ model Object {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([id, objectUrl])
+  @@index([fileId, objectUrl])
 }
