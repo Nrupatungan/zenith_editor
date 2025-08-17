@@ -13,13 +13,11 @@ import {
 } from "@/components/ui/dialog"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from "./ui/input"
-import { Loader2, UploadIcon } from "lucide-react"
+import { Key, Loader2, UploadIcon } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import UploadFileSchema, { UploadFileType } from '@/validators/upload.validator'
 import { useRouter } from "next/navigation"
-import useUpload from "@/hooks/use-upload"
-import { uploadAction } from "@/actions/upload-action"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { useState } from "react"
@@ -28,15 +26,12 @@ import useModalStore from "@/store"
 
 const UploadModalButton =  () => {
   const [open, setOpen] = useState(false);
-  const { data: session } = useSession()
-  const {progress, handleUpload} = useUpload() 
-  const router = useRouter()
   const {mutateObject} = useModalStore()
 
   const form = useForm<UploadFileType>({
     resolver: zodResolver(UploadFileSchema),
     defaultValues: {
-      file: null,
+      object: undefined,
       title: "",
       alt: "",
     }
@@ -45,35 +40,41 @@ const UploadModalButton =  () => {
   const { handleSubmit, control, formState, setError, reset} = form
 
   const submit = async (values: UploadFileType) => {
+    const formData = new FormData();
+        
+    Object.entries(values).forEach(([key, value]) => {
+        if (value) {
+            formData.append(key, value);
+        }
+    });
+
     try {
-      const uploadResponse = await handleUpload(values.file);
-      // Use uploadResponse.fileId and uploadResponse.url directly
-      const res = await uploadAction({
-        ...values,
-        fileId: uploadResponse.fileId ?? "",
-        objectUrl: uploadResponse.url ?? "",
-        userId: session?.user?.id!,
-      });
-      if (res.success) {
-        toast.success("File uploaded Successfully")
-        setOpen(false); // Close the dialog
-        reset(); // Reset the form fields
-        if(mutateObject) mutateObject();
-        router.push("/");
-      } else {
-        toast.error(res.error)
-        setError("root", { message: res.error });
-      }
-    } catch (error) {
-      toast.error("Failed to upload file")
-      setError("root", { message: error instanceof Error ? error.message : String(error) });
+        const response = await fetch('/api/objects', {
+            method: "POST",
+            body: formData
+        })
+
+        if (response.ok) {
+            const messageData = await response.json();
+            toast.success(messageData.message);
+            setOpen(false);
+            reset();
+            if(mutateObject) mutateObject();
+        } else {
+            const errorData = await response.json();
+            toast.error(errorData.error || "Failed to upload file");
+            setError("root", { message: errorData.error || "An unknown error occurred" });
+        }
+    } catch(error){
+        toast.error("Failed to upload file");
+        setError("root", { message: error instanceof Error ? error.message : String(error) });
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={(open) => {
-      setOpen(open)
-      reset()
+        setOpen(open)
+        reset()
     }}>
       <DialogTrigger asChild>
         <Button className="cursor-pointer"><UploadIcon /> Upload File</Button>
@@ -90,7 +91,7 @@ const UploadModalButton =  () => {
 
             <FormField
                 control={form.control}
-                name="file"
+                name="object"
                 render={({ field }) => (
                   <FormItem className='grid gap-3 mb-4'>
                     <FormLabel>File</FormLabel>
@@ -142,8 +143,6 @@ const UploadModalButton =  () => {
                 </FormItem>
               )}
             />
-
-            {( progress > 0 && progress < 100) && <progress value={progress} max={100} className="w-full h-1 my-3 rounded-md"></progress>}
 
             {formState.errors.root &&
               <p className='mt-2 text-red-600'>

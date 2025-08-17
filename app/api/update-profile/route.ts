@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { ProfileSchema } from "@/validators/profile.validator";
 import { auth } from "@/lib/next-auth/auth";
-import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import crypto from "node:crypto";
 import { getS3KeyFromUrl } from "@/lib/utils";
+import s3 from "@/lib/s3-client";
 
 export async function POST(request: Request) {
     const session = await auth();
@@ -52,14 +53,6 @@ export async function POST(request: Request) {
         const image = parsedCredentials.data.image;
         const arrayBuffer = await image.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-
-        const s3 = new S3Client({
-            credentials: {
-                accessKeyId: process.env.S3_BUCKET_ACCESS_KEY!,
-                secretAccessKey: process.env.S3_BUCKET_SECRET_KEY!,
-            },
-            region: process.env.S3_BUCKET_REGION,
-        });
         
         const imageSuffix = crypto.randomBytes(6).toString("hex");
         const s3Key = `${imageSuffix}_${image.name}`;

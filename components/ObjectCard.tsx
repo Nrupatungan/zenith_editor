@@ -28,7 +28,6 @@ export interface ObjectCardProps{
     title: string
     alt?: string
     objectUrl: string
-    id: string
     fileId: string
 }
 
@@ -36,7 +35,6 @@ const ObjectCard = ({
     title,
     alt,
     objectUrl,
-    id,
     fileId
 }: ObjectCardProps) => {
   const router = useRouter()
@@ -89,7 +87,7 @@ const ObjectCard = ({
       const deleteImagekitResponse = await deletePromise;
       
       if (deleteImagekitResponse) {
-        const deleteDbPromise = apiClient.deleteObject(id);
+        const deleteDbPromise = apiClient.deleteObject(fileId);
         toast.promise(deleteDbPromise, {
           loading: 'Loading...',
           success: () => {

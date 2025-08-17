@@ -42,7 +42,7 @@ function EditModalButton() {
         try {
             const response = await fetch('/api/update-profile', {
                 method: 'POST',
-                body: formData
+                body: formData,
             })
 
             if (response.ok) {

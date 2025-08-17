@@ -56,8 +56,7 @@ function ImageGrid({
                 {objectsToDisplay.length > 0 ? (
                     objectsToDisplay.map((object: Object) => (
                         <ObjectCard
-                            key={object.id}
-                            id={object.id}
+                            key={object.fileId}
                             fileId={object.fileId}
                             objectUrl={object.objectUrl}
                             title={object.title}
@@ -92,10 +91,6 @@ function ImageGrid({
                                 </PaginationLink>
                             </PaginationItem>
                         ))}
-
-                        {/* <PaginationItem>
-                            <PaginationEllipsis />
-                        </PaginationItem> */}
 
                         <PaginationItem>
                             <PaginationNext

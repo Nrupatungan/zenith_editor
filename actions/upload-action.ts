@@ -7,13 +7,13 @@ type Res =
   {success: true}
 | { success: false; error: string; statusCode: 401 | 500 };
 
-export async function uploadAction(formData: UploadFileType & {fileId: string, userId: string, objectUrl: string}): Promise<Res>{
+export async function uploadAction(formData: UploadFileType): Promise<Res>{
 
     try {
         // Validate required fields
-        const { title, alt, fileId, userId, objectUrl } = formData;
+        const { title, alt, userId, objectUrl } = formData;
 
-        if (!title || !fileId || !userId || !objectUrl ) {
+        if (!title || !userId || !objectUrl ) {
             return {
             success: false,
             error: "Missing required fields",
@@ -26,7 +26,6 @@ export async function uploadAction(formData: UploadFileType & {fileId: string, u
             data: {
             title,
             alt: alt ?? null,
-            fileId,
             userId,
             objectUrl,
             },

@@ -1,13 +1,10 @@
 import { ImageKitAbortError, ImageKitInvalidRequestError, ImageKitServerError, ImageKitUploadNetworkError, upload, UploadResponse } from '@imagekit/next';
 import { useState } from 'react'
 
-const useUpload = (): {handleUpload: (file: File) => Promise<UploadResponse>; progress: number; url: string; fileId: string} => {
+const useImagekitUpload = (): {handleUpload: (file: File) => Promise<UploadResponse>; progress: number;} => {
   // State to keep track of the current upload progress (percentage)
   const [progress, setProgress] = useState(0);
-  const [url, setUrl] = useState("");
-  const [fileId, setFileId] = useState("")
-
-
+  
   // Create an AbortController instance to provide an option to cancel the upload if needed.
   const abortController = new AbortController();
 
@@ -80,7 +77,7 @@ const useUpload = (): {handleUpload: (file: File) => Promise<UploadResponse>; pr
       }
   };
 
-  return {handleUpload, progress, url, fileId}
+  return {handleUpload, progress}
 }
 
-export default useUpload
+export default useImagekitUpload

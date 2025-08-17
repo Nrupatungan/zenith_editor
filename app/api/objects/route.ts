@@ -1,8 +1,11 @@
-import { Object } from "@/app/generated/prisma";
+import { Prisma } from "@/app/generated/prisma";
+import { auth } from "@/lib/next-auth/auth";
 import prisma from "@/lib/prisma";
+import s3 from "@/lib/s3-client";
+import UploadFileSchema from "@/validators/upload.validator";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
-
-type bodyType = Omit<Object, "createdAt" | "updatedAt" | "id">
+import crypto from "node:crypto";
 
 export async function GET(request: NextRequest){
     const { searchParams } = new URL(request.url);
@@ -51,26 +54,87 @@ export async function GET(request: NextRequest){
     }
 }
 
-export async function POST(request: NextRequest){
-    const body:bodyType  = await request.json();
-    if(!body.objectUrl || !body.title || !body.fileId || !body.userId){
+export async function POST(request: Request) {
+    const session = await auth();
+    const formData = await request.formData();
+
+    const validationData: Record<string, any> = {};
+    const formFields = ["title", "alt", "userId", "object"];
+    formFields.forEach(field => {
+        const value = formData.get(field);
+        if (value) {
+            validationData[field] = field === "object" ? (value as (Blob & File)) : (value as string);
+        }
+    });
+
+    const parsedCredentials = await UploadFileSchema.safeParseAsync(validationData);
+
+    if (!parsedCredentials.success) {
         return NextResponse.json(
-            { error: "Missing required field" },
+            { error: "Invalid fields", details: parsedCredentials.error.flatten() },
             { status: 400 }
         );
-    } 
+    }
+
+    const { title, alt, object } = parsedCredentials.data;
+    
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            id: session?.user?.id,
+        },
+    });
+
+    if (!existingUser) {
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const fileObject = object;
+    const arrayBuffer = await fileObject.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    // Generate a unique S3 key
+    const fileSuffix = crypto.randomBytes(3).toString("hex");
+    const s3Key = `${fileSuffix}_${fileObject.name}`;
+    let objectUrl: string;
 
     try {
-        const newObject = await prisma.object.create({
-            data: body
-        }) 
-        return NextResponse.json(newObject, {status: 200});
+        // Upload the new file to S3
+        const putCommand = new PutObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME!,
+            Key: `imagekit/${s3Key}`,
+            Body: buffer,
+            ContentType: fileObject.type,
+            ContentLength: fileObject.size
+        });
+        await s3.send(putCommand);
+        
+        // Set the public URL
+        objectUrl = `${process.env.NEXT_PUBLIC_URL_ENDPOINT}/${s3Key}`;
     } catch (error) {
-        console.error("Object Creation failed:", error);
-        return NextResponse.json(
-            {error: "Failed to create object"},
-            {status: 500}
-        )
+        console.error("S3 upload error:", error);
+        return NextResponse.json({ error: "Failed to upload file to S3" }, { status: 500 });
+    }
+    
+    const dataToCreate: Prisma.ObjectCreateInput = {
+        title: title,
+        alt: alt,
+        objectUrl: objectUrl,
+        objects: {
+            connect: {
+                id: session?.user?.id,
+            },
+        },
+    };
+
+    try {
+        await prisma.object.create({
+            data: dataToCreate,
+        });
+
+        return NextResponse.json({ message: "Successfully created object" }, { status: 200 });
+    } catch (error) {
+        console.error("Prisma create error:", error);
+        return NextResponse.json({ error: "Failed to create object" }, { status: 500 });
     }
 }
 
@@ -86,7 +150,7 @@ export async function DELETE(request: NextRequest){
     try {
         const deletedObject = await prisma.object.delete({
             where: {
-                id: body.id
+                fileId: body.id
             }
         })
         return NextResponse.json(deletedObject, {status: 200});
