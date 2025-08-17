@@ -110,7 +110,7 @@ export async function POST(request: Request) {
         await s3.send(putCommand);
         
         // Set the public URL
-        objectUrl = `${process.env.NEXT_PUBLIC_URL_ENDPOINT}/${s3Key}`;
+        objectUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/${s3Key}`;
     } catch (error) {
         console.error("S3 upload error:", error);
         return NextResponse.json({ error: "Failed to upload file to S3" }, { status: 500 });
@@ -162,7 +162,7 @@ export async function DELETE(request: NextRequest){
     }
 
     try {
-        const oldImageKey = getS3KeyFromUrl(existingObject.objectUrl, process.env.NEXT_PUBLIC_URL_ENDPOINT!);
+        const oldImageKey = getS3KeyFromUrl(existingObject.objectUrl, process.env.IMAGEKIT_URL_ENDPOINT!);
         if (oldImageKey) {
             const deleteCommand = new DeleteObjectCommand({
                 Bucket: process.env.S3_BUCKET_NAME!,

@@ -67,11 +67,11 @@ export async function POST(request: Request) {
                 ContentLength: image.size
             });
             await s3.send(putCommand);
-            const imageUrl = `${process.env.NEXT_PUBLIC_URL_ENDPOINT}/${s3Key}`;
+            const imageUrl = `${process.env.IMAGEKIT_URL_ENDPOINT}/${s3Key}`;
             dataToUpdate.image = imageUrl;
 
             // Delete the old image if it exists
-            const oldImageKey = getS3KeyFromUrl(existingUser.image, process.env.NEXT_PUBLIC_URL_ENDPOINT!);
+            const oldImageKey = getS3KeyFromUrl(existingUser.image, process.env.IMAGEKIT_URL_ENDPOINT!);
             if (oldImageKey) {
                 const deleteCommand = new DeleteObjectCommand({
                     Bucket: process.env.S3_BUCKET_NAME!,

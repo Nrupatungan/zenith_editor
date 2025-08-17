@@ -22,9 +22,9 @@ export async function deleteUserAction(email: string): Promise<Res> {
         }
 
         const objectKeys = existingUser.objects
-            .map((obj: PrismaObject) => getS3KeyFromUrl(obj.objectUrl, process.env.NEXT_PUBLIC_URL_ENDPOINT!));
+            .map((obj: PrismaObject) => getS3KeyFromUrl(obj.objectUrl, process.env.IMAGEKIT_URL_ENDPOINT!));
 
-        const imageKey = existingUser.image ? getS3KeyFromUrl(existingUser.image, process.env.NEXT_PUBLIC_URL_ENDPOINT!) : null;
+        const imageKey = existingUser.image ? getS3KeyFromUrl(existingUser.image, process.env.IMAGEKIT_URL_ENDPOINT!) : null;
 
         // Filter out any null values.
         const s3ObjectsToDelete = [...objectKeys, imageKey]

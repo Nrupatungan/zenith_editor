@@ -39,7 +39,7 @@ export default function RootLayout({
                 enableSystem
                 disableTransitionOnChange
                 >
-                    <ImageKitProvider urlEndpoint={process.env.NEXT_PUBLIC_URL_ENDPOINT}>
+                    <ImageKitProvider urlEndpoint={process.env.IMAGEKIT_URL_ENDPOINT}>
                         {children}
                         <Toaster richColors expand={true} />
                     </ImageKitProvider>
