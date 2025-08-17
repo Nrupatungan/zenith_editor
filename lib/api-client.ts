@@ -1,6 +1,5 @@
 import { ValidateProps } from "@/app/api/validate-order/route";
 import { Object } from "@/app/generated/prisma";
-import { ProfileType } from "@/validators/profile.validator";
 
 type FetchOptions = {
     method?: "POST" | "GET" | "PUT" | "DELETE";

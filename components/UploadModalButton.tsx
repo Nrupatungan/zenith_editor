@@ -18,7 +18,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
 import UploadFileSchema, { UploadFileType } from '@/validators/upload.validator'
 import { useRouter } from "next/navigation"
-import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { useState } from "react"
 import useModalStore from "@/store"

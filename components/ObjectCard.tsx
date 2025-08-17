@@ -21,7 +21,6 @@ import Image from "next/image"
 import { apiClient } from "@/lib/api-client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { deleteImageKitFile } from "@/actions/delete-imagekit-file-action"
 import useModalStore from "@/store"
 
 export interface ObjectCardProps{
