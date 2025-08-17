@@ -27,6 +27,7 @@ import useModalStore from "@/store"
 const UploadModalButton =  () => {
   const [open, setOpen] = useState(false);
   const {mutateObject} = useModalStore()
+  const router = useRouter();
 
   const form = useForm<UploadFileType>({
     resolver: zodResolver(UploadFileSchema),
@@ -60,6 +61,7 @@ const UploadModalButton =  () => {
             setOpen(false);
             reset();
             if(mutateObject) mutateObject();
+            router.refresh();
         } else {
             const errorData = await response.json();
             toast.error(errorData.error || "Failed to upload file");

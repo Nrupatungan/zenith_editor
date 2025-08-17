@@ -74,34 +74,21 @@ const ObjectCard = ({
   }
 
   const handleDelete = async () => {
+
     try {
-      const deletePromise = deleteImageKitFile(fileId);
-      toast.promise(deletePromise, {
+      const deleteObjectResult = apiClient.deleteObject(fileId);
+      toast.promise(deleteObjectResult, {
         loading: 'Loading...',
         success: () => {
-          return `File deleted from ImageKit`;
+          if(mutateObject) mutateObject();
+          router.refresh();
+          return `Deleted Successfully from database and S3`;
         },
-        error: 'Error deleting from ImageKit',
-      });
-
-      const deleteImagekitResponse = await deletePromise;
-      
-      if (deleteImagekitResponse) {
-        const deleteDbPromise = apiClient.deleteObject(fileId);
-        toast.promise(deleteDbPromise, {
-          loading: 'Loading...',
-          success: () => {
-            if(mutateObject) mutateObject();
-            return `Deleted Successfully from database`;
-          },
-          error: 'Error deleting from database',
-        })
-      }
+        error: 'Error deleting from database',
+      })
     } catch (error) {
       console.error(error);
       toast.error("Couldn't delete the file");
-    } finally {
-      router.push("/");
     }
   }
 

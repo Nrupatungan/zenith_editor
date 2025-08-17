@@ -54,7 +54,7 @@ export async function POST(request: Request) {
         const arrayBuffer = await image.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         
-        const imageSuffix = crypto.randomBytes(6).toString("hex");
+        const imageSuffix = crypto.randomBytes(3).toString("hex");
         const s3Key = `${imageSuffix}_${image.name}`;
         
         try {

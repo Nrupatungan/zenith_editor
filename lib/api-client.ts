@@ -58,10 +58,10 @@ class ApiClient {
         });
     }
 
-    async deleteObject(id: string){
+    async deleteObject(fileId: string){
         return this.fetch('/objects', {
             method: "DELETE",
-            body: {id}
+            body: {fileId}
         })
     }
 

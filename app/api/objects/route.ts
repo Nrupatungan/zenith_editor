@@ -2,8 +2,9 @@ import { Prisma } from "@/app/generated/prisma";
 import { auth } from "@/lib/next-auth/auth";
 import prisma from "@/lib/prisma";
 import s3 from "@/lib/s3-client";
+import { getS3KeyFromUrl } from "@/lib/utils";
 import UploadFileSchema from "@/validators/upload.validator";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "node:crypto";
 
@@ -139,21 +140,48 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: NextRequest){
-    const body: {id: string} = await request.json();
-    if(!body.id){
+    const { fileId }: { fileId: string} = await request.json();
+    if(!fileId){
         return NextResponse.json(
             { error: "Missing required field" },
             { status: 400 }
         );
     }
 
+    const existingObject = await prisma.object.findFirst({
+        where: {
+            fileId
+        }
+    })
+
+    if(!existingObject){
+        return NextResponse.json(
+            { error: "No object found with this Id" },
+            { status: 404 }
+        );
+    }
+
     try {
-        const deletedObject = await prisma.object.delete({
+        const oldImageKey = getS3KeyFromUrl(existingObject.objectUrl, process.env.NEXT_PUBLIC_URL_ENDPOINT!);
+        if (oldImageKey) {
+            const deleteCommand = new DeleteObjectCommand({
+                Bucket: process.env.S3_BUCKET_NAME!,
+                Key: `imagekit/${oldImageKey}`,
+            });
+            await s3.send(deleteCommand);
+        }
+    } catch (error) {
+        console.error("S3 delete operation error:", error);
+        return NextResponse.json({ error: "Failed to perform S3 delete object operation" }, { status: 500 });
+    }
+
+    try {
+        await prisma.object.delete({
             where: {
-                fileId: body.id
+                fileId
             }
         })
-        return NextResponse.json(deletedObject, {status: 200});
+        return NextResponse.json({ message: "Successfully deleted object" }, {status: 200});
     } catch (error) {
         console.error("Object Deletion failed:", error);
         return NextResponse.json(
