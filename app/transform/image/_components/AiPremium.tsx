@@ -49,7 +49,7 @@ function AiPremium() {
         const order = await apiClient.createOrder(AMOUNT) as { id: string };
 
         const options = {
-            key: process.env.RAZORPAY_TEST_KEY_ID, // Replace with your Razorpay key_id
+            key: process.env.NEXT_PUBLIC_RAZORPAY_TEST_KEY_ID, // Replace with your Razorpay key_id
             amount: AMOUNT,
             currency: 'USD',
             name: 'Zenith Editor',

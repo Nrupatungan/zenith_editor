@@ -21,6 +21,7 @@ export async function deleteUserAction(email: string): Promise<Res> {
             return { success: true };
         }
 
+
         const objectKeys = existingUser.objects
             .map((obj: PrismaObject) => getS3KeyFromUrl(obj.objectUrl, process.env.IMAGEKIT_URL_ENDPOINT!));
 
