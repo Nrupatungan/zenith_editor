@@ -59,7 +59,7 @@ function PricingPage() {
               console.error("Razorpay script not loaded.");
           }
   
-          router.push("/purchase")
+          router.push("/billing")
       } catch (error) {
           console.error("Payment failed", error);
       } finally{

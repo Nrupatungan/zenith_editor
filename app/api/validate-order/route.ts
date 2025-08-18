@@ -10,7 +10,7 @@ export interface ValidateProps{
 export async function POST(request: NextRequest){
     const { razorpay_payment_id, razorpay_order_id, razorpay_signature}:ValidateProps  = await request.json();
 
-    const generatedHmac = crypto.createHmac('sha256', process.env.NEXT_PUBLIC_RAZORPAY_TEST_KEY_ID!)
+    const generatedHmac = crypto.createHmac('sha256', process.env.RAZORPAY_TEST_KEY_ID!)
     const hash = generatedHmac.update(`${razorpay_order_id}|${razorpay_payment_id}`)
     const generated_signature = hash.digest("hex")
 
