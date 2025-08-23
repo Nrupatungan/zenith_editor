@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import SignUpSchema, { SignUpType } from '@/validators/signup.validator'
 import { ModeToggle } from '@/components/ModeToggle'
 import { signupUserAction } from '@/actions/signup-action'
+import { Loader2 } from 'lucide-react'
 
 const SignUpForm = ({
   className,
@@ -167,7 +168,7 @@ const SignUpForm = ({
             disabled={formState.isSubmitting}
             className="w-full cursor-pointer"
           >
-            Sign in
+            Sign up {formState.isSubmitting && <Loader2 className="animate-spin"/>}
           </Button>
         
         </div>

@@ -2,15 +2,17 @@ import { verifyCredentialsEmailAction } from "@/actions/verify-credentials-email
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-export default async function Page() {
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token')
+type PageProps = { searchParams: { token: string } };
+
+export default async function Page({ searchParams }: PageProps) {
+  const { token } = await searchParams;
+
+  if (!token) return <TokenIsInvalidState />;
   
   const verificationToken = await prisma.verificationToken.findFirst({
     where: {
-        token: token as string
+        token
     }
   })
 
@@ -20,7 +22,7 @@ export default async function Page() {
 
   if (isExpired) return <TokenIsInvalidState />;
 
-  const res = await verifyCredentialsEmailAction(searchParams.token);
+  const res = await verifyCredentialsEmailAction(token);
 
   if (!res.success) return <TokenIsInvalidState />;
 

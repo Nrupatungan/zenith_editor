@@ -12,16 +12,16 @@ export async function sendSignupUserEmail({
   console.log(`Sending email to ${email} with token ${token}`);
 
   await transport.sendMail({
-    from: `"Authy Team" <${process.env.NODEMAILER_GOOGLE_SMTP_USER}>`,
+    from: `"Zenith Editor Team" <${process.env.NODEMAILER_GOOGLE_SMTP_USER}>`,
     to: email,
     subject: "Verify your email address",
     html: `
     <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
-      <h2 style="text-align: center; color: #3b82f6;">Authy</h2>
+      <h2 style="text-align: center; color: #3b82f6;">Zenith Editor</h2>
 
       <p>Hi there,</p>
 
-      <p>Please use the link below to verify your email address and continue on Authy. This link will expire in 15 minutes. If you don't think you should be receiving this email, you can safely ignore it.</p>
+      <p>Please use the link below to verify your email address and continue on Zenith Editor. This link will expire in 15 minutes. If you don't think you should be receiving this email, you can safely ignore it.</p>
 
       <p style="text-align: center;">
         <a href="${process.env.NEXT_PUBLIC_BASE_URL}/auth/register/verify-email?token=${token}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #3b82f6; text-decoration: none; border-radius: 5px;">Verify Email</a>
@@ -29,9 +29,9 @@ export async function sendSignupUserEmail({
       
       <br />
 
-      <p>You received this email because you signed up for Authy.</p>
+      <p>You received this email because you signed up for Zenith Editor.</p>
 
-      <p style="text-align: center; font-size: 12px; color: #aaa;">&copy; 2024 Authy. All rights reserved.</p>
+      <p style="text-align: center; font-size: 12px; color: #aaa;">&copy; 2025 Zenith Editor. All rights reserved.</p>
     </div>
     `,
   });

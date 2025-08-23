@@ -14,6 +14,7 @@ import { oauthSigninAction } from '@/actions/oauth-signin-action'
 import { signinAction } from '@/actions/signin-action'
 import { ModeToggle } from '@/components/ModeToggle'
 import { useRouter } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
 
 
 const SigninForm = ({
@@ -122,7 +123,7 @@ const SigninForm = ({
             disabled={formState.isSubmitting}
             className="w-full cursor-pointer"
           >
-            Sign in
+            Sign in {formState.isSubmitting && <Loader2 className="animate-spin"/>}
           </Button>
 
           <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
