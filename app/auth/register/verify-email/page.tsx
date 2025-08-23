@@ -3,10 +3,13 @@ import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
-type PageProps = { searchParams: { token: string } };
 
-export default async function Page({ searchParams }: PageProps) {
-  const { token } = searchParams;
+export default async function Page({ 
+  searchParams
+}: {
+  searchParams: Promise<{ token: string }>
+}) {
+  const { token } = await searchParams;
 
   if (!token) return <TokenIsInvalidState />;
   
