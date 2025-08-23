@@ -2,13 +2,15 @@ import { verifyCredentialsEmailAction } from "@/actions/verify-credentials-email
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-type PageProps = { searchParams: { token: string } };
-
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page() {
+  const searchParams = useSearchParams()
+  const token = searchParams.get('token')
+  
   const verificationToken = await prisma.verificationToken.findFirst({
     where: {
-        token: searchParams.token
+        token: token as string
     }
   })
 
