@@ -10,6 +10,8 @@ export default auth((req) => {
     !req.auth?.user &&
     pathname !== "/auth/signin" &&
     pathname !== "/auth/register" &&
+    pathname !== "/auth/register/success" &&
+    pathname !== "/auth/register/verify-email" &&
     !pathname.startsWith("/api/auth") &&
     !pathname.startsWith("/api/objects")
   ) {
@@ -18,7 +20,7 @@ export default auth((req) => {
   }
   if (
     req.auth?.user &&
-    (pathname === "/auth/signin" || pathname === "/auth/register")
+    (pathname === "/auth/signin" || pathname === "/auth/register" || pathname === "/auth/register/success" || pathname === "/auth/register/verify-email")
   ) {
     const newUrl = new URL("/", req.nextUrl.origin)
     return Response.redirect(newUrl)

@@ -36,7 +36,7 @@ export const authConfig = {
       return session;
     },
 
-    async signIn({account, profile}){
+    async signIn({user, account, profile}){
       if(account?.provider === "google"){
         return !!profile?.email_verified;
       }
@@ -45,9 +45,8 @@ export const authConfig = {
         return true;
       }
 
-      if(account?.provider === "credentials"){
-        // if ("emailVerified" in user && user.emailVerified) 
-        return true;
+      if (account?.provider === "credentials") {
+        if ((user as { emailVerified?: Date | null }).emailVerified) return true;
       }
 
       return false;

@@ -10,12 +10,14 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'
 import SignUpSchema, { SignUpType } from '@/validators/signup.validator'
 import { ModeToggle } from '@/components/ModeToggle'
+import { signupUserAction } from '@/actions/signup-action'
 
 const SignUpForm = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
     const router = useRouter()
+
     const form = useForm<SignUpType>({
         resolver: zodResolver(SignUpSchema),
         defaultValues: {
@@ -32,24 +34,24 @@ const SignUpForm = ({
 
     const submit = async (values: SignUpType) => {
       try {
-          const res = await fetch("/api/auth/register", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify(values)
-          })
-          let data: any = {};
-          const contentType = res.headers.get("content-type");
-          if (contentType && contentType.includes("application/json")) {
-            data = await res.json();
+        const res = await signupUserAction(values)
+  
+        if(res.success){
+          router.push("/auth/register/success")
+        } else {
+          switch(res.statusCode){
+            case 400:
+              console.error(res.error.fieldErrors)
+              setError("root", { message: "Field error." });
+              break;
+            case 409:
+              setError("root", { message: String(res.error) });
+              break;
+            case 500:
+              setError("root", { message: String(res.error) });
+              break;
           }
-          if (!res.ok) {
-            // Show server error in the form
-            setError("root", { message: data?.error || "Registration failed" });
-            return;
-          }
-          router.push("/auth/signin")
+        }
       } catch (error) {
           console.error(error)
           setError("root", { message: "Something went wrong" });
