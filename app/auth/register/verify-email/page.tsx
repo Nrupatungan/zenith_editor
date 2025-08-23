@@ -6,7 +6,7 @@ import Link from "next/link";
 type PageProps = { searchParams: { token: string } };
 
 export default async function Page({ searchParams }: PageProps) {
-  const { token } = await searchParams;
+  const { token } = searchParams;
 
   if (!token) return <TokenIsInvalidState />;
   
