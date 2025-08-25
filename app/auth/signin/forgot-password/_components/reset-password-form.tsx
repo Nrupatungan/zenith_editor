@@ -46,13 +46,13 @@ function ResetPasswordForm({email, token}: ResetPasswordFormProps) {
                     break;
 
                     case 401:
-                        setError("confirmPassword", { message: res.error });
+                        setError("root", { message: res.error });
                     break;
                     
                     case 500:
                     default:
                         const error = res.error || "Internal Server Error";
-                        setError("confirmPassword", { message: error });
+                        setError("root", { message: error });
                 }
             }
         } catch (error) {

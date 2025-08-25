@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { format } from "date-fns"
 import EditModalButton from './_components/EditModalButton'
 import DeleteButton from './_components/DeleteButton'
+import ChangePasswordButton from './_components/ChangePasswordButton'
 
 async function ProfilePage() {
   const session = await auth();
@@ -84,7 +85,7 @@ async function ProfilePage() {
             </CardContent>
             
             <CardFooter className='flex-col gap-3'>
-              {user?.password && <Button variant="outline" className="w-full border-2">Change Password</Button>}
+              {user?.password && <ChangePasswordButton/>}
               <DeleteButton email={user?.email!} />
             </CardFooter>
           </Card>
