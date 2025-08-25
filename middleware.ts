@@ -9,6 +9,8 @@ export default auth((req) => {
   if (
     !req.auth?.user &&
     pathname !== "/auth/signin" &&
+    pathname !== "/auth/signin/forgot-password" &&
+    pathname !== "/auth/signin/reset-password/success" &&
     pathname !== "/auth/register" &&
     pathname !== "/auth/register/success" &&
     pathname !== "/auth/register/verify-email" &&
@@ -20,7 +22,7 @@ export default auth((req) => {
   }
   if (
     req.auth?.user &&
-    (pathname === "/auth/signin" || pathname === "/auth/register" || pathname === "/auth/register/success" || pathname === "/auth/register/verify-email")
+    (pathname === "/auth/signin" || pathname === "/auth/signin/forgot-password" || pathname === "/auth/signin/reset-password/success" || pathname === "/auth/register" || pathname === "/auth/register/success" || pathname === "/auth/register/verify-email")
   ) {
     const newUrl = new URL("/", req.nextUrl.origin)
     return Response.redirect(newUrl)

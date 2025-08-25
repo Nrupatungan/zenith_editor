@@ -15,6 +15,7 @@ import { signinAction } from '@/actions/signin-action'
 import { ModeToggle } from '@/components/ModeToggle'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import ForgotPasswordForm from './forgot-password-form'
 
 
 const SigninForm = ({
@@ -90,12 +91,7 @@ const SigninForm = ({
               <FormItem className="grid gap-3">
                 <div className='flex items-center'>
                   <FormLabel>Password</FormLabel>
-                  <Link
-                      href="#"
-                      className="ml-auto text-sm underline-offset-2 hover:underline"
-                  >
-                      Forgot your password?
-                  </Link>
+                  <ForgotPasswordForm />
                 </div>
                 <FormControl>
                   <Input type="password" placeholder="e.g. ********" {...field} />

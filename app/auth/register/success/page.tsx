@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <main className='container mx-auto px-7 overflow-hidden'>
       <div className='min-h-screen grid place-content-center'>
-        <div className="border-4 border-muted-foreground p-6">
+        <div className="border-4 border-green-700 p-6">
           <div className="text-3xl font-bold tracking-tight mb-5">Sign Up</div>
             <p className="mb-3">Verification email has been sent!</p>
             <p className="mb-5">Please check your email to verify your account.</p>

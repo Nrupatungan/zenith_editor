@@ -42,12 +42,24 @@ const SignUpForm = ({
         } else {
           switch(res.statusCode){
             case 400:
-              console.error(res.error.fieldErrors)
-              setError("root", { message: "Field error." });
+              const nestedErrors = res.error.fieldErrors
+              console.error(nestedErrors)
+              
+              if(nestedErrors && "email" in nestedErrors)
+                setError("email", { message: nestedErrors.email?.[0] });
+              if(nestedErrors && "password" in nestedErrors)
+                setError("password", { message: nestedErrors.password?.[0] });
+              if(nestedErrors && "name" in nestedErrors)
+                setError("name", { message: nestedErrors.name?.[0] });
+              if(nestedErrors && "confirmPassword" in nestedErrors)
+                setError("confirmPassword", { message: nestedErrors.confirmPassword?.[0] });
+          
               break;
+
             case 409:
               setError("root", { message: String(res.error) });
               break;
+            
             case 500:
               setError("root", { message: String(res.error) });
               break;
