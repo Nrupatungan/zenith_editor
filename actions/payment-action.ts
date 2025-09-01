@@ -11,14 +11,13 @@ type Res =
  * This action should be called after a successful payment webhook
  * to update the status of the specific transaction.
  *
+ * @param {string} userId The userId of the user.
  * @param {string} razorpay_payment_id The ID of the payment from Razorpay.
- * @param {string} razorpay_order_id
- * @param {string} razorpay_signature
- * @param {string} billing_name
- * @param {string} email
- * @param {string} phone_number
- * @param {string} gstin
- * @param {string} billing_address
+ * @param {string} billing_name The name of the payer
+ * @param {string} email The email of the payer
+ * @param {string} phone_number The phone number of the payer
+ * @param {string} gstin The gstin of the payer
+ * @param {string} billing_address The billing address of the payer
  * @returns {Promise<Res>} An object indicating success or failure.
  */
 

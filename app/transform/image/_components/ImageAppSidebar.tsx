@@ -55,7 +55,7 @@ export function ImageAppSidebar({ user, ...props }: NavUserProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} transform={transform} isPremium={user.isPremium}/>
+        <NavMain items={data.navMain} transform={transform} user={user}/>
       </SidebarContent>
       <SidebarFooter>
         <NavUser

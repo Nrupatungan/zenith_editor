@@ -19,6 +19,7 @@ async function PurchasePage() {
   })
 
   const user = {
+    id: userData?.id!,
     name: userData?.name ?? 'John Doe',
     email: userData?.email ?? 'example@email.com',
     image: userData?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',

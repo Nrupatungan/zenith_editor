@@ -18,7 +18,7 @@ import TransformOptions from "./TransformOptions"
 export function NavMain({
   items,
   transform,
-  isPremium
+  user
 }: {
   items: {
     title: string
@@ -35,7 +35,13 @@ export function NavMain({
     }[]
   }[],
   transform: any,
-  isPremium: boolean
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    image: string;
+    isPremium: boolean;
+  }
 }) {
 
   return (
@@ -62,7 +68,7 @@ export function NavMain({
               <CollapsibleContent>
                 <SidebarMenuSub className="p-0 mx-1">
                   {/* Options */}
-                  <TransformOptions title={item.title} {...transform} isPremium={isPremium} />
+                  <TransformOptions title={item.title} {...transform} user={user} />
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
