@@ -7,9 +7,15 @@ import ImageGrid from "@/components/ImageGrid";
 export default async function Home() {
   const session = await auth();
   const userData = await prisma.user.findFirst({
-        where: {
-            id: session?.user?.id
-        },
+      where: {
+          id: session?.user?.id
+      },
+      select: {
+        payments: true,
+        name: true,
+        email: true,
+        image: true
+      }
   })
 
   const objectCount = await prisma.object.count({
@@ -22,7 +28,7 @@ export default async function Home() {
     name: userData?.name ?? 'John Doe',
     email: userData?.email ?? 'example@email.com',
     image: userData?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
-    isPremium: userData?.isPremium ?? false,
+    isPremium: userData?.payments[0]?.isPremium ?? false,
   }
   
   return (

@@ -5,7 +5,6 @@ import { getInitials } from '@/lib/utils'
 import { MapPin, BadgeCheckIcon } from 'lucide-react'
 import TopBar from './_components/top-bar'
 import prisma from '@/lib/prisma'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { format } from "date-fns"
 import EditModalButton from './_components/EditModalButton'
@@ -17,6 +16,16 @@ async function ProfilePage() {
   const user = await prisma.user.findFirst({
     where: {
       id: session?.user?.id
+    },
+    select: {
+      payments: true,
+      image: true,
+      name: true,
+      location: true,
+      bio: true,
+      email: true,
+      createdAt: true,
+      password: true
     }
   })
 
@@ -31,7 +40,7 @@ async function ProfilePage() {
               <CardDescription>Tweak your profile to your tastes.</CardDescription>
               
               <CardAction>
-                {user?.isPremium
+                {user?.payments[0].isPremium
                   ?
                   <Badge
                     variant="secondary"

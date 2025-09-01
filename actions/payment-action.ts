@@ -1,34 +1,69 @@
 "use server"
-
-import { auth } from "@/lib/next-auth/auth";
+import { Prisma } from "@/app/generated/prisma";
 import prisma from "@/lib/prisma";
 
-type Res = 
+type Res =
   { success: true; }
-| { success: false; error: string; statusCode: 401 | 500 };
+| { success: false; error: string; statusCode: 401 | 500 | 404 };
 
-export async function paymentAction(): Promise<Res>{
-    const session = await auth()
+/**
+ * Updates a payment record to mark it as premium.
+ * This action should be called after a successful payment webhook
+ * to update the status of the specific transaction.
+ *
+ * @param {string} razorpay_payment_id The ID of the payment from Razorpay.
+ * @param {string} razorpay_order_id
+ * @param {string} razorpay_signature
+ * @param {string} billing_name
+ * @param {string} email
+ * @param {string} phone_number
+ * @param {string} gstin
+ * @param {string} billing_address
+ * @returns {Promise<Res>} An object indicating success or failure.
+ */
 
+interface PaymentActionProps { 
+    userId: string,
+    razorpay_payment_id: string,
+    billing_name: string,
+    email: string,
+    phone_number: string,
+    gstin: string,
+    billing_address: string,
+}
+
+export async function paymentAction({
+    userId,
+    razorpay_payment_id,
+    billing_name,
+    email,
+    phone_number,
+    gstin,
+    billing_address,
+}: PaymentActionProps ): Promise<Res>{
     try {
         const existingUser = await prisma.user.findFirst({
             where: {
-                email: session?.user?.email!,
-                isPremium: false
-            },
-            select: { id: true }
+                id: userId
+            }
         })
-    
-        if(existingUser?.id){
-            await prisma.user.update({
-                where: {
-                    id: existingUser.id
-                },
-                data: {
-                    isPremium: true
-                },
-            })
+
+        if(!existingUser){
+            return { success: false, error: "User Not found", statusCode: 404}
         }
+
+        await prisma.payment.create({
+            data: {
+                razorpay_payment_id,
+                isPremium: true,
+                userId,
+                billing_name,
+                email,
+                phone_number,
+                gstin,
+                billing_address,
+            }
+        })
 
         return { success: true };
     } catch (error) {

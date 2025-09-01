@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "public"."Payment" ALTER COLUMN "isPremium" DROP NOT NULL,
+ALTER COLUMN "billing_name" DROP NOT NULL,
+ALTER COLUMN "email" DROP NOT NULL,
+ALTER COLUMN "phone_number" DROP NOT NULL,
+ALTER COLUMN "gstin" DROP NOT NULL,
+ALTER COLUMN "billing_address" DROP NOT NULL;

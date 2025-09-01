@@ -1,72 +1,13 @@
 "use client"
 
-import { paymentAction } from '@/actions/payment-action';
-import { RazorpayResponse } from '@/app/transform/image/_components/AiPremium';
+import PaymentRegisterButton from '@/components/PaymentRegisterButton';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader} from '@/components/ui/card';
-import { apiClient } from '@/lib/api-client';
 import { ArrowLeft, Box, CircleCheck, Codesandbox } from 'lucide-react';
 import { redirect, useRouter } from 'next/navigation';
-import { useState } from 'react';
 
-function PricingPage() {
-  const AMOUNT = 5*100;
-  const [loading, setLoading] = useState(false);
+function PricingPage({id}: {id: string}) {
   const router = useRouter();
-
-  const handlePayment = async () => {
-      setLoading(true)
-      try {
-          const order = await apiClient.createOrder(AMOUNT) as { id: string };
-  
-          const options = {
-              key: process.env.NEXT_PUBLIC_RAZORPAY_TEST_KEY_ID, // Replace with your Razorpay key_id
-              amount: AMOUNT,
-              currency: 'USD',
-              name: 'Zenith Editor',
-              description: 'Test Transaction',
-              order_id: order.id, // This is the order_id created in the backend
-              handler: async function (response: RazorpayResponse) {
-                  const validatePayment: any = await apiClient.validateOrder({
-                      razorpay_payment_id: response.razorpay_payment_id,
-                      razorpay_order_id: response.razorpay_order_id,
-                      razorpay_signature: response.razorpay_signature
-                  });
-  
-                  if(validatePayment.result){
-                      const res = await paymentAction();
-                      if(res.success){
-                        console.log("Payment successful");
-                      }else{
-                        console.error(res.error)
-                      }
-                  }
-              },
-              prefill: {
-              name: 'John Doe',
-              email: 'john.doe@example.com',
-              contact: '9999999999'
-              },
-              theme: {
-              color: '#F37254'
-              },
-          };
-  
-          if (window.Razorpay) {
-              const rzp = new window.Razorpay(options);
-              rzp.open();
-          } else {
-              console.error("Razorpay script not loaded.");
-          }
-  
-          router.push("/billing")
-      } catch (error) {
-          console.error("Payment failed", error);
-      } finally{
-          setLoading(false)
-      }
-  
-    }
 
   const handlePreviousRoute = () => {
     router.push("/")
@@ -150,12 +91,7 @@ function PricingPage() {
                         <span className='text-6xl'>5</span>
                         <span className='self-end'>/month</span>
                     </div>
-                    <Button className='w-full mt-5'
-                    onClick={handlePayment}
-                    disabled={loading}
-                    >
-                        Register Now
-                    </Button>
+                    <PaymentRegisterButton id={id} />
                 </CardFooter>
             </Card>
         </div>

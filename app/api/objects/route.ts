@@ -122,7 +122,7 @@ export async function POST(request: Request) {
         objectUrl: objectUrl,
         objects: {
             connect: {
-                id: session?.user?.id,
+                id: existingUser.id,
             },
         },
     };

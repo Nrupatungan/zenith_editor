@@ -11,6 +11,12 @@ const ImageTransformPage = async () => {
   const userData = await prisma.user.findFirst({
       where: {
           id: session?.user?.id
+      },
+      select: {
+        payments: true,
+        name: true,
+        email: true,
+        image: true
       }
   })
 
@@ -18,7 +24,7 @@ const ImageTransformPage = async () => {
     name: userData?.name ?? 'John Doe',
     email: userData?.email ?? 'example@email.com',
     image: userData?.image ?? 'https://ui.shadcn.com/avatars/shadcn.jpg',
-    isPremium: userData?.isPremium ?? false,
+    isPremium: userData?.payments[0]?.isPremium ?? false,
   }
 
   return (

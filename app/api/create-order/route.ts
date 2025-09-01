@@ -6,7 +6,6 @@ const instance = new Razorpay({
   key_secret: process.env.RAZORPAY_TEST_KEY_SECRET,
 });
 
-
 export async function POST(request: NextRequest){
     const {amount}: {amount: number} = await request.json()
     try {
